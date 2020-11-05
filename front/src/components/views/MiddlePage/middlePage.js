@@ -1,6 +1,6 @@
 import React from 'react'
 
-class middle extends React.Component() {
+class middle extends React.Component {
     render() {
         return (
             <div>
