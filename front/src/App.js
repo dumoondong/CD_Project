@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
+import mainPage from './components/views/MainPage/mainPage'
 import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
@@ -15,7 +16,8 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={mainPage} />
+          <Route exact path="/Landing" component={LandingPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
         </Switch>
