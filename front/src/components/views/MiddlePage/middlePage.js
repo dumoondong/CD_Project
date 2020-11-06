@@ -1,25 +1,39 @@
-import React from 'react'
-
-class middle extends React.Component {
-    render() {
-        return (
-            <div>
-                <table border="1">
-                    <tbody>
-                        <tr align="center">
-                            <td width="50">날짜</td>
-                            <td width="50">요일</td>
-                            <td width="300">출·퇴근 시간</td>
-                            <td width="300">근무 시간</td>
-                            <td width="300">근무 내용</td>
-                            <td width="300">초과 근무 시간</td>
-                            <td width="300">초과 근무 내용</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        )
+import React from 'react';
+import { Table } from 'antd';
+//칼럼
+const columns = [
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'day',
+      key: 'day',
+    },
+    {
+      title: 'On work/Off work',
+      dataIndex: 'work',
+      key: 'work',
     }
+];
+//칼럼 안 데이터
+const data = [
+    {
+      key: '1',
+      date: 'YYYY/MM/DD',
+      day: 'Mon',
+      work: 'HH:MM / HH:MM',
+    },
+];
+// 불러오는 곳
+function MiddlePage() {
+        return(
+            <div>
+                <Table columns={columns} dataSource={data} />
+            </div>
+        );
 }
 
-export default middle
+export default MiddlePage
