@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import Clock from 'react-live-clock';
  
-class liveClock extends Component {
-    render() {
-        return (
-            <div>
-                <Clock format={'YYYY 년 MM 월 DD 일'} ticking={true} timezone={'KR/Pacific'}/>
-                <br />
-                <Clock format={'HH:mm:ss'} ticking={true} timezone={'KR/Pacific'}/>
-            </div>
-        )
-    }
+function LiveClock(){
+    return (
+        <div style={{background:'dark',color:'white'}}>
+            <Clock format={'YYYY 년 MM 월 DD 일'} ticking={true}/>
+            <br />
+            <Clock format={'HH:mm:ss'} ticking={true}/>
+        </div>
+    )
 }
  
-export default liveClock
+export default LiveClock

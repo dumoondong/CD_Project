@@ -22,7 +22,7 @@ app.use(session({
     port:3306,
     user:'root',
     password:'1111',
-    database : 'boiler_plate'
+    database : 'mydb'
   })
 }))
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
@@ -54,8 +54,8 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
   db.query(`SELECT * from users`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
       //DB의 첫번째 유저의 데이터랑 front에서 가져온 데이터랑 비교
-      if(req.body.email === userInfo[1].email){
-          req.session.username = userInfo[1].username;
+      if(req.body.email === userInfo[0].email){
+          req.session.username = userInfo[0].username;
           req.session.save();
           console.log('in : ',req.session.username)
           return res.json({
