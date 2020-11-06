@@ -24,7 +24,7 @@ const data = [
       key: '1',
       date: 'YYYY/MM/DD',
       day: 'Mon',
-      work: 'New York No. 1 Lake Park',
+      work: 'HH:MM / HH:MM',
     },
 ];
 // 불러오는 곳
