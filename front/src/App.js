@@ -11,6 +11,7 @@ import MainPage from './components/views/MainPage/MainPage'
 import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
+import OutWork from './components/views/MainPage/OutWork';
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/middle" component={MiddlePage} />
-          <Route exact path="/" component={MainPage} />
+          <Route exact path="/main" component={MainPage} />
           <Route exact path="/landing" component={LandingPage} />
-          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/outWork" component={OutWork} />
         </Switch>
       </div>
     </Router>//router(해당 페이지의 최적의 경로로 넘어갈 수 있게 해주는 기능) 설정

@@ -3,16 +3,20 @@ import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col,
 import 'antd/dist/antd.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from './LiveClock';
-import Home from './Home';
-import OutWork from './OutWork';
+import MainTable from './MainTable'
 
 const { Header, Content, Sider, Footer } = Layout;
 
 function MainPage() {
+  const [date, setDate] = useState('');
+  //state 값을 조건에 따라 변경하는 함수
+  const handleChange = value => {
+      message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
+      setDate(value);
+  };
     //main
   return (
     <div>
-      <Router>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider style={{background:'dark'}}>
         <div>
@@ -26,7 +30,7 @@ function MainPage() {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <span>홈 바로가기</span>
-              <Link to="/" />
+              <Link to="/main" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>연가</span>
@@ -48,16 +52,19 @@ function MainPage() {
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
           </Header>
           <Content style={{ margin: '0 16px' }}>
-            <Route exact path="/" component={Home} />
-            {/* 바꾸고 새로고침 시 안에 내용이 사라짐. 수정해야함 */}
-            <Route exact path="/outWork" component={OutWork} />
+          <Breadcrumb style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Breadcrumb.Item>
+                <DatePicker onChange={handleChange} />
+              </Breadcrumb.Item>
+            </Breadcrumb>
+            <MainTable></MainTable>
+            <MainTable></MainTable>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>
         </Layout>
       </Layout>
-      </Router>
     </div>
   );
 };
