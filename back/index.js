@@ -4,27 +4,27 @@ const app = express(); //funtion을 이용하여 새로운 express app을 만듬
 const port = 5000 //port number
 const bodyParser = require('body-parser');
 //session
-const session = require('express-session');
-const mysqlStore = require('express-mysql-session')(session);
+// const session = require('express-session');
+// const mysqlStore = require('express-mysql-session')(session);
 //router
-const UserRouter = require('./lib/user'); //User 모듈을 가져옴
+// const UserRouter = require('./lib/user'); //User 모듈을 가져옴
 //웹에서 application/x-www-form-urlencoded에 있는 데이터를 분석해서 가져옴
 app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
 app.use(bodyParser.json());
 //session
-app.use(session({
-  secret: 'asdqwe##',
-  resave: false,
-  saveUninitialized: true,
-  stroe:new mysqlStore({
-    host:'localhost',
-    port:3306,
-    user:'root',
-    password:'1111',
-    database : 'mydb'
-  })
-}))
+// app.use(session({
+//   secret: 'asdqwe##',
+//   resave: false,
+//   saveUninitialized: true,
+//   stroe:new mysqlStore({
+//     host:'localhost',
+//     port:3306,
+//     user:'root',
+//     password:'1111',
+//     database : 'mydb'
+//   })
+// }))
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
 app.get('/', (req, res) => {
@@ -41,10 +41,9 @@ app.get('/users', (req, res) => {
 });
 //axios 연습(해당 주소로 가면 볼 수 있음)
 app.get('/api/hello',(req,res)=>{
-  
   res.send('안녕하세요~');
-  
 });
+
 //페이지의 복잡성을 해소하기 위한 라우터
 //app.use('/api/users', UserRouter);
 //app.use('/api/auth', authRouter);
@@ -54,10 +53,10 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
   db.query(`SELECT * from users`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
       //DB의 첫번째 유저의 데이터랑 front에서 가져온 데이터랑 비교
-      if(req.body.email === userInfo[0].email){
-          req.session.username = userInfo[0].username;
-          req.session.save();
-          console.log('in : ',req.session.username)
+      if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
+          // req.session.username = userInfo[0].username;
+          // req.session.save();
+          // console.log('in : ',req.session.username)
           return res.json({
           loginSuccess: true,
           message: "로그인 성공!"
@@ -65,13 +64,11 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
       }else{ 
           return res.json({
           loginSuccess: false,
-          message: "제공된 이메일에 해당하는 유저가 없습니다."
+          message: "이메일 또는 패스워드가 올바르지 않습니다."
           });
       }
   });
 });
-
-
 
 //port number를 콘솔에 출력
 app.listen(port, () => {
