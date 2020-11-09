@@ -1,14 +1,22 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
+import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch} from 'antd';
 import 'antd/dist/antd.css';
-import LiveClock from './LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import LiveClock from './LiveClock';
+import MainTable from './MainTable'
 
 const { Header, Content, Sider, Footer } = Layout;
 
-function OutWork() {
-    return(
-        <div>
+function MainPage() {
+  const [date, setDate] = useState('');
+  //state 값을 조건에 따라 변경하는 함수
+  const handleChange = value => {
+      message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
+      setDate(value);
+  };
+    //main
+  return (
+    <div>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider style={{background:'dark'}}>
         <div>
@@ -19,7 +27,7 @@ function OutWork() {
             <Col span={12}><Button block>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
-          <Menu theme="dark" defaultSelectedKeys={['2']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <span>홈 바로가기</span>
               <Link to="/main" />
@@ -44,7 +52,13 @@ function OutWork() {
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
           </Header>
           <Content style={{ margin: '0 16px' }}>
-            <div>연가페이지</div>
+          <Breadcrumb style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Breadcrumb.Item>
+                <DatePicker onChange={handleChange} />
+              </Breadcrumb.Item>
+            </Breadcrumb>
+            <MainTable></MainTable>
+            <MainTable></MainTable>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
@@ -52,7 +66,7 @@ function OutWork() {
         </Layout>
       </Layout>
     </div>
-    );
-}
+  );
+};
 
-export default OutWork
+export default MainPage
