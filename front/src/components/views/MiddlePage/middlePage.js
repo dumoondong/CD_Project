@@ -31,7 +31,7 @@ const data = [
 function MiddlePage() {
         return(
             <div>
-                <Table columns={columns} dataSource={data} />
+                <Table columns={columns} dataSource={data} pagination={false} />
             </div>
         );
 }

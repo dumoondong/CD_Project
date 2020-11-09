@@ -34,7 +34,7 @@ function LoginPage(props) {
         dispatch(loginUser(body))//데이터를 body에 담아서 action으로 보냄
             .then(response => { //앞의 함수가 처리되고 응답(response)한 데이터가 들어가있다.
                 if(response.payload.loginSuccess){ //응답한 payload에 있는 loginSuccess의 true,false값을 확인
-                    props.history.push('/') //로그인에 성공하면 시작페이지로 돌아옴
+                    props.history.push('/main') //로그인에 성공하면 시작페이지로 돌아옴
                 }
                 else {
                     alert('Error');
