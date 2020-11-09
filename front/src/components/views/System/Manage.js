@@ -153,10 +153,10 @@ function Manage() {
             주소: response.data[0].address,
             비고: response.data[0].des
       };
-      return temp;
+      data.concat(temp);
     });
   }, []);
-  console.log(useEffect);
+  console.log(data);
 
     // var temp = {};
     // axios.get('/api/manage').then(response => {

@@ -70,6 +70,14 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
   });
 });
 
+app.get('/api/manage', (req, res) => {
+  db.query('SELECT * from employee', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is: ', rows);
+    res.send(rows);
+  });
+});
+
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
