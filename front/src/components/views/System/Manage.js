@@ -6,7 +6,7 @@ import LiveClock from '../MainPage/LiveClock';
 
 const { Header, Content, Sider, Footer } = Layout;
 
-function Manage() {
+function Manage(props) {
   //선택 체크박스
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
@@ -78,6 +78,7 @@ function Manage() {
       key: '비고',
     }
   ];
+
     //칼럼 안 데이터
     const data = [
       {
@@ -109,6 +110,7 @@ function Manage() {
         비고: '-'
       },
     ];
+
     // const [data,setData] = useState({
     //   key: '',
     //   선택: null,
@@ -123,23 +125,8 @@ function Manage() {
     //   주소: '',
     //   비고: ''
     // });
-
-    // data[0].key = '1';
-    // data[0].부서 = 'test';
-    // data[0].email = 'test';
-    // data[0].비고 = 'test';
-    // data[0].비밀번호 = 'test';
-    // data[0].사원번호 = 'test';
-    // data[0].사원이름 = 'test';
-    // data[0].선택 = <Checkbox onChange={onChange}></Checkbox>;
-    // data[0].우편번호 = 'test';
-    // data[0].주소 = 'test';
-    // data[0].직급 = 'test';
-    // data[0].핸드폰번호 = 'test';
-    //console.log(data);
-    useEffect(() => {
-    axios.get('/api/manage').then(response => {
-      const temp = {
+axios.post('/api/manage').then(response=>{
+ const temp = {
             key: '3',
             선택: <Checkbox onChange={onChange}></Checkbox>,
             부서: response.data[0].dept,
@@ -153,71 +140,36 @@ function Manage() {
             주소: response.data[0].address,
             비고: response.data[0].des
       };
-      data.concat(temp);
-    });
-  }, []);
+    data.push(temp);
+  });
   console.log(data);
-
-    // var temp = {};
-    // axios.get('/api/manage').then(response => {
-    //   // console.log(response);
-    //   // console.log(response.data);
-    //   // console.log(response.data[0].dept);
-    //   temp = 
-    //     {
-    //       key: '3',
-    //       선택: <Checkbox onChange={onChange}></Checkbox>,
-    //       부서: response.data[0].dept,
-    //       직급: response.data[0].manager,
-    //       사원번호: response.data[0].id,
-    //       사원이름: response.data[0].name,
-    //       비밀번호: response.data[0].password,
-    //       email: response.data[0].email,
-    //       핸드폰번호: response.data[0].phone,
-    //       우편번호: response.data[0].zim,
-    //       주소: response.data[0].address,
-    //       비고: response.data[0].des
-    //       };
-    //       data = [...data,temp];
+    //  
+    //   console.log(response.data);
     // });
+    //console.log(response.data);
+//   //data.push(getUsers());
+//  data.push(getUsers());
+  //console.log(getUsers());
+ //getUsers().then(result=>{console.log(result);});
+  //data.push(getUsers());
+  //console.log(getUsers());
+// const data2 = 
+//   {
+//     key: '3',
+//     선택: <Checkbox onChange={onChange}></Checkbox>,
+//     부서: '영업부',
+//     직급: '과장',
+//     사원번호: '1111',
+//     사원이름: '홍길삼',
+//     비밀번호: '123',
+//     email: 'test@test.com',
+//     핸드폰번호: '010-0000-0000',
+//     우편번호: '11111',
+//     주소: '춘천시 000 0000',
+//     비고: '-'
+//   };
+//   data.push(data2);
 
-    //console.log(data);
-
-    //console.log(data);
-  //   handleAdd = () => {
-  //     const data = this.state;
-  //     axios.get('/api/manage').then(response => {
-  //       const temp = 
-  //       {
-  //         key: '1',
-  //         선택: <Checkbox onChange={onChange}></Checkbox>,
-  //         부서: response.data[0].dept,
-  //         직급: response.data[0].manager,
-  //         사원번호: response.data[0].id,
-  //         사원이름: response.data[0].name,
-  //         비밀번호: response.data[0].password,
-  //         email: response.data[0].email,
-  //         핸드폰번호: response.data[0].phone,
-  //         우편번호: response.data[0].zim,
-  //         주소: response.data[0].address,
-  //         비고: response.data[0].des
-  //         };
-  //     this.setState({
-  //       data: [...data, temp]
-  //     });
-  //   });
-  // }
-    // const temp = () => {
-    // console.log('temp:',temp());
-    // //data.push(temp());
-    // console.log('밖 :',data);
-    //state
-    //const [date, setDate] = useState('');
-    //state 값을 조건에 따라 변경하는 함수
-    // const handleChange = value => {
-    //     message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
-    //     setDate(value);
-    // };
     //main
   return (
     <div>
