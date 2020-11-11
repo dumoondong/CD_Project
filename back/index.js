@@ -70,7 +70,7 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
   });
 });
 
-app.post('/api/manage', (req, res) => {
+app.get('/api/manage', (req, res) => {
   db.query('SELECT * from employee', (error, rows) => {
     if (error) throw error;
     console.log('User info is: ', rows);
