@@ -48,7 +48,7 @@ app.get('/api/hello',(req,res)=>{
 //app.use('/api/users', UserRouter);
 //app.use('/api/auth', authRouter);
 //로그인(로그인 주소가 넘어옴)
-app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
+app.get('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
   console.log('login: ',req.session);
   db.query(`SELECT * from users`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
@@ -67,6 +67,14 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
           message: "이메일 또는 패스워드가 올바르지 않습니다."
           });
       }
+  });
+});
+
+app.get('/api/manage', (req, res) => {
+  db.query('SELECT * from employee', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is: ', rows);
+    res.send(rows);
   });
 });
 
