@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-import { call } from 'redux-saga/effects';
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
@@ -81,7 +80,7 @@ function Manage(props) {
   ];
 
     //칼럼 안 데이터
-    const data = [
+    const [data, setData] = useState([
       {
         key: '1',
         선택: <Checkbox onChange={onChange}></Checkbox>,
@@ -110,77 +109,27 @@ function Manage(props) {
         주소: '춘천시 000 0000',
         비고: '-'
       },
-    ];
+    ]);
 
-    // const [data,setData] = useState({
-    //   key: '',
-    //   선택: null,
-    //   부서: '',
-    //   직급: '',
-    //   사원번호: '',
-    //   사원이름: '',
-    //   비밀번호: '',
-    //   email: '',
-    //   핸드폰번호: '',
-    //   우편번호: '',
-    //   주소: '',
-    //   비고: ''
-    // });
-async function getUsers(){
-    var temp;
-    await axios.get('/api/manage', response => {
-      temp = response.data;
-    });
-    return temp;
-}
-
-//const user = call(getUsers);
-
-console.log('usertest : ',getUsers());
-// .then(response=>{
-//  const temp = {
-//             key: '3',
-//             선택: <Checkbox onChange={onChange}></Checkbox>,
-//             부서: response.data[0].dept,
-//             직급: response.data[0].manager,
-//             사원번호: response.data[0].id,
-//             사원이름: response.data[0].name,
-//             비밀번호: response.data[0].password,
-//             email: response.data[0].email,
-//             핸드폰번호: response.data[0].phone,
-//             우편번호: response.data[0].zim,
-//             주소: response.data[0].address,
-//             비고: response.data[0].des
-//       };
-//     data.push(temp);
-//   });
-//   console.log(data);
-    //  
-    //   console.log(response.data);
-    // });
-    //console.log(response.data);
-//   //data.push(getUsers());
-//  data.push(getUsers());
-  //console.log(getUsers());
- //getUsers().then(result=>{console.log(result);});
-  //data.push(getUsers());
-  //console.log(getUsers());
-// const data2 = 
-//   {
-//     key: '3',
-//     선택: <Checkbox onChange={onChange}></Checkbox>,
-//     부서: '영업부',
-//     직급: '과장',
-//     사원번호: '1111',
-//     사원이름: '홍길삼',
-//     비밀번호: '123',
-//     email: 'test@test.com',
-//     핸드폰번호: '010-0000-0000',
-//     우편번호: '11111',
-//     주소: '춘천시 000 0000',
-//     비고: '-'
-//   };
-//   data.push(data2);
+    useEffect(() => {
+      axios.get('/api/manage').then(response => {
+        const temp = {
+          key: '3',
+          선택: <Checkbox onChange={onChange}></Checkbox>,
+          부서: response.data[0].dept,
+          직급: response.data[0].manager,
+          사원번호: response.data[0].id,
+          사원이름: response.data[0].name,
+          비밀번호: response.data[0].password,
+          email: response.data[0].email,
+          핸드폰번호: response.data[0].phone,
+          우편번호: response.data[0].zim,
+          주소: response.data[0].address,
+          비고: response.data[0].des
+        };
+        setData([...data,temp]);
+      });
+  }, []);
 
     //main
   return (
