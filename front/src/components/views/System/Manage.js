@@ -136,7 +136,7 @@ async function getUsers(){
 
 //const user = call(getUsers);
 
-console.log('usertest : ',getUsers());
+console.log('user : ',getUsers());
 // .then(response=>{
 //  const temp = {
 //             key: '3',
