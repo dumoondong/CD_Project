@@ -128,7 +128,7 @@ function Manage(props) {
     // });
 async function getUsers(){
     var temp;
-    await axios.get('/api/manage',response => {
+    await axios.get('/api/manage', response => {
       temp = response.data;
     });
     return temp;
@@ -136,7 +136,7 @@ async function getUsers(){
 
 //const user = call(getUsers);
 
-console.log('user : ',getUsers());
+console.log('usertest : ',getUsers());
 // .then(response=>{
 //  const temp = {
 //             key: '3',
