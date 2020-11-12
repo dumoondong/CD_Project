@@ -87,7 +87,7 @@ function Code(props) {
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
           <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
+          <Menu.Item key="1">
               <span>휴일설정</span>
               <Link to="/holiday" />
             </Menu.Item>

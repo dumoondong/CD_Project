@@ -78,6 +78,8 @@ app.get('/api/manage', (req, res) => {
   });
 });
 
+
+
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

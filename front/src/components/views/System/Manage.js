@@ -132,7 +132,7 @@ function Manage(props) {
           setData([...data,temp]);
           console.log('이후 데이터 : ',data);
           console.log(temp);
-          console.log('i : ',i);
+          console.log('i : ',i+1);
         }
       });
   }, []);
