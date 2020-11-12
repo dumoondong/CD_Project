@@ -89,6 +89,7 @@ function Code(props) {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <span>휴일설정</span>
+              <Link to="/holiday" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>직원 관리</span>
