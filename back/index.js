@@ -7,11 +7,11 @@ const bodyParser = require('body-parser');
 // const session = require('express-session');
 // const mysqlStore = require('express-mysql-session')(session);
 //router
-// const UserRouter = require('./lib/user'); //User 모듈을 가져옴
+  const UserRouter = require('./lib/user'); //User 모듈을 가져옴
 //웹에서 application/x-www-form-urlencoded에 있는 데이터를 분석해서 가져옴
-app.use(bodyParser.urlencoded({extended : true}));
+  app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
-app.use(bodyParser.json());
+  app.use(bodyParser.json());
 //session
 // app.use(session({
 //   secret: 'asdqwe##',
@@ -45,10 +45,10 @@ app.get('/api/hello',(req,res)=>{
 });
 
 //페이지의 복잡성을 해소하기 위한 라우터
-//app.use('/api/users', UserRouter);
+app.use('/api/users', UserRouter);
 //app.use('/api/auth', authRouter);
 //로그인(로그인 주소가 넘어옴)
-app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
+app.get('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
   console.log('login: ',req.session);
   db.query(`SELECT * from users`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
@@ -67,6 +67,14 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
           message: "이메일 또는 패스워드가 올바르지 않습니다."
           });
       }
+  });
+});
+
+app.get('/api/manage', (req, res) => {
+  db.query('SELECT * from employee', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
   });
 });
 

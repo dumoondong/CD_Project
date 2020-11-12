@@ -57,6 +57,7 @@ const data = [
 // 불러오는 곳
 
 const { Header, Content, Sider, Footer } = Layout;
+const { Option } = Select;
 const yearData = ['2020', '2019', '2018', '2017'];
 const monthData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 const { Option } = Select;
