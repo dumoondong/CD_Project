@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import { Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
 import LiveClock from './LiveClock';
+import MiddlePage from '../MiddlePage/MiddlePage';
+import MyPage from '../MyPage/MyPage';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const { Header, Content, Sider, Footer } = Layout;
@@ -30,12 +32,14 @@ function OutWork() {
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
+              <Link to="/middle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/mypage" />
             </Menu.Item>
           </Menu>
         </Sider>

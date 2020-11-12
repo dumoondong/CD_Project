@@ -38,12 +38,14 @@ function MainPage() {
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
+              <Link to="/middle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/mypage" />
             </Menu.Item>
           </Menu>
         </Sider>
