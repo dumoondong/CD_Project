@@ -4,8 +4,8 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from './CodeAdd';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
@@ -87,7 +87,7 @@ function Code(props) {
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
           <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
+          <Menu.Item key="1">
               <span>휴일설정</span>
               <Link to="/holiday" />
             </Menu.Item>
