@@ -58,7 +58,7 @@ function LoginPage(props) {
                     Login
                 </button>
                 <Link to="/">Home</Link>
-            </form>        
+            </form>
         </div>
     )
 }

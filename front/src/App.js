@@ -15,6 +15,7 @@ import OutWork from './components/views/MainPage/OutWork';
 import Manage from './components/views/System/Manage';
 import Code from './components/views/System/Code';
 import Holiday from './components/views/System/Holiday';
+import Employee from './components/views/Employee/Employee';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route exact path="/manage" component={Manage} />
           <Route exact path="/code" component={Code} />
           <Route exact path="/holiday" component={Holiday} />
+          <Route exact path="/employee" component={Employee} />
         </Switch>
       </div>
     </Router>//router(해당 페이지의 최적의 경로로 넘어갈 수 있게 해주는 기능) 설정
