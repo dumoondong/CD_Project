@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from './CodeAdd';
+import CodeAdd from '../RegisterPage/CodeAdd';
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
