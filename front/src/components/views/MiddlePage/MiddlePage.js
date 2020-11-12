@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -59,9 +59,17 @@ const data = [
 const { Header, Content, Sider, Footer } = Layout;
 const yearData = ['2020', '2019', '2018', '2017'];
 const monthData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+const { Option } = Select;
+const options = [
+  { value: '2020', label: '2020' },
+  { value: '2019', label: '2019' },
+  { value: '2018', label: '2018' },
+];
 
-function MiddlePage(value1, value2) {
-  console.log(`selected id = year${value1}`);
+function MiddlePage(value) {
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  console.log(setSelectedOption);
 
     return(
       <div>
@@ -103,14 +111,19 @@ function MiddlePage(value1, value2) {
           <Content style={{ margin: '0' }}>
             <div style = {{display: 'flex'}}>
               <div style = {{display: 'inline-block', margin: '0px auto'}}>
-                <Select id = 'year' defaultValue="년도" style={{ width: 80 }} onChange={MiddlePage}>
+                <Select
+                  defaultValue={selectedOption}
+                  onChange={setSelectedOption}
+                  options={options}
+                />
+                <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={MiddlePage}>
                   <Option value="2020">2020</Option>
                   <Option value="2019">2019</Option>
                   <Option value="2018">2018</Option>
-                  <Option value="2018">2017</Option>
-                  <Option value="2018">2016</Option>
+                  <Option value="2017">2017</Option>
+                  <Option value="2016">2016</Option>
                 </Select>
-                <Select id = 'month' defaultValue="월" style={{ width: 60 }} onChange={MiddlePage}>
+                <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={MiddlePage}>
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
                   <Option value="3">3</Option>
