@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 
-
-
-function Employee(props) {
+function Employee() {
     const [workInquiry, setWorkInquiry] = useState("")
     const [workOrder, setWorkOrder] = useState("")
+
     const setworkInquiryHandler = (event) => {
         setWorkInquiry(event.currentTarget.value);
     }
@@ -21,6 +20,7 @@ function Employee(props) {
             workInquiry: workInquiry,
             workOrder: workOrder
         }
+    }
 
 return (
     <div style={{
@@ -43,7 +43,6 @@ return (
             </button>
         </form>        
     </div>
-)
-}
+);
 }
 export default Employee
