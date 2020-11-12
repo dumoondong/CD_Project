@@ -1,47 +1,94 @@
-import React, {useState} from 'react'
-
+import React from 'react'
+import 'antd/dist/antd.css';
+import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import LiveClock from '../MainPage/LiveClock';
+//칼럼
+const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 function Employee() {
-    const [workInquiry, setWorkInquiry] = useState("")
-    const [workOrder, setWorkOrder] = useState("")
-
-    const setworkInquiryHandler = (event) => {
-        setWorkInquiry(event.currentTarget.value);
-    }
-
-    const setworkOrderHandler = (event) => {
-        setWorkOrder(event.currentTarget.value);
-    }
-
-    const onSubmitHandler = (event) => {
-        event.preventDefault(); 
-     
-        
-        let body = {
-            workInquiry: workInquiry,
-            workOrder: workOrder
-        }
-    }
-
+    const columns = [
+        {
+          title: '보낸날짜 및 시간',
+          dataIndex: 'Date',
+          key: 'Date',
+        },
+        {
+            title: '보낸 이',
+            dataIndex: 'User',
+            key: 'User',
+          },
+          {
+            title: '제목',
+            dataIndex: 'Title',
+            key: 'Title',
+          },
+          {
+            title: '내용',
+            dataIndex: 'Dsc',
+            key: 'Dsc',
+          },
+          {
+            title: '확인',
+            dataIndex: 'Check',
+            key: 'Check',
+          },
+        ];
+    
+        const data = [
+            {
+              key: '1',
+              Date: 'YYYY/MM/DD',
+              User: 'Name',
+              Title: 'Title',
+              Dsc: 'Content',
+              Check: 'Check',
+            },
+        ];
+    
 return (
-    <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        width: '70%', height: '200vh'
-    }}>
-        <form style={{ display: 'flex', flexDirection: 'column'}}
-            onSubmit={onSubmitHandler}>
-            <input type="text" value={workInquiry} onChange={setworkInquiryHandler} />
-            <input type="text" value={workOrder} onChange={setworkOrderHandler} />
-            <br />
-            <button>
-                업무조회
-            </button>
-            <button>
-                업무지시
-            </button>
-            <button>
-                로그아웃
-            </button>
-        </form>        
+    <div>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider style={{background:'dark'}}>
+        <div>
+        <LiveClock></LiveClock>
+        </div>
+        {/* grid */}
+        <Row>
+            <Col span={12}><Button block>출근</Button></Col>
+            <Col span={12}><Button block>퇴근</Button></Col>
+        </Row>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            <Menu.Item key="1">
+              <span>홈 바로가기</span>
+              <Link to="/main" />
+            </Menu.Item>
+            <Menu.Item key="2">
+              <span>연가</span>
+              <Link to="/outWork" />
+            </Menu.Item>
+            <Menu.Item key="3">
+              <span>근무조회</span>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <span>업무지시 및 조회</span>
+            </Menu.Item>
+            <Menu.Item key="5">
+              <span>마이 페이지</span>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+          </Header>
+          <Content style={{ margin: '0 16px' }}>
+            <Table columns={columns} dataSource={data} pagination={false} />
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>
+            Ant Design ©2018 Created by Ant UED
+          </Footer>
+        </Layout>
+      </Layout>
     </div>
 );
 }
