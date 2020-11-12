@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
+
 //칼럼
 const columns = [
     {
@@ -60,9 +61,16 @@ const { Header, Content, Sider, Footer } = Layout;
 const { Option } = Select;
 const yearData = ['2020', '2019', '2018', '2017'];
 const monthData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+const options = [
+  { value: '2020', label: '2020' },
+  { value: '2019', label: '2019' },
+  { value: '2018', label: '2018' },
+];
 
-function MiddlePage(value1, value2) {
-  console.log(`selected id = year${value1}`);
+function MiddlePage(value) {
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  console.log(setSelectedOption);
 
     return(
       <div>
@@ -76,7 +84,7 @@ function MiddlePage(value1, value2) {
               <Col span={12}><Button block>출근</Button></Col>
               <Col span={12}><Button block>퇴근</Button></Col>
           </Row>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
             <Menu.Item key="1">
               <span>홈 바로가기</span>
               <Link to="/main" />
@@ -87,12 +95,14 @@ function MiddlePage(value1, value2) {
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
+              <Link to="/middle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/mypage" />
             </Menu.Item>
           </Menu>
         </Sider>
@@ -104,14 +114,14 @@ function MiddlePage(value1, value2) {
           <Content style={{ margin: '0' }}>
             <div style = {{display: 'flex'}}>
               <div style = {{display: 'inline-block', margin: '0px auto'}}>
-                <Select id = 'year' defaultValue="년도" style={{ width: 80 }} onChange={MiddlePage}>
+                <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={MiddlePage}>
                   <Option value="2020">2020</Option>
                   <Option value="2019">2019</Option>
                   <Option value="2018">2018</Option>
-                  <Option value="2018">2017</Option>
-                  <Option value="2018">2016</Option>
+                  <Option value="2017">2017</Option>
+                  <Option value="2016">2016</Option>
                 </Select>
-                <Select id = 'month' defaultValue="월" style={{ width: 60 }} onChange={MiddlePage}>
+                <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={MiddlePage}>
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
                   <Option value="3">3</Option>
@@ -142,7 +152,6 @@ function MiddlePage(value1, value2) {
             </div>
             
             <Table columns={columns} dataSource={data} pagination={false} />
-
 
             {/* 근무합계, 초과근무합계 div */}
             <div style = {{backgroundColor: 'blue', textAlign: 'center'}}>

@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
+import MyPage from './components/views/MyPage/MyPage'
 import MiddlePage from './components/views/MiddlePage/MiddlePage'
 import MainPage from './components/views/MainPage/MainPage'
 import LandingPage from './components/views/LandingPage/LandingPage';
@@ -17,12 +18,12 @@ import Code from './components/views/System/Code';
 import Holiday from './components/views/System/Holiday';
 import Employee from './components/views/Employee/Employee';
 
-
 function App() {
   return (
     <Router>
       <div>
         <Switch>
+          <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/middle" component={MiddlePage} />
           <Route exact path="/main" component={MainPage} />
           <Route exact path="/landing" component={LandingPage} />
