@@ -4,7 +4,7 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
-import ManageAdd from './ManageAdd';
+import ManageAdd from '../RegisterPage/ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -83,57 +83,61 @@ function Manage(props) {
   ];
 
     //칼럼 안 데이터
-    const [data, setData] = useState([
-      {
-        key: '1',
-        선택: <Checkbox onChange={onChange}></Checkbox>,
-        부서: '영업부',
-        직급: '과장',
-        사원번호: '1111',
-        사원이름: '홍길동',
-        비밀번호: '123',
-        email: 'test@test.com',
-        핸드폰번호: '010-0000-0000',
-        우편번호: '11111',
-        주소: '춘천시 000 0000',
-        비고: '-'
-      },
-      {
-        key: '2',
-        선택: <Checkbox onChange={onChange}></Checkbox>,
-        부서: '영업부',
-        직급: '차장',
-        사원번호: '1112',
-        사원이름: '홍길이',
-        비밀번호: '123',
-        email: 'test@test.com',
-        핸드폰번호: '010-0000-0000',
-        우편번호: '11111',
-        주소: '춘천시 000 0000',
-        비고: '-'
-      },
-    ]);
+    const [data, setData] = useState([{
+      key:'',
+      선택:null,
+      부서:'',
+      직급:'',
+      사원번호:'',
+      사원이름:'',
+      비밀번호:'',
+      email:'',
+      핸드폰번호:'',
+      우편번호:'',
+      주소:''
+    }]);
+        // key: '1',
+        // 선택: <Checkbox onChange={onChange}></Checkbox>,
+        // 부서: '영업부',
+        // 직급: '과장',
+        // 사원번호: '1111',
+        // 사원이름: '홍길동',
+        // 비밀번호: '123',
+        // email: 'test@test.com',
+        // 핸드폰번호: '010-0000-0000',
+        // 우편번호: '11111',
+        // 주소: '춘천시 000 0000',
+     
 
     useEffect(() => {
       axios.get('/api/manage').then(response => {
-        const temp = {
-          key: '3',
-          선택: <Checkbox onChange={onChange}></Checkbox>,
-          부서: response.data[0].dept,
-          직급: response.data[0].manager,
-          사원번호: response.data[0].id,
-          사원이름: response.data[0].name,
-          비밀번호: response.data[0].password,
-          email: response.data[0].email,
-          핸드폰번호: response.data[0].phone,
-          우편번호: response.data[0].zim,
-          주소: response.data[0].address,
-          비고: response.data[0].des
-        };
-        setData([...data,temp]);
+        console.log('length : ',response.data.length);
+        var temp = {};
+        for(var i=0; i< response.data.length; i++) {
+          temp = {
+            key: String(i+1),
+            선택: <Checkbox onChange={onChange}></Checkbox>,
+            부서: response.data[i].dept,
+            직급: response.data[i].rank,
+            사원번호: response.data[i].id,
+            사원이름: response.data[i].name,
+            비밀번호: response.data[i].password,
+            email: response.data[i].email,
+            핸드폰번호: response.data[i].phone,
+            우편번호: response.data[i].zim,
+            주소: response.data[i].address,
+            비고: response.data[i].des
+          };
+          console.log('이전 데이터 : ',data);
+          setData([...data,temp]);
+          console.log('이후 데이터 : ',data);
+          console.log(temp);
+          console.log('i : ',i+1);
+        }
       });
   }, []);
 
+  console.log('끝난 후 데이터 : ', data);
     //main
   return (
     <div>
@@ -164,7 +168,9 @@ function Manage(props) {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Link  to="/">
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            </Link>
           </Header>
           <Content>
           <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
@@ -186,11 +192,10 @@ function Manage(props) {
                 />
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-               
                 <ManageAdd></ManageAdd>
-                <button>삭제</button>
-                <button>수정</button>
-                <button>저장</button>
+                <Button>삭제</Button>
+                <Button>수정</Button>
+                <Button>저장</Button>
               </div>
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>

@@ -10,7 +10,7 @@ import MiddlePage from './components/views/MiddlePage/MiddlePage'
 import MainPage from './components/views/MainPage/MainPage'
 import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
-import RegisterPage from './components/views/RegisterPage/RegisterPage';
+// import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import OutWork from './components/views/MainPage/OutWork';
 import Manage from './components/views/System/Manage';
 import Code from './components/views/System/Code';
@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/main" component={MainPage} />
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/" component={LoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
+          {/* <Route exact path="/register" component={RegisterPage} /> */}
           <Route exact path="/outWork" component={OutWork} />
           <Route exact path="/manage" component={Manage} />
           <Route exact path="/code" component={Code} />

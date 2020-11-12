@@ -1,15 +1,31 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
+import { Select,Tag,Layout, Menu,PageHeader,Table, 
+  Button,Calendar, Alert, Row, Col,Checkbox,Form,Input,message,
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
+import moment from 'moment';
 import LiveClock from '../MainPage/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-const { Header, Content, Sider, Footer } = Layout;
+import { render } from 'react-dom';
 
-function Holiday(props) {
+const { Header, Content, Sider, Footer } = Layout;
+function Holiday( ){
+  const [date,setDate] = useState(moment('2017-01-25'));
+  const [selectedValue,setselectedValue] = useState(moment('2017-01-25'));
   
-  
+  function  onSelect(value){
+    setDate(value);
+    setselectedValue(value);
+  }
+  function  onPanelChange(value){
+    setDate(value);
+
+  }
+  const handleChange = value => {
+    message.info(`Selected value: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
+    setDate(value);
+};
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -52,14 +68,18 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>
-            
-              
-           
+          
+       
+        <Calendar  value={date} onSelect={onSelect} onChange={handleChange} onPanelChange={onPanelChange} />
+     
+       
             </Content>
       </Layout>
     </Layout>
     </div>
+  
   );
+  
 };
 
 export default Holiday
