@@ -86,9 +86,10 @@ function Code(props) {
             <Col span={12}><Button block>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
             <Menu.Item key="1">
               <span>휴일설정</span>
+              <Link to="/holiday" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>직원 관리</span>
