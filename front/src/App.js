@@ -13,7 +13,10 @@ import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import OutWork from './components/views/MainPage/OutWork';
 import Manage from './components/views/System/Manage';
+import Code from './components/views/System/Code';
+import Holiday from './components/views/System/Holiday';
 import Employee from './components/views/Employee/Employee';
+
 
 function App() {
   return (
@@ -27,6 +30,8 @@ function App() {
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/outWork" component={OutWork} />
           <Route exact path="/manage" component={Manage} />
+          <Route exact path="/code" component={Code} />
+          <Route exact path="/holiday" component={Holiday} />
           <Route exact path="/employee" component={Employee} />
         </Switch>
       </div>

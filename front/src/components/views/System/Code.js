@@ -4,18 +4,18 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
-import ManageAdd from './ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import CodeAdd from './CodeAdd';
 const { Header, Content, Sider, Footer } = Layout;
 
-function Manage(props) {
+function Code(props) {
   
   //선택 체크박스
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
-  //근무부서 선택
-  const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];
+  //선택창
+  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
   function tagRender(props) {
     const { label, value, closable, onClose } = props;
     return (
@@ -31,49 +31,19 @@ function Manage(props) {
       key: '선택',
     },
     {
-      title: '부서',
-      dataIndex: '부서',
-      key: '부서',
+        title: '대코드',
+        dataIndex: '대코드',
+        key: '대코드',
     },
     {
-      title: '직급',
-      dataIndex: '직급',
-      key: '직급',
+      title: '소코드',
+      dataIndex: '소코드',
+      key: '소코드',
     },
     {
-      title: '사원번호',
-      dataIndex: '사원번호',
-      key: '사원번호',
-    },
-    {
-      title: '사원이름',
-      dataIndex: '사원이름',
-      key: '사원이름',
-    },
-    {
-      title: '비밀번호',
-      dataIndex: '비밀번호',
-      key: '비밀번호',
-    },
-    {
-      title: 'email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '핸드폰번호',
-      dataIndex: '핸드폰번호',
-      key: '핸드폰번호',
-    },
-    {
-      title: '우편번호',
-      dataIndex: '우편번호',
-      key: '우편번호',
-    },
-    {
-      title: '주소',
-      dataIndex: '주소',
-      key: '주소',
+      title: '코드정보',
+      dataIndex: '코드정보',
+      key: '코드정보',
     },
     {
       title: '비고',
@@ -87,53 +57,22 @@ function Manage(props) {
       {
         key: '1',
         선택: <Checkbox onChange={onChange}></Checkbox>,
-        부서: '영업부',
-        직급: '과장',
-        사원번호: '1111',
-        사원이름: '홍길동',
-        비밀번호: '123',
-        email: 'test@test.com',
-        핸드폰번호: '010-0000-0000',
-        우편번호: '11111',
-        주소: '춘천시 000 0000',
+        대코드: 'CP',
+        소코드: '01',
+        코드정보:'공휴일설정',
         비고: '-'
       },
       {
         key: '2',
         선택: <Checkbox onChange={onChange}></Checkbox>,
-        부서: '영업부',
-        직급: '차장',
-        사원번호: '1112',
-        사원이름: '홍길이',
-        비밀번호: '123',
-        email: 'test@test.com',
-        핸드폰번호: '010-0000-0000',
-        우편번호: '11111',
-        주소: '춘천시 000 0000',
+        대코드: 'CP',
+        소코드: '02',
+        코드정보:'회사창립일',
         비고: '-'
       },
     ]);
 
-    useEffect(() => {
-      axios.get('/api/manage').then(response => {
-        const temp = {
-          key: '3',
-          선택: <Checkbox onChange={onChange}></Checkbox>,
-          부서: response.data[0].dept,
-          직급: response.data[0].manager,
-          사원번호: response.data[0].id,
-          사원이름: response.data[0].name,
-          비밀번호: response.data[0].password,
-          email: response.data[0].email,
-          핸드폰번호: response.data[0].phone,
-          우편번호: response.data[0].zim,
-          주소: response.data[0].address,
-          비고: response.data[0].des
-        };
-        setData([...data,temp]);
-      });
-  }, []);
-
+    
     //main
   return (
     <div>
@@ -150,7 +89,6 @@ function Manage(props) {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <span>휴일설정</span>
-              <Link to="/holiday" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>직원 관리</span>
@@ -172,22 +110,22 @@ function Manage(props) {
                 <PageHeader
                   className="site-page-header"
                   onBack={() => null}
-                  title="직원관리"
-                  subTitle="직원관리 페이지">   
+                  title="공통코드"
+                  subTitle="공통코드 페이지">   
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>
-            {/* 부서선택 */}
-              <div style = {{fontSize: 20,background: '#fff', minHeight: 150}}>근무부서
+            {/* 선택창 */}
+            <div style = {{fontSize: 20,background: '#fff', minHeight: 150}}>대코드
                 <Select mode="multiple"
                   showArrowtagRender={tagRender}
-                  defaultValue={['영업부']}style={{ width: '30%' }}
+                  defaultValue={['CP']}style={{ width: '30%' }}
                 options={options}
                 />
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                
-                <ManageAdd></ManageAdd>
+                <CodeAdd></CodeAdd>
                 <button>삭제</button>
                 <button>수정</button>
                 <button>저장</button>
@@ -200,4 +138,4 @@ function Manage(props) {
   );
 };
 
-export default Manage
+export default Code
