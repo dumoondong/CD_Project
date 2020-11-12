@@ -8,7 +8,6 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 class ManageAdd extends React.Component {
-  
   state = { visible: false };
   state = {
     id: ''
@@ -68,7 +67,6 @@ class ManageAdd extends React.Component {
         </Button>
         
         <Modal
-
           title="추가"
           visible={this.state.visible}
           onOk={this.handleOk}
@@ -142,7 +140,6 @@ class ManageAdd extends React.Component {
           value={this.state.des}
           onChange={this.handleChange}
         />
-
         </Modal>
       </>
     );

@@ -8,8 +8,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
 function Holiday(props) {
-  
-  
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -52,9 +50,6 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>
-            
-              
-           
             </Content>
       </Layout>
     </Layout>

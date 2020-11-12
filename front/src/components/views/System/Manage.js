@@ -188,9 +188,9 @@ function Manage(props) {
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                
                 <ManageAdd></ManageAdd>
-                <button>삭제</button>
-                <button>수정</button>
-                <button>저장</button>
+                <Button>삭제</Button>
+                <Button>수정</Button>
+                <Button>저장</Button>
               </div>
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
