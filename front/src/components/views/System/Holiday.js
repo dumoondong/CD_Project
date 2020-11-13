@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Alert,Table,Calendar,Modal, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb} from 'antd';
+import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
+  Breadcrumb, Calendar} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
@@ -9,12 +9,16 @@ const { Header, Content, Sider, Footer } = Layout;
 
 
 function Holiday(props) {
-  //캘린더
+  const [Date, setDate] = useState('');
+
+
   function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
   }
   const setOnSelect = (value) => {
-    console.log(value.format('L'));
+    //console.log(value.format('YYYY-MM-DD'));
+    setDate(...Date, value.format('YYYY-MM-DD'));
+    console.log(Date);
   }
   //팝업
   const [Visible, setVisible] = useState(false);
@@ -68,8 +72,7 @@ function Holiday(props) {
                   subTitle="휴일설정 페이지">   
                 </PageHeader>
               </Breadcrumb.Item>
-            </Breadcrumb>
-           
+            </Breadcrumb>     
             <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect,showModal} />
         <Modal
           title="휴일설정"
@@ -81,7 +84,6 @@ function Holiday(props) {
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Modal>
-     
             </Content>
       </Layout>
     </Layout>
