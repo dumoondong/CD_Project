@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
+import { Select,Tag,Layout, Menu,PageHeader,Alert,Table,Calendar,Modal, Button, Row, Col,Checkbox,Form,Input,
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
@@ -7,7 +7,26 @@ import LiveClock from '../MainPage/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
+
 function Holiday(props) {
+  //캘린더
+  function onPanelChange(value, mode) {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  }
+  const setOnSelect = (value) => {
+    console.log(value.format('L'));
+  }
+  //팝업
+  const [Visible, setVisible] = useState(false);
+  const showModal = () => {
+    setVisible(true);
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+  const handleOk = () => {
+    setVisible(false);
+  }
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -50,6 +69,19 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>
+           
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect,showModal} />
+        <Modal
+          title="휴일설정"
+          visible={Visible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
+     
             </Content>
       </Layout>
     </Layout>
