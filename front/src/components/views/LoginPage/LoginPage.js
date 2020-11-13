@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LogoImage from './LoginImage/simile.png';
 
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
 //16.8버전 이후로는 funtion에서도 state를 가져올 수 있음 (useState 사용)
@@ -43,24 +44,27 @@ function LoginPage(props) {
     }
 
     return (
-        <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            width: '100%', height: '100vh'
-        }}>
-            <form style={{ display: 'flex', flexDirection: 'column'}}
-                onSubmit={onSubmitHandler}>
-                <label>Email</label>
-                <input type="email" value={Email} onChange={onEmailHandler} />
-                <label>Password</label>
-                <input type="password" value={Password} onChange={onPasswordHandler} />
-                <br />
-                <button>
-                    Login
-                </button>
-                <Link to="/">Home</Link>
-            </form>
+        <div style={{width: '380px', margin: '0 auto'}}>
+            <div style = {{display: 'block', margin: 'auto', marginTop: '250px', width: '380px', height: '75px', borderBottom: 'black solid 1px', backgroundColor: 'white'}}>
+                <img src={LogoImage} width='380' height='70'/>
+            </div>
+            <div style = {{display: 'block', margin: '50px auto', width: '250px'}}>
+                <form style={{ display: 'flex', flexDirection: 'column'}}
+                    onSubmit={onSubmitHandler}>
+                    <label>Email</label>
+                    <input type="email" value={Email} onChange={onEmailHandler} />
+                    <label>Password</label>
+                    <input type="password" value={Password} onChange={onPasswordHandler} />
+                    <br />
+                    <button>
+                        Login
+                    </button>
+                    <Link to="/">Home</Link>
+                </form>
+            </div>
         </div>
     )
 }
 
 export default LoginPage
+
