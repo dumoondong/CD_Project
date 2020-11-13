@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
 function Manage(props) {
-  
   //선택 체크박스
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
@@ -83,41 +82,14 @@ function Manage(props) {
   ];
 
     //칼럼 안 데이터
-    const [data, setData] = useState([{
-      key: '1',
-        선택: <Checkbox onChange={onChange}></Checkbox>,
-        부서: '영업부',
-        직급: '과장',
-        사원번호: '1111',
-        사원이름: '홍길동',
-        비밀번호: '123',
-        email: 'test@test.com',
-        핸드폰번호: '010-0000-0000',
-        우편번호: '11111',
-        주소: '춘천시 000 0000'
-    }]);
-        // key: '1',
-        // 선택: <Checkbox onChange={onChange}></Checkbox>,
-        // 부서: '영업부',
-        // 직급: '과장',
-        // 사원번호: '1111',
-        // 사원이름: '홍길동',
-        // 비밀번호: '123',
-        // email: 'test@test.com',
-        // 핸드폰번호: '010-0000-0000',
-        // 우편번호: '11111',
-        // 주소: '춘천시 000 0000',
-     
+    const [data, setData] = useState([]);
 
     useEffect(() => {
       axios.get('/api/manage').then(response => {
-        console.log(' : ',response.data);
         var temp = {};
-        var temp2 = {};
-        var i = 0;
-        //for(var i=0; i< response.data.length; i++) {
+        for(var i=0; i< response.data.length; i++) {
           temp = {
-            key: String(i+2),
+            key: String(i+1),
             선택: <Checkbox onChange={onChange}></Checkbox>,
             부서: response.data[i].dept,
             직급: response.data[i].rank,
@@ -130,31 +102,10 @@ function Manage(props) {
             주소: response.data[i].address,
             비고: response.data[i].des
           };
-          setData([...data,temp]);
-          console.log('이전 데이터 : ',data);
-          temp2 = {
-            key: String(i+3),
-            선택: <Checkbox onChange={onChange}></Checkbox>,
-            부서: response.data[i+1].dept,
-            직급: response.data[i+1].rank,
-            사원번호: response.data[i+1].id,
-            사원이름: response.data[i+1].name,
-            비밀번호: response.data[i+1].password,
-            email: response.data[i+1].email,
-            핸드폰번호: response.data[i+1].phone,
-            우편번호: response.data[i+1].zim,
-            주소: response.data[i+1].address,
-            비고: response.data[i+1].des
-          }
-          setData([...data,temp2]);
-          console.log('이후 데이터 : ',data);
-          console.log(temp);
-          console.log('i : ',i);
-        //}
+          setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
+        }
       });
   }, []);
-
-  console.log('끝난 후 데이터 : ', data);
     //main
   return (
     <div>
@@ -216,6 +167,9 @@ function Manage(props) {
               </div>
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
+            <Footer style={{ textAlign: 'center' }}>
+            Ant Design ©2018 Created by Ant UED
+          </Footer>
       </Layout>
     </Layout>
     </div>

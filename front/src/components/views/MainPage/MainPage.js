@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch} from 'antd';
+import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LiveClock from './LiveClock';
 import MainTable from './MainTable'
 
@@ -38,12 +38,14 @@ function MainPage() {
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
+              <Link to="/middle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/mypage" />
             </Menu.Item>
           </Menu>
         </Sider>
