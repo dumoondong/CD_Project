@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
-import axios from 'axios';
+
 //칼럼
 const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 function Employee() {
@@ -116,8 +116,6 @@ return (
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>근무조회</Button>
-            <Button style={{marginRight:'1%'}}>업무지시</Button>
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
           </Header>
           <Content style={{ margin: '0 16px' }}>
@@ -125,7 +123,6 @@ return (
 
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
           </Footer>
         </Layout>
       </Layout>
