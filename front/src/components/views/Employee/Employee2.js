@@ -3,8 +3,7 @@ import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
-import axios from 'axios';
-//칼럼
+
 const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 function Employee() {
     const columns = [
@@ -34,54 +33,38 @@ function Employee() {
             key: 'Check',
           },
         ];
-        
+        const [data, setData] = useState([{
+           key: '',
+           Date: '',
+           User: '',
+           Title: '',
+           Dsc: '',
+           Check: ''
+         }
+     ]);
 
-        const data = [
-           {
-             key: '1',
-             Date: 'YYYY/MM/DD',
-             User: 'Name',
-             Title: 'Title',
-            Dsc: 'Content',
-             Check: 'Check',
-           },
-        ];
-
-    //     const [data, setData] = useState([{
-         
-    //        key: '2',
-    //        Date: '',
-    //        User: '',
-    //        Title: '',
-    //        Dsc: '',
-    //        Check: '',
-    //      }
-    //  ]);
-
-      //   useEffect(() => {
-      //     axios.get('/api/employee').then(response => {
-      //       console.log('length : ',response.data2.length);
-      //       var temp = {};
-      //       for(var i=0; i< response.data2.length; i++) {
-      //         temp = {
-      //           key: String(i+1),
-      //           선택: <Checkbox onChange={onChange}></Checkbox>,
-      //           보낸날짜: response.data2[i].Date,
-      //           보낸사람: response.data2[i].User,
-      //           제목: response.data2[i].Title,
-      //           내용: response.data2[i].Dsc,
-      //           확인: response.data2[i].Check
-      //         };
-      //         console.log('이전 데이터 : ',data);
-      //         setData([...data,temp]);
-      //         console.log('이후 데이터 : ',data);
-      //         console.log(temp);
-      //         console.log('i : ',i);
-      //       }
-      //     });
-      // }, []);
-    
-
+        useEffect(() => {
+          axios.get('/api/employee').then(response => {
+            console.log('length : ',response.data.length);
+            var temp = {};
+            for(var i=0; i< response.data.length; i++) {
+              temp = {
+                key: String(i+1),
+                선택: <Checkbox onChange={onChange}></Checkbox>,
+                보낸날짜: response.data[i].Date,
+                보낸사람: response.data[i].User,
+                제목: response.data[i].Title,
+                내용: response.data[i].Dsc,
+                확인: response.data[i].Check
+              };
+              console.log('이전 데이터 : ',data);
+              setData([...data,temp]);
+              console.log('이후 데이터 : ',data);
+              console.log(temp);
+              console.log('i : ',i);
+            }
+          });
+      }, []);  
 return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
