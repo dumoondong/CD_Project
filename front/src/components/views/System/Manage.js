@@ -80,7 +80,7 @@ function Manage(props) {
       key: '비고',
     }
   ];
-
+  
     //칼럼 안 데이터
     const [data, setData] = useState([]);
 

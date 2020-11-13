@@ -28,14 +28,25 @@ const db = require('../config/db');
 //회원가입(register router)
 router.post('/register',(req, res) =>{
     console.log(req.body);
+    var error = false;
     db.query(`INSERT INTO employee(id, name, password, email, phone, zim, address, des, dept, rank) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [req.body.id, req.body.name, req.body.password, req.body.email, req.body.phone, req.body.zim, req.body.address, req.body.des, req.body.dept, req.body.rank],(err,result) => {
-        if(err) throw err;
+        if(err) {
+            error = true; //이거 안먹음
+        };
     });
-    return res.json({
-        registerSuccess: true,
-        message: "등록 성공!"
-        });
+    console.log(error); 
+    if(error === true){
+        return res.json({
+            registerSuccess: false,
+            message: "등록 실패..."
+            });
+    } else {
+        return res.json({
+            registerSuccess: true,
+            message: "등록 성공!"
+            });
+    }
   });
 
 module.exports = router;

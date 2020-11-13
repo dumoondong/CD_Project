@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb} from 'antd';
+  Breadcrumb, Calendar} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
@@ -8,6 +8,17 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { Header, Content, Sider, Footer } = Layout;
 
 function Holiday(props) {
+  const [Date, setDate] = useState('');
+
+  function onPanelChange(value, mode) {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  }
+  const setOnSelect = (value) => {
+    //console.log(value.format('YYYY-MM-DD'));
+    setDate(...Date, value.format('YYYY-MM-DD'));
+    console.log(Date);
+  }
+
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -50,6 +61,7 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>
+              <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect}/>
             </Content>
       </Layout>
     </Layout>
