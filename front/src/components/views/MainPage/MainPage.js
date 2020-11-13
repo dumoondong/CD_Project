@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch} from 'antd';
+import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LiveClock from './LiveClock';
 import MainTable from './MainTable'
 
