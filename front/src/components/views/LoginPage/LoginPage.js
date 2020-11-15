@@ -25,7 +25,7 @@ function LoginPage(props) {
         event.preventDefault(); //기본 기능 차단
         //console.log('Email',Email);
         //console.log('passwd',Password);
-        
+        console.log('submit');
         let body = {
             email: Email,
             password: Password
@@ -38,7 +38,7 @@ function LoginPage(props) {
                     props.history.push('/main') //로그인에 성공하면 시작페이지로 돌아옴
                 }
                 else {
-                    alert('Error');
+                    alert(response.payload.message);
                 }
             })
     }

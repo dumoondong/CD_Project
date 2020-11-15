@@ -48,25 +48,28 @@ app.get('/api/hello',(req,res)=>{
 app.use('/api/users', UserRouter);
 //app.use('/api/auth', authRouter);
 //로그인(로그인 주소가 넘어옴)
-app.get('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
-  console.log('login: ',req.session);
-  db.query(`SELECT * from users`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
+app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
+  //console.log(req.body.email);
+  db.query(`select * from employee where email='${req.body.email}'`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
-      //DB의 첫번째 유저의 데이터랑 front에서 가져온 데이터랑 비교
-      if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
-          // req.session.username = userInfo[0].username;
-          // req.session.save();
-          // console.log('in : ',req.session.username)
-          return res.json({
-          loginSuccess: true,
-          message: "로그인 성공!"
-          });
-      }else{ 
-          return res.json({
+      if(userInfo[0] === undefined){
+        return res.json({
           loginSuccess: false,
-          message: "이메일 또는 패스워드가 올바르지 않습니다."
+          message: "해당 이메일이 없습니다."
           });
-      }
+      } else {
+          if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
+            return res.json({
+            loginSuccess: true,
+            message: "로그인 성공!"
+            });
+        } else { 
+            return res.json({
+            loginSuccess: false,
+            message: "이메일 또는 패스워드가 올바르지 않습니다."
+            });
+        }
+    } 
   });
 });
 
