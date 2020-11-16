@@ -88,6 +88,15 @@ app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 
   
 });
 
+app.post('/api/delete',(req,res)=>{
+  console.log(req.body.check);
+  db.query(`DELETE FROM employee WHERE id = ?`,[req.body.check],function(error,result){
+    if(error){
+      throw error;
+    }
+  });
+});
+
 app.get('/api/manage', (req, res) => {
   db.query('SELECT * from employee', (error, rows) => {
     if (error) throw error;
