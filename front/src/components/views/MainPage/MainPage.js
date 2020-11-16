@@ -51,7 +51,9 @@ function MainPage() {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            <Link  to="/">
+              <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            </Link>
           </Header>
           <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>

@@ -4,27 +4,29 @@ const app = express(); //funtion을 이용하여 새로운 express app을 만듬
 const port = 5000 //port number
 const bodyParser = require('body-parser');
 //session
-// const session = require('express-session');
-// const mysqlStore = require('express-mysql-session')(session);
+  const session = require('express-session');
+  const mysqlStore = require('express-mysql-session')(session);
+//session
 //router
   const UserRouter = require('./lib/user'); //User 모듈을 가져옴
 //웹에서 application/x-www-form-urlencoded에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.json());
+ //session
+ app.use(session({
+  secret: 'asdqwe##',
+  resave: false,
+  saveUninitialized: true,
+  stroe:new mysqlStore({
+    host:'localhost',
+    port:3306,
+    user:'root',
+    password:'1111',
+    database : 'mydb'
+  })
+}));
 //session
-// app.use(session({
-//   secret: 'asdqwe##',
-//   resave: false,
-//   saveUninitialized: true,
-//   stroe:new mysqlStore({
-//     host:'localhost',
-//     port:3306,
-//     user:'root',
-//     password:'1111',
-//     database : 'mydb'
-//   })
-// }))
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
 app.get('/', (req, res) => {
@@ -46,37 +48,44 @@ app.get('/api/hello',(req,res)=>{
 
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
-//app.use('/api/auth', authRouter);
+
 //로그인(로그인 주소가 넘어옴)
 app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
-  //console.log(req.body.email);
-  // 시스템 관리자 페이지 구분
-  // if(req.body.email == 'root' && req.body.password = '1111'){
-  //   console.log('시스템 관리자');
-  // } else {
-  //   console.log('아래 소스 코드(db부분) 실행')
-  // }
-  db.query(`select * from employee where email='${req.body.email}'`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
-      if(err) throw err;
-      if(userInfo[0] === undefined){
-        return res.json({
-          loginSuccess: false,
-          message: "해당 이메일이 없습니다."
-          });
-      } else {
-          if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
-            return res.json({
-            loginSuccess: true,
-            message: "로그인 성공!"
-            });
-        } else { 
-            return res.json({
+  // 시스템 관리자 페이지 구분,GRANT
+  if(req.body.email === 'root' && req.body.password === '1111'){
+      return res.json({
+      loginSuccess: true,
+      message: "시스템 관리자",
+      grant: 'system'
+      });
+  } else {
+      db.query(`select * from employee where email='${req.body.email}'`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
+        if(err) throw err;
+        if(userInfo[0] === undefined){
+          return res.json({
             loginSuccess: false,
-            message: "이메일 또는 패스워드가 올바르지 않습니다."
+            message: "해당 이메일이 없습니다."
             });
-        }
-    } 
-  });
+        } else {
+            if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
+              req.session.email = userInfo[0].email;
+              console.log('session : ',req.session);
+              req.session.save();
+              return res.json({
+                loginSuccess: true,
+                message: "로그인 성공!",
+                grant: 'employee'
+                });
+          } else { 
+              return res.json({
+              loginSuccess: false,
+              message: "이메일 또는 패스워드가 올바르지 않습니다."
+              });
+          }
+      } 
+    });
+  }
+  
 });
 
 app.get('/api/manage', (req, res) => {
