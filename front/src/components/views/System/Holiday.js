@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb, Calendar, Modal} from 'antd';
+import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,message,
+  Breadcrumb, Calendar, Modal, Alert} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
@@ -11,20 +11,25 @@ const { Header, Content, Sider, Footer } = Layout;
 function Holiday(props) {
   const [Date, setDate] = useState('');
 
-
+ 
   function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
   }
   const setOnSelect = (value) => {
-    //console.log(value.format('YYYY-MM-DD'));
+    //console.log(value.format('L'));
     setDate(...Date, value.format('YYYY-MM-DD'));
     console.log(Date);
+    
+  
   }
+
+
   //팝업
   const [Visible, setVisible] = useState(false);
-  const showModal = () => {
+  const showModal = (value) => {
     setVisible(true);
   };
+ 
   const handleCancel = () => {
     setVisible(false);
   };
@@ -73,14 +78,16 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>     
-            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect,showModal} />
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} />
+           
         <Modal
           title="휴일설정"
           visible={Visible}
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <p>Some contents...</p>
+            
+          <Alert message={`날짜 : ${Date}`}/>
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Modal>

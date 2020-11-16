@@ -7,6 +7,7 @@ const { Option } = Select;
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
+
 class CodeAdd extends React.Component {
   
   state = { visible: false };
