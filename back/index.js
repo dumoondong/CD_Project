@@ -50,6 +50,12 @@ app.use('/api/users', UserRouter);
 //로그인(로그인 주소가 넘어옴)
 app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
   //console.log(req.body.email);
+  // 시스템 관리자 페이지 구분
+  // if(req.body.email == 'root' && req.body.password = '1111'){
+  //   console.log('시스템 관리자');
+  // } else {
+  //   console.log('아래 소스 코드(db부분) 실행')
+  // }
   db.query(`select * from employee where email='${req.body.email}'`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
       if(err) throw err;
       if(userInfo[0] === undefined){
