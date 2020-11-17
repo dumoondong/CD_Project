@@ -80,6 +80,14 @@ app.get('/api/manage', (req, res) => {
     res.send(rows);
   });
 });
+app.get('/api/SmallCode', (req, res) => {
+  db.query('SELECT * from SmallCode', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
+  });
+});
+
 
 //port number를 콘솔에 출력
 app.listen(port, () => {
