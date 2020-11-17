@@ -11,14 +11,17 @@ const { Header, Content, Sider, Footer } = Layout;
 function Holiday(props) {
   const [Date, setDate] = useState('');
 
+  
   function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
   }
+
   const setOnSelect = (value) => {
     //console.log(value.format('YYYY-MM-DD'));
     setDate(...Date, value.format('YYYY-MM-DD'));
     console.log(Date);
   }
+
   //팝업
   const [Visible, setVisible] = useState(false);
   const showModal = () => {
@@ -34,9 +37,9 @@ function Holiday(props) {
     <div>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
+          <div>
+            <LiveClock></LiveClock>
+          </div>
         {/* grid */}
         <Row>
             <Col span={12}><Button block>출근</Button></Col>

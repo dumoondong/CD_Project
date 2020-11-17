@@ -1,19 +1,31 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import LiveClock from './LiveClock';
-import MainTable from './MainTable'
+import MainTable from './MainTable';
 
 const { Header, Content, Sider, Footer } = Layout;
 
-function MainPage() {
+function MainPage(props) {
   const [date, setDate] = useState('');
   //state 값을 조건에 따라 변경하는 함수
   const handleChange = value => {
       message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
       setDate(value);
   };
+  //로그아웃 부분 분리 시킬 예정
+  const handleLogout =  () => {
+    axios.get('/api/users/logout').then(response => { 
+      console.log(response.data);
+      if(response.data.logoutSuccess){ 
+        props.history.push('/')
+       } else {
+        alert('로그아웃 실패...');
+        }
+  });
+}
     //main
   return (
     <div>
@@ -51,7 +63,7 @@ function MainPage() {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            <Button style={{marginRight:'1%'}} onClick={handleLogout}>로그아웃</Button>
           </Header>
           <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>

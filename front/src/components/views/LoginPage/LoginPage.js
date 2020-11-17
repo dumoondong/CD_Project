@@ -35,8 +35,12 @@ function LoginPage(props) {
         // dispatch 함수에는 액션을 파라미터로 전달
         dispatch(loginUser(body))//데이터를 body에 담아서 action으로 보냄
             .then(response => { //앞의 함수가 처리되고 응답(response)한 데이터가 들어가있다.
+                //console.log(response.payload);
                 if(response.payload.loginSuccess){ //응답한 payload에 있는 loginSuccess의 true,false값을 확인
-                    props.history.push('/main') //로그인에 성공하면 시작페이지로 돌아옴
+                   if(response.payload.grant === 'system'){
+                    props.history.push('/holiday')
+                   }else if(response.payload.grant === 'employee')
+                    props.history.push('/main'); //로그인에 성공하면 시작페이지로 돌아옴
                 }
                 else {
                     alert(response.payload.message);
@@ -53,7 +57,7 @@ function LoginPage(props) {
                 <form style={{ display: 'flex', flexDirection: 'column'}}
                     onSubmit={onSubmitHandler}>
                     <label>Email</label>
-                    <input type="email" value={Email} onChange={onEmailHandler} />
+                    <input type="text" value={Email} onChange={onEmailHandler} />
                     <label>Password</label>
                     <input type="password" value={Password} onChange={onPasswordHandler} />
                     <br />
