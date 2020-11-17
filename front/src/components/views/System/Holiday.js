@@ -1,10 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,message,
-  Breadcrumb, Calendar, Modal, Alert,Cascader} from 'antd';
+  Breadcrumb, Calendar, Modal, Alert,Cascader,Typography} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+const {Text} = Typography;
 const { Header, Content, Sider, Footer } = Layout;
 const { Option} = Select;
 const { TextArea } = Input;
@@ -22,9 +23,8 @@ function Holiday(props) {
 
   //휴일종류 선택
   function onChange(value) {
-    console.log(`selected ${value}`);
+    console.log(value);
   }
-   
   function onBlur() {
     console.log('blur');
   }
@@ -36,20 +36,24 @@ function Holiday(props) {
   function onSearch(val) {
     console.log('search:', val);
   }
+
+ //휴일 종류 설정
   const [data, setData] = useState([]);
+  const [Opt, setOpt] = useState([]);
   useEffect(() => {
     axios.get('/api/smallcode').then(response => {
       var temp = {};
       for(var i=0; i< response.data.length; i++) {
         temp = {
-          key: String(i+1),
           소코드: response.data[i].SmallCode,
           코드정보: response.data[i].SmallInfo
         };
-        setData(data => [...data, temp]); 
+        setData(data => [...data, temp]);
+        setOpt(Opt => [...Opt,response.data[i].SmallInfo]);
       }
     });
 }, []);
+
 
   //팝업
   const [Visible, setVisible] = useState(false);
@@ -92,7 +96,9 @@ function Holiday(props) {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+          <Link  to="/">
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            </Link>
           </Header>
           <Content>
           <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
@@ -129,14 +135,13 @@ function Holiday(props) {
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
-         <Option disabled={data}/>
-        
+         {Opt.map(SmallInfo => (
+          <Option key={SmallInfo}>{SmallInfo}</Option>
+        ))}
          </Select>
-        
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>
           <TextArea  rows={8}  />
         </Modal>
-       
             </Content>
       </Layout>
     </Layout>

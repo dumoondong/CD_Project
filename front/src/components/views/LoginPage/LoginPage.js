@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import LiveClock from '../MainPage/LiveClock';
 import LogoImage from '../LoginPage/LoginImage/simile.png'
 
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
@@ -24,9 +23,9 @@ function LoginPage(props) {
 
     const onSubmitHandler = (event) => {
         event.preventDefault(); //기본 기능 차단
-        //console.log('Email',Email);
-        //console.log('passwd',Password);
-        console.log('submit');
+        //console.log('Email',Email); //이메일
+        //console.log('passwd',Password); //비번
+        //console.log('submit'); //버튼을 눌렀을 때
         let body = {
             email: Email,
             password: Password
@@ -57,9 +56,9 @@ function LoginPage(props) {
                 <form style={{ display: 'flex', flexDirection: 'column'}}
                     onSubmit={onSubmitHandler}>
                     <label>Email</label>
-                    <input type="text" value={Email} onChange={onEmailHandler} />
+                        <input type="text" value={Email} onChange={onEmailHandler} />
                     <label>Password</label>
-                    <input type="password" value={Password} onChange={onPasswordHandler} />
+                        <input type="password" value={Password} onChange={onPasswordHandler} />
                     <br />
                     <button>
                         Login
