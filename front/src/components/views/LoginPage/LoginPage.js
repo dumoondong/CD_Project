@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import LogoImage from './LoginImage/simile.png';
+import LiveClock from '../MainPage/LiveClock';
+import LogoImage from '../LoginPage/LoginImage/simile.png'
 
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
 //16.8버전 이후로는 funtion에서도 state를 가져올 수 있음 (useState 사용)

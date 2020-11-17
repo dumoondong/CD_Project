@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Row, Col, Table} from 'antd';
+import { Layout, Menu, Breadcrumb, Button, Row, Col, Table, Calendar} from 'antd';
 import 'antd/dist/antd.css';
 import LiveClock from './LiveClock';
 import MiddlePage from '../MiddlePage/MiddlePage';
@@ -48,6 +48,30 @@ const data = [
 const { Header, Content, Sider, Footer } = Layout;
 
 function OutWork() {
+  const [Date, setDate] = useState('');
+
+  function onPanelChange(value, mode) {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  }
+
+  const setOnSelect = (value) => {
+    //console.log(value.format('YYYY-MM-DD'));
+    setDate(...Date, value.format('YYYY-MM-DD'));
+    console.log(Date);
+  }
+
+  //팝업
+  const [Visible, setVisible] = useState(false);
+  const showModal = () => {
+    setVisible(true);
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+  const handleOk = () => {
+    setVisible(false);
+  }
+
     return(
         <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -87,9 +111,7 @@ function OutWork() {
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
           </Header>
           <Content style={{ margin: '0 16px' }}>
-            <div style={{backgroundColor: 'cyan', height: '500px'}}>
-              캘린더자리
-            </div>
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect, showModal}/>
             <div>
               <Button style = {{float: 'right'}}>연가신청</Button>
             </div>
