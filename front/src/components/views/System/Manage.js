@@ -6,15 +6,33 @@ import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
 import ManageAdd from '../RegisterPage/ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ColumnTable from './columnTable';
+
 const { Header, Content, Sider, Footer } = Layout;
 
 function Manage(props) {
+  const columns = ColumnTable;//columnTable
+  const [data, setData] = useState([]);//칼럼 안 데이터
+  const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];//근무 부서
+  const [CheckTarget, setCheckTarget] = useState('');
   //선택 체크박스
   function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
+    console.log('e.target.value : ',e.target.value);
+    setCheckTarget(e.target.value);
   }
+    //확인용
+    const handleSave = () => {
+      console.log('CheckTarget : ',CheckTarget);
+    }
+    //delete -> 한개씩만 삭제됨
+    const handleDelete = () => {
+      const body = {
+        check : CheckTarget
+      }
+      axios.post('/api/delete', body);
+      window.location.reload();
+    }
   //근무부서 선택
-  const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];
   function tagRender(props) {
     const { label, value, closable, onClose } = props;
     return (
@@ -23,75 +41,15 @@ function Manage(props) {
       </Tag>
     );
   }
-  const columns = [
-    {
-      title: <Checkbox onChange={onChange}></Checkbox>,
-      dataIndex: '선택',
-      key: '선택',
-    },
-    {
-      title: '부서',
-      dataIndex: '부서',
-      key: '부서',
-    },
-    {
-      title: '직급',
-      dataIndex: '직급',
-      key: '직급',
-    },
-    {
-      title: '사원번호',
-      dataIndex: '사원번호',
-      key: '사원번호',
-    },
-    {
-      title: '사원이름',
-      dataIndex: '사원이름',
-      key: '사원이름',
-    },
-    {
-      title: '비밀번호',
-      dataIndex: '비밀번호',
-      key: '비밀번호',
-    },
-    {
-      title: 'email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '핸드폰번호',
-      dataIndex: '핸드폰번호',
-      key: '핸드폰번호',
-    },
-    {
-      title: '우편번호',
-      dataIndex: '우편번호',
-      key: '우편번호',
-    },
-    {
-      title: '주소',
-      dataIndex: '주소',
-      key: '주소',
-    },
-    {
-      title: '비고',
-      dataIndex: '비고',
-      key: '비고',
-    }
-  ];
-  
-    //칼럼 안 데이터
-    const [data, setData] = useState([]);
-
+  //데이터 GET
     useEffect(() => {
       axios.get('/api/manage').then(response => {
         var temp = {};
         for(var i=0; i< response.data.length; i++) {
           temp = {
             key: String(i+1),
-            선택: <Checkbox onChange={onChange}></Checkbox>,
-            부서: response.data[i].dept,
+            선택: <Checkbox onChange={onChange} value={response.data[i].id}></Checkbox>,
+            dept: response.data[i].dept,
             직급: response.data[i].rank,
             사원번호: response.data[i].id,
             사원이름: response.data[i].name,
@@ -161,15 +119,15 @@ function Manage(props) {
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                 <ManageAdd></ManageAdd>
-                <Button>삭제</Button>
+                <Button onClick={handleDelete}>삭제</Button>
                 <Button>수정</Button>
-                <Button>저장</Button>
+                <Button onClick={handleSave}>확인(개발)</Button>
               </div>
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
+              Ant Design ©2018 Created by Ant UED
+            </Footer>
       </Layout>
     </Layout>
     </div>

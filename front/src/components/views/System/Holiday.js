@@ -36,25 +36,20 @@ function Holiday(props) {
   function onSearch(val) {
     console.log('search:', val);
   }
-
   const [data, setData] = useState([]);
-  onclick = () => {
-    fetch("http://http://localhost:5000/api/smallcode", { 
-      method: "post", //통신방법
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        this.setState({
-          setdata: json.SmallInfo,
-        });
-      });
-  };
-
+  useEffect(() => {
+    axios.get('/api/smallcode').then(response => {
+      var temp = {};
+      for(var i=0; i< response.data.length; i++) {
+        temp = {
+          key: String(i+1),
+          소코드: response.data[i].SmallCode,
+          코드정보: response.data[i].SmallInfo
+        };
+        setData(data => [...data, temp]); 
+      }
+    });
+}, []);
 
   //팝업
   const [Visible, setVisible] = useState(false);
@@ -129,18 +124,19 @@ function Holiday(props) {
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          onSearch={data}
+          onSearch={onSearch}
           filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
-         <Option value={data}/>
+         <Option disabled={data}/>
         
          </Select>
-          
+        
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>
           <TextArea  rows={8}  />
         </Modal>
+       
             </Content>
       </Layout>
     </Layout>

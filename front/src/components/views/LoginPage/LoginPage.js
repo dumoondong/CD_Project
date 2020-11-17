@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import LogoImage from './LoginImage/simile.png';
+import LiveClock from '../MainPage/LiveClock';
+import LogoImage from '../LoginPage/LoginImage/simile.png'
 
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
 //16.8버전 이후로는 funtion에서도 state를 가져올 수 있음 (useState 사용)
@@ -34,8 +35,12 @@ function LoginPage(props) {
         // dispatch 함수에는 액션을 파라미터로 전달
         dispatch(loginUser(body))//데이터를 body에 담아서 action으로 보냄
             .then(response => { //앞의 함수가 처리되고 응답(response)한 데이터가 들어가있다.
+                //console.log(response.payload);
                 if(response.payload.loginSuccess){ //응답한 payload에 있는 loginSuccess의 true,false값을 확인
-                    props.history.push('/main') //로그인에 성공하면 시작페이지로 돌아옴
+                   if(response.payload.grant === 'system'){
+                    props.history.push('/holiday')
+                   }else if(response.payload.grant === 'employee')
+                    props.history.push('/main'); //로그인에 성공하면 시작페이지로 돌아옴
                 }
                 else {
                     alert(response.payload.message);

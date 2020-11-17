@@ -5,7 +5,7 @@ import {
 } from './types';
 //dataToSubmit에는 넘어온 body 데이터가 들어가 있다.;로그인 액션
 export function loginUser(dataToSubmit){
-    const request = axios.post('/api/login', dataToSubmit)
+    const request = axios.post('/api/users/login', dataToSubmit)
         .then(response => response.data)
 
     return {
