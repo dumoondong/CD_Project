@@ -59,6 +59,7 @@ app.get('/api/manage', (req, res) => {
     res.send(rows);
   });
 });
+//공통코드 관련
 app.get('/api/SmallCode', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
     if (error) throw error;
@@ -66,7 +67,16 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
-
+//로그인한 유저 관련
+app.get('/api/username',(req, res) => {
+  //console.log(req.session.userId);
+  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
+    if (error) throw error;
+    return res.json({
+      userName : rows[0].name
+    });
+  });
+});
 
 //port number를 콘솔에 출력
 app.listen(port, () => {

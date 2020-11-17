@@ -30,10 +30,7 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
               });
           } else {
               if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
-                console.log(req.session);
                 req.session.userId = userInfo[0].id;
-                //console.log(userInfo[0].id);
-                //console.log(req.session);
                 return res.json({
                   loginSuccess: true,
                   message: "로그인 성공!",
