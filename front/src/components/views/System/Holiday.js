@@ -11,7 +11,6 @@ const { Header, Content, Sider, Footer } = Layout;
 function Holiday(props) {
   const [Date, setDate] = useState('');
 
-
   function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
   }
