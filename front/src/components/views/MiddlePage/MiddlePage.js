@@ -67,7 +67,7 @@ const options = [
   { value: '2018', label: '2018' },
 ];
 
-function MiddlePage(value) {
+function MiddlePage(props) {
 
   const [selectedOption, setSelectedOption] = useState(null);
   console.log(setSelectedOption);

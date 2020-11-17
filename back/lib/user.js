@@ -2,23 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const app = express();
-//session 사용 모듈
-const session = require('express-session');
-const mysqlStore = require('express-mysql-session')(session);
-//session 사용
-app.use(session({
-    secret: 'asdqwe##',
-    resave: false,
-    saveUninitialized: true,
-    store:new mysqlStore({
-      host:'localhost',
-      port:3306,
-      user     : 'root',
-      password : '1234',
-      database : 'mydb'
-    })
-  }));
+
 //로그아웃
 router.get('/logout', (req, res) => {
     delete req.session.userId;
@@ -47,8 +31,6 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
           } else {
               if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
                 req.session.userId = userInfo[0].id;
-                //console.log(userInfo[0].id);
-                //console.log(req.session);
                 return res.json({
                   loginSuccess: true,
                   message: "로그인 성공!",
