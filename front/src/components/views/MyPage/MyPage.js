@@ -8,7 +8,7 @@ import LiveClock from '../MainPage/LiveClock';
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;
 
-function MyPage() {
+function MyPage(props) {
 
     return(
       <div>
@@ -40,13 +40,16 @@ function MyPage() {
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
-              <Link to="/mypage" />
+              <Link to="/ckmypage" />
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
+          <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+          </Header>
               
-          <Content style={{ margin: '0' }}>
+          <Content style={{ margin: '0', backgroundColor: 'white'}}>
             {/* 마이페이지 전체 div */}
             <div style = {{width: '700px', margin: '0px auto', backgroundColor: 'orange'}}>
                 <div>

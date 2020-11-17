@@ -8,6 +8,7 @@ import LogoImage from '../LoginPage/LoginImage/simile.png'
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
 //16.8버전 이후로는 funtion에서도 state를 가져올 수 있음 (useState 사용)
 //더 자세한 건 https://ko.reactjs.org/docs/hooks-intro.html
+
 function LoginPage(props) {
     const dispatch = useDispatch(); //redux
     //state 초기화
@@ -61,7 +62,7 @@ function LoginPage(props) {
                     <label>Password</label>
                     <input type="password" value={Password} onChange={onPasswordHandler} />
                     <br />
-                    <button>
+                    <button >
                         Login
                     </button>
                     <Link to="/">Home</Link>

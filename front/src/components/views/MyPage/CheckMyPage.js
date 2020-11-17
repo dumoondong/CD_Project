@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import 'antd/dist/antd.css';
-import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select, Descriptions, Input} from 'antd';
+import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, PageHeader,Button, Row, Col, Switch, Table, Select, Descriptions, Input} from 'antd';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import LiveClock from '../MainPage/LiveClock';
 
 const { Header, Content, Sider, Footer } = Layout;
 
-function CheckMyPage() {
+function CheckMyPage(props) {
    
     return (
         <div>
@@ -38,40 +38,39 @@ function CheckMyPage() {
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
-              <Link to="/mypage" />
+              <Link to="/ckmypage" />
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
+            <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+                <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            </Header>
               
-          <Content style={{ margin: '0' }}>
-            {/* 마이페이지 전체 div */}
-            <div style = {{width: '700px', margin: '0px auto', backgroundColor: 'orange'}}>
-                <div>
-                    <h2 style = {{textAlign: "center"}}>개인정보</h2>
-                </div>
-                <div  style = {{display: "flex"}}>
-                    <div style = {{margin: '0px auto'}}>
-                        <Descriptions bordered style = {{width: 700}}>
-                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>경리부</Descriptions.Item>
-                            <Descriptions.Item label="직급" span={3} style = {{textAlign: "center"}}>인턴</Descriptions.Item>
-                            <Descriptions.Item label="사원번호" span={3} style = {{textAlign: "center"}}>12</Descriptions.Item>
-                            <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>홍길이</Descriptions.Item>
-                            <Descriptions.Item label="새로운 비밀번호" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 입력"/></Descriptions.Item>
-                            <Descriptions.Item label="새로운 비밀번호 확인" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 확인"/></Descriptions.Item>
-                            <Descriptions.Item label="이메일" span={3} style = {{textAlign: "center"}}>hallym@naver.com</Descriptions.Item>
-                            <Descriptions.Item label="휴대폰 번호" span={3} style = {{textAlign: "center"}}>010-0101-0101</Descriptions.Item>
-                            <Descriptions.Item label="우편번호" span={3} style = {{textAlign: "center"}}>12345</Descriptions.Item>
-                            <Descriptions.Item label="주소" span={3} style = {{textAlign: "center"}}>춘천시</Descriptions.Item>
-                        </Descriptions>
+            <Content style={{ margin: '0', backgroundColor: 'white'}}>
+                <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
+                    <Breadcrumb.Item>
+                        <PageHeader
+                            title="개인정보변경">   
+                        </PageHeader>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+
+                <div style={{width: '380px', height: '400px', margin: '0 auto'}}>
+                    <div style = {{marginBottom: '20px'}}>
+                        <h2 style = {{textAlign: "center"}}>본인확인</h2>
+                    </div>
+                    <div style = {{display: 'inline-block'}}>
+                        현재 비밀번호 : 
+                    </div>
+                    <div style = {{display: 'inline-block', margin: '0 10px'}}>
+                        <input type = "password" style={{ width:"200px" }}/>
+                    </div>
+                    <div style = {{display: 'inline-block'}}>
+                        <Button href = '/mypage'>확인</Button>
                     </div>
                 </div>
-                <div>
-                    <Button style = {{float: 'right'}}>취소</Button>
-                    <Button style = {{float: 'right'}}>확인</Button>
-                </div>
-            </div>
-          </Content>
+            </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>
