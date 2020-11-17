@@ -18,7 +18,7 @@ const bodyParser = require('body-parser');
   secret: 'asdqwe##',
   resave: false,
   saveUninitialized: true,
-  stroe:new mysqlStore({
+  store:new mysqlStore({
     host:'localhost',
     port:3306,
     user:'root',
@@ -48,45 +48,6 @@ app.get('/api/hello',(req,res)=>{
 
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
-
-//로그인(로그인 주소가 넘어옴)
-app.post('/api/login', (req, res) => { //request부분에 front에서 넘어온 데이터가 저장됨
-  // 시스템 관리자 페이지 구분,GRANT
-  if(req.body.email === 'root' && req.body.password === '1111'){
-      return res.json({
-      loginSuccess: true,
-      message: "시스템 관리자",
-      grant: 'system'
-      });
-  } else {
-      db.query(`select * from employee where email='${req.body.email}'`, (err,userInfo) => { //검색 부분 (수정해야함. 다른 기능도 만들고 수정)
-        if(err) throw err;
-        if(userInfo[0] === undefined){
-          return res.json({
-            loginSuccess: false,
-            message: "해당 이메일이 없습니다."
-            });
-        } else {
-            if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
-              req.session.email = userInfo[0].email;
-              console.log('session : ',req.session);
-              req.session.save();
-              return res.json({
-                loginSuccess: true,
-                message: "로그인 성공!",
-                grant: 'employee'
-                });
-          } else { 
-              return res.json({
-              loginSuccess: false,
-              message: "이메일 또는 패스워드가 올바르지 않습니다."
-              });
-          }
-      } 
-    });
-  }
-  
-});
 
 app.post('/api/delete',(req,res)=>{
   console.log(req.body.check);

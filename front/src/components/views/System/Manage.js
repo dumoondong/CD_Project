@@ -7,7 +7,6 @@ import LiveClock from '../MainPage/LiveClock';
 import ManageAdd from '../RegisterPage/ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ColumnTable from './columnTable';
-import { useStore } from 'react-redux';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -127,8 +126,8 @@ function Manage(props) {
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
+              Ant Design ©2018 Created by Ant UED
+            </Footer>
       </Layout>
     </Layout>
     </div>
