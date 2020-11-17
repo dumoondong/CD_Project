@@ -14,8 +14,8 @@ app.use(session({
     store:new mysqlStore({
       host:'localhost',
       port:3306,
-      user:'root',
-      password:'1111',
+      user     : 'root',
+      password : '1234',
       database : 'mydb'
     })
   }));
