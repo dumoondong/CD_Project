@@ -50,7 +50,7 @@ function Holiday(props) {
       .then((json) => {
         console.log(json);
         this.setState({
-          data: json.SmallInfo,
+          setdata: json.SmallInfo,
         });
       });
   };
