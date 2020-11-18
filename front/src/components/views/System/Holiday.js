@@ -162,6 +162,7 @@ function Holiday(props) {
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>
           <TextArea  rows={8}  />
         </Modal>
+        <button/>
             </Content>
       </Layout>
     </Layout>
