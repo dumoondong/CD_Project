@@ -87,6 +87,7 @@ const columns = [
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/ckmypage" />
             </Menu.Item>
           </Menu>
         </Sider>
