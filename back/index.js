@@ -59,14 +59,6 @@ app.get('/api/manage', (req, res) => {
     res.send(rows);
   });
 });
-//공통코드 관련
-app.get('/api/SmallCode', (req, res) => {
-  db.query('SELECT * from SmallCode', (error, rows) => {
-    if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
-  });
-});
 //로그인한 유저 관련
 app.get('/api/username',(req, res) => {
   //console.log(req.session.userId);
@@ -75,6 +67,26 @@ app.get('/api/username',(req, res) => {
     return res.json({
       userName : rows[0].name
     });
+  });
+});
+//공통코드 관련
+app.get('/api/SmallCode', (req, res) => {
+  db.query('SELECT * from SmallCode', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
+  });
+});
+//휴일설정 db에 저장
+app.get('/api/holidaysave', (req, res) => {
+  db.query('SELECT * from holiday', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    return res.json({
+      holidaySaveSuccess: true,
+      message: "등록성공",
+      
+      });
   });
 });
 
