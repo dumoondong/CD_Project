@@ -92,9 +92,11 @@ const columns = [
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>메시지조회</Button>
-            <Button style={{marginRight:'1%'}}>메시지삭제</Button>
+            {/* <Button style={{marginRight:'1%'}}>메시지조회</Button> */}
+            {/* <Button style={{marginRight:'1%'}}>업무삭제</Button> */}
             {/* 로그인 시 유저 이름 및 로그아웃 */}
+            <Button style = {{textAlign: 'left'}}>업무요구</Button>
+            <Button style = {{textAlign: 'left'}}>업무조회</Button>
             <LoginedUser />
             <LogoutUser pageChange={props}/>
           </Header>
