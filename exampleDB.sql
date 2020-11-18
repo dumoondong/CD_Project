@@ -25,6 +25,7 @@ INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VAL
 
 # 데이터 삭제
 delete from employee where id = '1113';
+delete from employee;
 
 # 데이터 수정
 update employee SET name = "test" where email="test@test.com";

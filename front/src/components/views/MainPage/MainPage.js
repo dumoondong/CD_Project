@@ -46,7 +46,7 @@ function MainPage(props) {
     }
 
     console.log(body);
-    /* 구현 중 */
+    /* 구현 중 테스트 중*/
     axios.get('/api/onWork',body).then(res => {
       console.log(res.data);
     });
