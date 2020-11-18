@@ -79,17 +79,20 @@ app.get('/api/SmallCode', (req, res) => {
 });
 //휴일설정 db에 저장
 app.get('/api/holidaysave', (req, res) => {
-  db.query('SELECT * from holiday', (error, rows) => {
-    if (error) throw error;
-    console.log('User info is \n', rows);
-    return res.json({
-      holidaySaveSuccess: true,
-      message: "등록성공",
-      
-      });
-  });
+  db.query(`INSERT INTO holiday(id, name) VALUES(?, ?)`,
+  [req.body.Date, req.body.HoliManage],(err,result) => {
+    if(err) {
+      return  res.json({
+        holidaySaveSuccess: false,
+          message: "실패"
+          });  
+  }
+  return res.json({
+    holidaySaveSuccess: true,
+      message: "성공"
+      });  
 });
-
+});
 
 //port number를 콘솔에 출력
 app.listen(port, () => {
