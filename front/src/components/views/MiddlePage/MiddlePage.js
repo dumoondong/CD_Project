@@ -99,10 +99,11 @@ function MiddlePage(props) {
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
+              <Link to="/employee" />
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
-              <Link to="/mypage" />
+              <Link to="/ckmypage" />
             </Menu.Item>
           </Menu>
         </Sider>
