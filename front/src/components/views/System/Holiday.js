@@ -4,12 +4,16 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
+import { useDispatch } from 'react-redux';
+import { holidayInfo } from '../../../_actions/holiday_action';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const {Text} = Typography;
 const { Header, Content, Sider, Footer } = Layout;
 const { Option} = Select;
 const { TextArea } = Input;
 function Holiday(props) {
+  const dispatch = useDispatch(); //redux
+  
   //캘린더
   const [Date, setDate] = useState('');
   function onPanelChange(value, mode) {
@@ -40,32 +44,48 @@ function Holiday(props) {
  //휴일 종류 설정
   const [data, setData] = useState([]);
   const [Opt, setOpt] = useState([]);
+  
   useEffect(() => {
     axios.get('/api/smallcode').then(response => {
       var temp = {};
       for(var i=0; i< response.data.length; i++) {
         temp = {
-          소코드: response.data[i].SmallCode,
-          코드정보: response.data[i].SmallInfo
+          SmallCode: response.data[i].SmallCode,
+          SmallInfo: response.data[i].SmallInfo
         };
         setData(data => [...data, temp]);
         setOpt(Opt => [...Opt,response.data[i].SmallInfo]);
       }
     });
 }, []);
-
-
   //팝업
   const [Visible, setVisible] = useState(false);
   const showModal = (value) => {
     setVisible(true);
   };
- 
+ //취소
   const handleCancel = () => {
     setVisible(false);
   };
+  //저장
   const handleOk = () => {
     setVisible(false);
+    let body = {
+      Date:Date,
+      data:data
+      
+    }
+    dispatch(holidayInfo(body))
+            .then(response => { 
+                if(response.payload.holidaySaveSuccess){ 
+                  window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
+                  alert('Success!',);
+                  console.log(response.payload.holidaySaveSuccess);
+                }
+                else {
+                  alert('Failed to sign up...');
+                }
+            }) 
   }
   return (
     <div>
