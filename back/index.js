@@ -9,6 +9,18 @@ const bodyParser = require('body-parser');
   app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.json());
+
+//session 사용 모듈
+const session = require('express-session');
+const mysqlStore = require('express-mysql-session')(session);
+const sessionDB = require('./config/sessionDB');
+//session 사용
+app.use(session({
+    secret: 'asdqwe##',
+    resave: false,
+    saveUninitialized: true,
+    store:new mysqlStore(sessionDB)
+  }));
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
 app.get('/', (req, res) => { //삭제 예정
@@ -47,6 +59,7 @@ app.get('/api/manage', (req, res) => {
     res.send(rows);
   });
 });
+//공통코드 관련
 app.get('/api/SmallCode', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
     if (error) throw error;
@@ -54,7 +67,16 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
-
+//로그인한 유저 관련
+app.get('/api/username',(req, res) => {
+  //console.log(req.session.userId);
+  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
+    if (error) throw error;
+    return res.json({
+      userName : rows[0].name
+    });
+  });
+});
 
 //port number를 콘솔에 출력
 app.listen(port, () => {

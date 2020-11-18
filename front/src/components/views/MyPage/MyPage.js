@@ -3,7 +3,8 @@ import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select, Descriptions, Input} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
-
+import LoginedUser from '../../../utils/LoginedUser';
+import LogoutUser from '../../../utils/LogoutUser';
 
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;
@@ -37,6 +38,7 @@ function MyPage(props) {
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
+              <Link to="/employee" />
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
@@ -46,7 +48,9 @@ function MyPage(props) {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            {/* 로그인 시 유저 이름 및 로그아웃 */}
+            <LoginedUser />
+            <LogoutUser pageChange={props}/>
           </Header>
               
           <Content style={{ margin: '0', backgroundColor: 'white'}}>
