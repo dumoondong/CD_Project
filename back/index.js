@@ -51,6 +51,12 @@ app.post('/api/delete',(req,res)=>{
     }
   });
 });
+
+app.get('/api/onWork'),(req, res) => {
+  console.log(req);
+  /* 구현 중 */
+}
+
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
   db.query('SELECT * from employee', (error, rows) => {
@@ -59,12 +65,13 @@ app.get('/api/manage', (req, res) => {
     res.send(rows);
   });
 });
-//로그인한 유저 관련
-app.get('/api/username',(req, res) => {
+//로그인한 유저 정보
+app.get('/api/userInfo',(req, res) => {
   //console.log(req.session.userId);
   db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
     if (error) throw error;
     return res.json({
+      userID : rows[0].id,
       userName : rows[0].name
     });
   });

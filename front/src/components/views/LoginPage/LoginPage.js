@@ -38,9 +38,10 @@ function LoginPage(props) {
                 //console.log(response.payload);
                 if(response.payload.loginSuccess){ //응답한 payload에 있는 loginSuccess의 true,false값을 확인
                    if(response.payload.grant === 'system'){
-                    props.history.push('/holiday')
-                   }else if(response.payload.grant === 'employee')
-                    props.history.push('/main'); //로그인에 성공하면 시작페이지로 돌아옴
+                        props.history.push('/holiday')
+                   }else if(response.payload.grant === 'employee'){
+                        props.history.push('/main'); //로그인에 성공하면 메인페이지로
+                   }
                 }
                 else {
                     alert(response.payload.message);
