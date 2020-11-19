@@ -18,6 +18,8 @@ import Manage from './components/views/System/Manage';
 import Code from './components/views/System/Code';
 import Holiday from './components/views/System/Holiday';
 import Employee from './components/views/Employee/Employee';
+import MasterManage from './components/views/Master/MasterManage';
+import MasterHoliday from './components/views/Master/MasterHoliday';
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
           <Route exact path="/code" component={Code} />
           <Route exact path="/holiday" component={Holiday} />
           <Route exact path="/employee" component={Employee} />
+          <Route exact path="/mastermanage" component={MasterManage} />
+          <Route exact path="/masterholiday" component={MasterHoliday} />
         </Switch>
       </div>
     </Router>//router(해당 페이지의 최적의 경로로 넘어갈 수 있게 해주는 기능) 설정
