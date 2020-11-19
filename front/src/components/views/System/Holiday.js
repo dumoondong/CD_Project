@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,message,
+import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,message,Badge,
   Breadcrumb, Calendar, Modal, Alert,Cascader,Typography} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
@@ -14,6 +14,46 @@ const { TextArea } = Input;
 function Holiday(props) {
   const dispatch = useDispatch(); //redux
   
+  //캘린더에 표시
+  function getListData(value) {
+    let listData;
+    switch (value.date()) {
+      case 16:
+        listData = [
+          { type: 'error', content: '회사창립일' },
+        ];
+        break;
+      default:
+    }
+    return listData || [];
+  }
+  function dateCellRender(value) {
+    const listData = getListData(value);
+    return (
+      <ul className="events">
+        {listData.map(item => (
+          <li key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  function getMonthData(value) {
+    if (value.month() === 8) {
+      return 1394;
+    }
+  }
+  function monthCellRender(value) {
+    const num = getMonthData(value);
+    return num ? (
+      <div className="notes-month">
+        <section>{num}</section>
+        <span>Backlog number</span>
+      </div>
+    ) : null;
+  }
+
   //캘린더
   const [Date, setDate] = useState('');
   function onPanelChange(value, mode) {
@@ -71,8 +111,8 @@ function Holiday(props) {
   const handleOk = () => {
     setVisible(false);
     let body = {
-      Date:Date,
-      data:data
+      Date:Date, //날짜
+      data:data  //휴일종류
       
     }
     dispatch(holidayInfo(body))
@@ -131,7 +171,7 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>     
-            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} />
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
            
         <Modal
           title="휴일설정"
