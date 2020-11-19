@@ -1,7 +1,7 @@
 import {
     LOGIN_USER,
     REGISTER_USER,
-    HOLIDAY_INFO
+    HOLIDAY_INFO,
 } from '../_actions/types';
 //이전state 값과 action값을 묶어서 store(index.js)로 보냄
 export default function(state= {}, action) {

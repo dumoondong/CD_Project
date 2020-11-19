@@ -52,10 +52,14 @@ app.post('/api/delete',(req,res)=>{
   });
 });
 
-app.get('/api/onWork'),(req, res) => {
+app.get('/api/onWork',(req, res) => {
   console.log(req);
   /* 구현 중 */
-}
+  return res.json({
+    success : true,
+    message:'ok'
+  });
+});
 
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
