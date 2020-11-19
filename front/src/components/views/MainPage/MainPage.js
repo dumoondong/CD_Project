@@ -27,29 +27,26 @@ function MainPage(props) {
   
   useEffect(() => {
     axios.get('/api/userInfo').then(res => {
-      //console.log(res.data);
       setuserID(res.data.userID);
     });
   }, []);
-  
-  function handleOnWork(){
-    console.log('MainPage => 유저ID : ',userID);
-    setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
-    console.log('날짜 :',Date);
-    console.log('시간 :',Time);
 
-    let body = {
+  function OnWorkSave(){
+    let body ={
       id:userID,
       date:Date,
       time:Time
     }
-
     console.log(body);
     /* 구현 중 테스트 중*/
     axios.get('/api/onWork',body).then(res => {
       console.log(res.data);
     });
+  }
+
+  function handleOnWork(){
+    setDate(moment().format('YYYY/MM/DD'));
+    setTime(moment().format('hh:mm:ss'));
   }
     //main
   return (
