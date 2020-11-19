@@ -14,6 +14,21 @@ const { TextArea } = Input;
 function Holiday(props) {
   const dispatch = useDispatch(); //redux
   
+  //holiday table 날짜 smallcode table 코드 정보 가져옴
+  const [ListData, setListData] = useState([]);
+  useEffect(() => {         
+    axios.get('/api/ListData').then(response => {
+      var temp = {};
+      for(var i=0; i< response.data.length; i++) {
+        temp = {
+          DATE: response.data[i].DATE,
+          SmallInfo: response.data[i].SmallInfo,
+        };
+        setListData(ListData => [...data, temp]);
+      }
+    });
+}, []);
+
   //캘린더에 표시
   function getListData(value) {
     let listData;
@@ -66,8 +81,13 @@ function Holiday(props) {
   }
 
   //휴일종류 선택
+  const [SaveCode,setSaveCode] = useState(''); //소코드
   function onChange(value) {
-    console.log(value);
+        for(var i=0; i< data.length; i++) {
+          if(data[i].SmallInfo === value)  {  
+            setSaveCode(data[i].SmallCode);       
+          }
+        }
   }
   function onBlur() {
     console.log('blur');
@@ -84,8 +104,8 @@ function Holiday(props) {
  //휴일 종류 설정
   const [data, setData] = useState([]);
   const [Opt, setOpt] = useState([]);
-  
-  useEffect(() => {
+
+  useEffect(() => {         
     axios.get('/api/smallcode').then(response => {
       var temp = {};
       for(var i=0; i< response.data.length; i++) {
@@ -93,8 +113,8 @@ function Holiday(props) {
           SmallCode: response.data[i].SmallCode,
           SmallInfo: response.data[i].SmallInfo
         };
-        setData(data => [...data, temp]);
-        setOpt(Opt => [...Opt,response.data[i].SmallInfo]);
+        setData(data => [...data, temp]);     // 이전값에 temp값 합쳐서 저장
+        setOpt(Opt => [...Opt,response.data[i].SmallInfo]);   
       }
     });
 }, []);
@@ -107,13 +127,19 @@ function Holiday(props) {
   const handleCancel = () => {
     setVisible(false);
   };
+  //비고
+  const [HoliContent,setHoliContent] =useState(''); 
+  const handleChangeHoliContent = (e) => { 
+    setHoliContent(e.currentTarget.value);
+  }
   //저장
   const handleOk = () => {
     setVisible(false);
+
     let body = {
       Date:Date, //날짜
-      data:data  //휴일종류
-      
+      SaveCode:SaveCode, //소코드
+      HoliContent:HoliContent, //비고
     }
     dispatch(holidayInfo(body))
             .then(response => { 
@@ -200,7 +226,10 @@ function Holiday(props) {
         ))}
          </Select>
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>
-          <TextArea  rows={8}  />
+          <TextArea  
+          rows={8} 
+          value={HoliContent}
+          onChange={handleChangeHoliContent}    />
         </Modal>
             </Content>
       </Layout>
