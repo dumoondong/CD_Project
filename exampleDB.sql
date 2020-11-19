@@ -25,6 +25,7 @@ INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VAL
 
 # 데이터 삭제
 delete from employee where id = '1113';
+delete from employee;
 
 # 데이터 수정
 update employee SET name = "test" where email="test@test.com";
@@ -34,6 +35,8 @@ set sql_safe_updates=0;
 
 # 데이터 조회
 select * from employee;
+select * from SmallCode;
+select * from Holiday;
 
 # 정식이 꺼 임시 테이블 및 데이터들
 create table SmallCode(
@@ -49,5 +52,5 @@ create table Holiday(
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
-
+# 안됨
 INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','cp001','test');

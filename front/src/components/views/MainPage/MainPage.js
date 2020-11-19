@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
+import moment from 'moment';
+import axios from 'axios';
 import LiveClock from './LiveClock';
 import MainTable from './MainTable';
 import LoginedUser from '../../../utils/LoginedUser';
@@ -11,23 +13,55 @@ const { Header, Content, Sider, Footer } = Layout;
 
 function MainPage(props) {
   //const mainProps = props;
-  const [date, setDate] = useState(''); //날짜 데이터
+  const [Picker, setPicker] = useState(''); //날짜 데이터
   //state 값을 조건에 따라 변경하는 함수
   const handleChange = value => {
       message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
-      setDate(value);
+      setPicker(value);
   };
+
+  //출근 버튼 부분
+  const [userID, setuserID] = useState('');
+  const [Date, setDate] = useState('');
+  const [Time, setTime] = useState('');
+  
+  useEffect(() => {
+    axios.get('/api/userInfo').then(res => {
+      //console.log(res.data);
+      setuserID(res.data.userID);
+    });
+  }, []);
+  
+  function handleOnWork(){
+    console.log('MainPage => 유저ID : ',userID);
+    setDate(moment().format('YYYY/MM/DD'));
+    setTime(moment().format('hh:mm'));
+    console.log('날짜 :',Date);
+    console.log('시간 :',Time);
+
+    let body = {
+      id:userID,
+      date:Date,
+      time:Time
+    }
+
+    console.log(body);
+    /* 구현 중 테스트 중*/
+    axios.get('/api/onWork',body).then(res => {
+      console.log(res.data);
+    });
+  }
     //main
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider style={{background:'dark'}}>
         <div>
-        <LiveClock></LiveClock>
+        <LiveClock />
         </div>
         {/* grid */}
         <Row>
-            <Col span={12}><Button block>출근</Button></Col>
+            <Col span={12}><Button block onClick={handleOnWork}>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
