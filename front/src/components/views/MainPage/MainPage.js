@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col} from 'antd';
+import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col, Modal} from 'antd';
 import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
 import moment from 'moment';
@@ -24,30 +24,34 @@ function MainPage(props) {
   const [userID, setuserID] = useState('');
   const [Date, setDate] = useState('');
   const [Time, setTime] = useState('');
-  
+  const [Visible, setVisible] = useState(false);
+
   useEffect(() => {
     axios.get('/api/userInfo').then(res => {
-      //console.log(res.data);
       setuserID(res.data.userID);
     });
-  }, []);
-  
-  function handleOnWork(){
-    console.log('MainPage => 유저ID : ',userID);
     setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
-    console.log('날짜 :',Date);
-    console.log('시간 :',Time);
+    setTime(moment().format('hh:mm:ss'));
+  }, []);
+  //팝업 창  
+  const handleOnWork = () => {
+    setVisible(true);
+    setDate(moment().format('YYYY/MM/DD'));
+    setTime(moment().format('hh:mm:ss'));
+  };
 
-    let body = {
+  const handleOk = () => {
+    setVisible(false);
+  }
+  const handleCheck = () =>{
+    let body ={
       id:userID,
       date:Date,
       time:Time
     }
-
     console.log(body);
     /* 구현 중 테스트 중*/
-    axios.get('/api/onWork',body).then(res => {
+    axios.get('/api/onWork', body).then(res => {
       console.log(res.data);
     });
   }
@@ -61,9 +65,20 @@ function MainPage(props) {
         </div>
         {/* grid */}
         <Row>
-            <Col span={12}><Button block onClick={handleOnWork}>출근</Button></Col>
+            <Col span={12}><Button block onClick={handleOnWork} onOk={handleOk}>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
+        <Modal
+          visible={Visible}
+          onOk={handleOk}
+          afterClose={handleCheck}
+          closable={false}
+          cancelButtonProps={{disabled: true}}
+          width={250}
+          style={{textAlign:'center'}}
+        >
+          출근되었습니다
+          </Modal>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <span>홈 바로가기</span>

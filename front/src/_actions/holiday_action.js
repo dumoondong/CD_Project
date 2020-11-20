@@ -9,6 +9,6 @@ export function holidayInfo(dataToSubmit){
 
     return {
         type: HOLIDAY_INFO,
-        payload: request //true,false를 받는 부분
+        payload: request //서버의 res.json() 값을 가져온다.
     }
 }
