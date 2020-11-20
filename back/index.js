@@ -93,10 +93,10 @@ app.get('/api/SmallCode', (req, res) => {
   });
 });
 //휴일설정 db에 저장
-app.get('/api/holidaysave', (req, res) => {
-  db.query(`INSERT INTO holiday(id, name) VALUES(?, ?)`,
-  [req.body.Date, req.body.HoliManage],(err,result) => {
-    if(err) {
+app.post('/api/holidaysave', (req, res) => {
+  db.query(`INSERT INTO holiday(Date,HoliManage,HoliContent) VALUES(?,?,?)`,
+  [req.body.Date, req.body.SaveCode, req.body.HoliContent],(error,result) => {
+    if(error) {
       return  res.json({
         holidaySaveSuccess: false,
           message: "실패"
@@ -107,6 +107,13 @@ app.get('/api/holidaysave', (req, res) => {
       message: "성공"
       });  
 });
+});
+app.get('/api/ListData', (req, res) => {
+  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
+    if (error) throw error;
+    console.log('holiday date\n', rows);
+    res.send(rows);
+  });
 });
 
 //port number를 콘솔에 출력
