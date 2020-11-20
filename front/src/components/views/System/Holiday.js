@@ -18,6 +18,9 @@ function Holiday(props) {
   const [ListData, setListData] = useState([]);
   const [Info, setInfo] = useState([]); 
   const [DateInfo, setDateInfo] = useState([]);
+  const [DayInfo,setDayInfo] = useState('');
+
+ 
   useEffect(() => {         
     axios.get('/api/ListData').then(response => {
       var temp = {};
@@ -26,25 +29,29 @@ function Holiday(props) {
           DATE: response.data[i].DATE,
           SmallInfo: response.data[i].SmallInfo,
         };
-        setListData(ListData => [...data, temp]);
         setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보 
         setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
       }
     });
+    setDayInfo(DateInfo[0],()=>{console.log(DayInfo)});
+
 }, []);
+
   //캘린더에 표시
   function getListData(value) {
+  
     let listData;
     switch (value.date()) {
-      case 16:
+      case 8:
         listData = [
-          { type: 'error', content: Info },
+          { type: 'error', content: Info},
         ];
         break;
       default:
     }
     return listData || [];
   }
+  
   function dateCellRender(value) {
     const listData = getListData(value);
     return (
@@ -57,6 +64,7 @@ function Holiday(props) {
       </ul>
     );
   }
+  
   function getMonthData(value) {
     if (value.month() === 8) {
       return 1394;
