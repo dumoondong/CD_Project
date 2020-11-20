@@ -24,3 +24,13 @@ export function registerUser(dataToSubmit){
         payload: request //true,false를 받는 부분
     }
 }
+//출근 버튼 액션
+export function onWorkUser(dataToSubmit){
+    const request = axios.post('/api/onWork', dataToSubmit)
+        .then(response => response.data)
+    
+    return {
+        type: ONWORK_USER,
+        payload: request //true,false를 받는 부분
+    }
+}

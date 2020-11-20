@@ -14,6 +14,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mysqlStore = require('express-mysql-session')(session);
 const sessionDB = require('./config/sessionDB');
+const { request } = require('express');
 //session 사용
 app.use(session({
     secret: 'asdqwe##',
@@ -55,15 +56,26 @@ app.post('/api/delete',(req,res)=>{
     }
   });
 });
-
-app.get('/api/onWork',(req, res) => {
-  console.log(req);
-  /* 구현 중 */
-  return res.json({
-    success : true,
-    message:'ok'
-  });
-});
+//출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
+app.post('/api/onWork',(req, res) => {
+      db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
+        if(userDate[0] === undefined){ //다른 날짜 유무
+          db.query(`INSERT INTO employeeWork(DATE,Time,id) VALUES(?,?,?)`,
+          [req.body.date, req.body.time, req.session.userId],(error,result) => {
+            if(error) throw error;
+            return res.json({
+              success : true,
+              message:'ok'
+            });
+          });
+        } else {
+            return res.json({
+              success : false,
+              message:'no'
+            });
+        }
+      });
+    });
 
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {

@@ -3,15 +3,18 @@ import { DatePicker, message, Layout, Menu, Breadcrumb, Button, Row, Col, Modal}
 import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
 import moment from 'moment';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import LiveClock from './LiveClock';
 import MainTable from './MainTable';
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
+import {onWorkUser} from '../../../_actions/user_action';
+
 
 const { Header, Content, Sider, Footer } = Layout;
 
 function MainPage(props) {
+  const dispatch = useDispatch();
   //const mainProps = props;
   const [Picker, setPicker] = useState(''); //날짜 데이터
   //state 값을 조건에 따라 변경하는 함수
@@ -21,23 +24,23 @@ function MainPage(props) {
   };
 
   //출근 버튼 부분
-  const [userID, setuserID] = useState('');
-  const [Date, setDate] = useState('');
+ // const [userID, setuserID] = useState('');
+  const [Date, setDate] = useState('2020/11/23');
   const [Time, setTime] = useState('');
   const [Visible, setVisible] = useState(false);
 
   useEffect(() => {
-    axios.get('/api/userInfo').then(res => {
-      setuserID(res.data.userID);
-    });
-    setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm:ss'));
+    // axios.get('/api/userInfo').then(res => {
+    //   setuserID(res.data.userID);
+    // });
+    //setDate(moment().format('YYYY/MM/DD'));
+    setTime(moment().format('hh:mm'));
   }, []);
   //팝업 창  
   const handleOnWork = () => {
     setVisible(true);
-    setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm:ss'));
+    //setDate(moment().format('YYYY/MM/DD'));
+    setTime(moment().format('hh:mm'));
   };
 
   const handleOk = () => {
@@ -45,16 +48,22 @@ function MainPage(props) {
   }
   const handleCheck = () =>{
     let body ={
-      id:userID,
+    //  id:userID,
       date:Date,
       time:Time
     }
     console.log(body);
     /* 구현 중 테스트 중*/
-    axios.get('/api/onWork', body).then(res => {
-      console.log(res.data);
-    });
-  }
+    dispatch(onWorkUser(body))
+            .then(response => { 
+                if(response.payload.success){ 
+                  console.log(response.payload);
+                }
+                else {
+                  alert('Failed...');
+                }
+            }) 
+          }
     //main
   return (
     <div>
