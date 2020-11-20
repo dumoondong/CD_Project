@@ -1,10 +1,8 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
+import { Layout, Menu, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker, Form} from 'antd';
 import 'antd/dist/antd.css';
 import LiveClock from './LiveClock';
-import MiddlePage from '../MiddlePage/MiddlePage';
-import MyPage from '../MyPage/MyPage';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
 
@@ -125,6 +123,7 @@ function OutWork(props) {
                   visible={Visible}
                   onOk={handleOk}
                   onCancel={handleCancel}
+                  destroyOnClose
                   width={750}
                 >
                   <div>

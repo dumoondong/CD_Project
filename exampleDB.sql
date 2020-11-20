@@ -52,6 +52,7 @@ create table Holiday(
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
+    
 # 안됨
 INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
 INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
@@ -60,3 +61,15 @@ select * from holiday;
 select * from SmallCode;
 
 SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
+
+# 직원근무조회 연습용 create, insert, select, drop
+create table worklist(
+		Date VARCHAR(12),
+        day VARCHAR(10)
+    );
+    
+insert into worklist(Date, day) values('2020-11-20', '월요일');
+insert into worklist(Date, day) values('2020-11-20', '화요일');
+select * from worklist;
+drop table worklist;
+
