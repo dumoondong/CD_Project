@@ -14,6 +14,9 @@ import {onWorkUser} from '../../../_actions/user_action';
 const { Header, Content, Sider, Footer } = Layout;
 
 function MainPage(props) {
+  const [Test, setTest] = useState('aaa-bbb-ccc');
+  console.log(Test.split('-')[0]);
+
   const dispatch = useDispatch();
   //const mainProps = props;
   const [Picker, setPicker] = useState(''); //날짜 데이터

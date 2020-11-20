@@ -7,10 +7,12 @@ import LiveClock from '../MainPage/LiveClock';
 import { useDispatch } from 'react-redux';
 import { holidayInfo } from '../../../_actions/holiday_action';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-const {Text} = Typography;
+import {test} from './HolidayAdd';
+
 const { Header, Content, Sider, Footer } = Layout;
 const { Option} = Select;
 const { TextArea } = Input;
+
 function Holiday(props) {
   const dispatch = useDispatch(); //redux
   
@@ -210,7 +212,7 @@ function Holiday(props) {
             </Breadcrumb>     
             <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
            
-        <Modal
+        {/* <Modal
           title="휴일설정"
           visible={Visible}
           onOk={handleOk}
@@ -242,7 +244,7 @@ function Holiday(props) {
           value={HoliContent}
           onChange={handleChangeHoliContent}
           />
-        </Modal>
+        </Modal> */}
             </Content>
       </Layout>
     </Layout>
