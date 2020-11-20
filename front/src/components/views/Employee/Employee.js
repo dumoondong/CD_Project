@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
+import LoginedUser from '../../../utils/LoginedUser';
+import LogoutUser from '../../../utils/LogoutUser';
+
 
 //칼럼
 const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
@@ -14,49 +17,62 @@ const options = [
   { value: '2019', label: '2019' },
   { value: '2018', label: '2018' },
 ];
-    const columns = [
-        {
-          title: '보낸날짜 및 시간',
-          dataIndex: 'Date',
-          key: 'Date',
-        },
-        {
-            title: '보낸 이',
-            dataIndex: 'User',
-            key: 'User',
-          },
-          {
-            title: '제목',
-            dataIndex: 'Title',
-            key: 'Title',
-          },
-          {
-            title: '내용',
-            dataIndex: 'Dsc',
-            key: 'Dsc',
-          },
-          {
-            title: '확인',
-            dataIndex: 'Check',
-            key: 'Check',
-          },
-        ];
-        const data = [
-           {
-             key: '1',
-             Date: 'YYYY/MM/DD',
-             User: 'Name',
-             Title: 'Title',
-            Dsc: 'Content',
-             Check: 'Check',
-           },
-        ];
-function Employee(value) {
-  const [selectedOption, setSelectedOption] = useState(null);
-  console.log(setSelectedOption);
-return (
-    <div>
-      <Layout style={{ minHeight: '100vh' }}>
+
+// const App = () => {
+//   const [rows, setRows] = useState([]);
+
+  
+
+// const addRow =() => {
+//   let data = {
+//     id: rows.length + 1,
+//     todo:""
+//   };
+//   setRows({...rows, data});
+// }
+const columns = [
+  {
+    title: '보낸날짜 및 시간',
+    dataIndex: 'Date',
+    key: 'Date',
+  },
+  {
+      title: '보낸 이',
+      dataIndex: 'User',
+      key: 'User',
+    },
+    {
+      title: '제목',
+      dataIndex: 'Title',
+      key: 'Title',
+    },
+    {
+      title: '내용',
+      dataIndex: 'Dsc',
+      key: 'Dsc',
+    },
+    {
+      title: '확인',
+      dataIndex: 'Check',
+      key: 'Check',
+    },
+  ];
+  const data = [
+     {
+       key: '1',
+       Date: 'YYYY/MM/DD',
+       User: 'Name',
+       Title: 'Title',
+      Dsc: 'Content',
+       Check: 'Check',
+     },
+  ];
+  function Employee(props) {
+    const [selectedOption, setSelectedOption] = useState(null);
+    console.log(setSelectedOption); 
+      return (
+        <div>
+        <Layout style={{ minHeight: '100vh' }}>
         <Sider style={{background:'dark'}}>
         <div>
         <LiveClock></LiveClock>
@@ -85,25 +101,31 @@ return (
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
+              <Link to="/ckmypage" />
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <Button style={{marginRight:'1%'}}>메시지조회</Button>
-            <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            {/* <Button style={{marginRight:'1%'}}>메시지조회</Button> */}
+            {/* <Button style={{marginRight:'1%'}}>업무삭제</Button> */}
+            {/* 로그인 시 유저 이름 및 로그아웃 */}
+            <LoginedUser />
+            <LogoutUser pageChange={props}/>
           </Header>
           <Content style={{ margin: '0 20px' }}>
+          <Button style = {{float: 'left'}}>업무요구</Button>
+          <Button style = {{textAlign: 'left'}}>업무조회</Button>  
             <div style = {{display: 'flex'}}>
               <div style = {{display: 'inline-block', margin: '0px auto'}}>
-                <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={Employee}>
-                  <Option value="2020">2020</Option>
-                  <Option value="2019">2019</Option>
-                  <Option value="2018">2018</Option>
-                  <Option value="2017">2017</Option>
-                  <Option value="2016">2016</Option>
-                </Select>
-                <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={Employee}>
+                  <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={Employee}>
+                    <Option value="2020">2020</Option>
+                    <Option value="2019">2019</Option>
+                    <Option value="2018">2018</Option>
+                    <Option value="2017">2017</Option>
+                    <Option value="2016">2016</Option>
+                  </Select>
+                  <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={Employee}>
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
                   <Option value="3">3</Option>
@@ -119,6 +141,7 @@ return (
                 </Select>
               </div>
               <Button style = {{float: 'right'}}>인쇄</Button>
+              {/* <Button onClick={addRow}>추가</Button> */}
             </div>  
             <Table columns={columns} dataSource={data} pagination={false} />
           </Content>

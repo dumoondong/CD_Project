@@ -55,12 +55,33 @@ app.post('/api/delete',(req,res)=>{
     }
   });
 });
+
+app.get('/api/onWork',(req, res) => {
+  console.log(req);
+  /* 구현 중 */
+  return res.json({
+    success : true,
+    message:'ok'
+  });
+});
+
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
   db.query('SELECT * from employee', (error, rows) => {
     if (error) throw error;
     console.log('User info is \n', rows);
     res.send(rows);
+  });
+});
+//로그인한 유저 정보
+app.get('/api/userInfo',(req, res) => {
+  //console.log(req.session.userId);
+  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
+    if (error) throw error;
+    return res.json({
+      userID : rows[0].id,
+      userName : rows[0].name
+    });
   });
 });
 //공통코드 관련
@@ -71,15 +92,21 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
-//로그인한 유저 관련
-app.get('/api/username',(req, res) => {
-  //console.log(req.session.userId);
-  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
-    if (error) throw error;
-    return res.json({
-      userName : rows[0].name
-    });
-  });
+//휴일설정 db에 저장
+app.get('/api/holidaysave', (req, res) => {
+  db.query(`INSERT INTO holiday(id, name) VALUES(?, ?)`,
+  [req.body.Date, req.body.HoliManage],(err,result) => {
+    if(err) {
+      return  res.json({
+        holidaySaveSuccess: false,
+          message: "실패"
+          });  
+  }
+  return res.json({
+    holidaySaveSuccess: true,
+      message: "성공"
+      });  
+});
 });
 
 //port number를 콘솔에 출력
