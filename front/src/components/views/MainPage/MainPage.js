@@ -74,7 +74,7 @@ function MainPage(props) {
         </div>
         {/* grid */}
         <Row>
-            <Col span={12}><Button block onClick={handleOnWork} onOk={handleOk}>출근</Button></Col>
+            <Col span={12}><Button block onClick={handleOnWork}>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
         </Row>
         <Modal

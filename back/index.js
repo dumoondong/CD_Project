@@ -14,7 +14,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mysqlStore = require('express-mysql-session')(session);
 const sessionDB = require('./config/sessionDB');
-const { request } = require('express');
 //session 사용
 app.use(session({
     secret: 'asdqwe##',
