@@ -2,9 +2,9 @@ import React, { useState} from "react";
 import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LiveClock from '../MainPage/LiveClock';
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
+import LiveClock from '../../../src/components/views/MainPage/LiveClock';
+import LoginedUser from '../../utils/LoginedUser';
+import LogoutUser from '../../utils/LogoutUser';
 
 
 const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
@@ -20,7 +20,7 @@ const options = [
 // const App = () => {
 //   const [rows, setRows] = useState([]);
 
-  
+
 
 // const addRow =() => {
 //   let data = {
@@ -83,26 +83,26 @@ const columns = [
           <Col span={12}><Button block>퇴근</Button></Col>
       </Row>
         <Menu theme="dark" defaultSelectedKeys={['4']} mode="inline">
-          <Menu.Item key="1">
-            <span>홈 바로가기</span>
-            <Link to="/main" />
-          </Menu.Item>
-          <Menu.Item key="2">
-            <span>연가</span>
-            <Link to="/outWork" />
-          </Menu.Item>
-          <Menu.Item key="3">
-            <span>근무조회</span>
-            <Link to="/middle" />
-          </Menu.Item>
-          <Menu.Item key="4">
-            <span>대표 업무지시 및 조회</span>
-            <Link to="/mastermanange" />
-          </Menu.Item>
-          <Menu.Item key="5">
-            <span>마이 페이지</span>
-            <Link to="/ckmypage" />
-          </Menu.Item>
+        <Menu.Item key="1">
+              <span>홈 바로가기</span>
+              <Link to="/mastermain" />
+            </Menu.Item>
+            <Menu.Item key="2">
+              <span>연가</span>
+              <Link to="/masteroutWork" />
+            </Menu.Item>
+            <Menu.Item key="3">
+              <span>근무조회</span>
+              <Link to="/mastermiddle" />
+            </Menu.Item>
+            <Menu.Item key="4">
+              <span>업무지시 및 조회</span>
+              <Link to="/mastermanage" />
+            </Menu.Item>
+            <Menu.Item key="5">
+              <span>마이 페이지</span>
+              <Link to="/masterpage" />
+            </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -153,4 +153,4 @@ const columns = [
   )
 };
 
-export default MasterManage
+export default MasterManage 
