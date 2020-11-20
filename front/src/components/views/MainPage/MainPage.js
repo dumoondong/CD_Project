@@ -25,35 +25,30 @@ function MainPage(props) {
 
   //출근 버튼 부분
  // const [userID, setuserID] = useState('');
-  const [Date, setDate] = useState('2020/11/23');
+  const [Date, setDate] = useState('');
   const [Time, setTime] = useState('');
   const [Visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // axios.get('/api/userInfo').then(res => {
-    //   setuserID(res.data.userID);
-    // });
-    //setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
+    setDate(moment().format('YYYY/MM/DD')); //현재 날짜
+    setTime(moment().format('hh:mm'));//현재 시각
   }, []);
   //팝업 창  
   const handleOnWork = () => {
     setVisible(true);
-    //setDate(moment().format('YYYY/MM/DD'));
+    setDate(moment().format('YYYY/MM/DD'));
     setTime(moment().format('hh:mm'));
   };
-
+  //확인 창
   const handleOk = () => {
     setVisible(false);
   }
+  //체크 시 출근
   const handleCheck = () =>{
-    let body ={
-    //  id:userID,
+    let body ={ //보낼 값
       date:Date,
       time:Time
     }
-    console.log(body);
-    /* 구현 중 테스트 중*/
     dispatch(onWorkUser(body))
             .then(response => { 
                 if(response.payload.success){ 
