@@ -16,6 +16,8 @@ function Holiday(props) {
   
   //holiday table 날짜 smallcode table 코드 정보 가져옴
   const [ListData, setListData] = useState([]);
+  const [Info, setInfo] = useState([]); 
+  const [DateInfo, setDateInfo] = useState([]);
   useEffect(() => {         
     axios.get('/api/ListData').then(response => {
       var temp = {};
@@ -25,17 +27,18 @@ function Holiday(props) {
           SmallInfo: response.data[i].SmallInfo,
         };
         setListData(ListData => [...data, temp]);
+        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보 
+        setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
       }
     });
 }, []);
-
   //캘린더에 표시
   function getListData(value) {
     let listData;
     switch (value.date()) {
       case 16:
         listData = [
-          { type: 'error', content: '회사창립일' },
+          { type: 'error', content: Info },
         ];
         break;
       default:
@@ -229,7 +232,8 @@ function Holiday(props) {
           <TextArea  
           rows={8} 
           value={HoliContent}
-          onChange={handleChangeHoliContent}    />
+          onChange={handleChangeHoliContent}
+          />
         </Modal>
             </Content>
       </Layout>
