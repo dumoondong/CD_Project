@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'antd/dist/antd.css';
-import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select, Descriptions, Input} from 'antd';
+import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select, Descriptions, Input, Modal} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
 import LoginedUser from '../../../utils/LoginedUser';
@@ -10,6 +10,19 @@ import LogoutUser from '../../../utils/LogoutUser';
 const { Header, Content, Sider, Footer } = Layout;
 
 function MyPage(props) {
+
+    //팝업
+    const [Visible, setVisible] = useState(false);
+    const showModal = () => {
+      setVisible(true);
+    };
+    const handleCancel = () => {
+      setVisible(false);
+     };
+    const handleOk = () => {
+      setVisible(false);
+    }
+
 
     return(
       <div>
@@ -76,8 +89,15 @@ function MyPage(props) {
                     </div>
                 </div>
                 <div>
-                    <Button style = {{float: 'right'}}>취소</Button>
-                    <Button style = {{float: 'right'}}>확인</Button>
+                    <Button style = {{float: 'right'}} href = '/ckmypage'>취소</Button>
+                    <Button style = {{float: 'right'}} onClick = {showModal}>확인</Button>
+                      <Modal
+                        visible={Visible}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                      >
+                      변경하시겠습니까?
+                      </Modal>
                 </div>
             </div>
           </Content>
