@@ -21,6 +21,8 @@ app.use(session({
     saveUninitialized: true,
     store:new mysqlStore(sessionDB)
   }));
+
+//nodejs 연습 및 axios 연습 (삭제예정)======================================================
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
 app.get('/', (req, res) => { //삭제 예정
@@ -39,6 +41,8 @@ app.get('/users', (req, res) => {
 app.get('/api/hello',(req,res)=>{
   res.send('안녕하세요~');
 });
+//=========================================================================================
+
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
 //직원 관리 데이터 삭제 부분 분리 예정
