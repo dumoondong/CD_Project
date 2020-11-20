@@ -16,7 +16,7 @@ create table employee(
 );
 
 # 테이블 삭제
-DROP TABLE employee;
+DROP TABLE holiday;
 
 # 데이터 넣기(임시 데이터)
 INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1113','홍길삼','123','test3@test.com','010-0000-0003','11111','춘천시','-','영업부','과장');
@@ -48,9 +48,15 @@ INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
 INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
 
 create table Holiday(
-        Date VARCHAR(8) NOT NULL,
+        Date VARCHAR(12) NOT NULL,
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
 # 안됨
-INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','cp001','test');
+INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
+INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
+
+select * from holiday;
+select * from SmallCode;
+
+SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;

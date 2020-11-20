@@ -21,6 +21,8 @@ app.use(session({
     saveUninitialized: true,
     store:new mysqlStore(sessionDB)
   }));
+
+//nodejs 연습 및 axios 연습 (삭제예정)======================================================
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
 app.get('/', (req, res) => { //삭제 예정
@@ -39,6 +41,8 @@ app.get('/users', (req, res) => {
 app.get('/api/hello',(req,res)=>{
   res.send('안녕하세요~');
 });
+//=========================================================================================
+
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
 //직원 관리 데이터 삭제 부분 분리 예정
@@ -52,10 +56,14 @@ app.post('/api/delete',(req,res)=>{
   });
 });
 
-app.get('/api/onWork'),(req, res) => {
+app.get('/api/onWork',(req, res) => {
   console.log(req);
   /* 구현 중 */
-}
+  return res.json({
+    success : true,
+    message:'ok'
+  });
+});
 
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
@@ -85,10 +93,10 @@ app.get('/api/SmallCode', (req, res) => {
   });
 });
 //휴일설정 db에 저장
-app.get('/api/holidaysave', (req, res) => {
-  db.query(`INSERT INTO holiday(id, name) VALUES(?, ?)`,
-  [req.body.Date, req.body.HoliManage],(err,result) => {
-    if(err) {
+app.post('/api/holidaysave', (req, res) => {
+  db.query(`INSERT INTO holiday(Date,HoliManage,HoliContent) VALUES(?,?,?)`,
+  [req.body.Date, req.body.SaveCode, req.body.HoliContent],(error,result) => {
+    if(error) {
       return  res.json({
         holidaySaveSuccess: false,
           message: "실패"
@@ -99,6 +107,13 @@ app.get('/api/holidaysave', (req, res) => {
       message: "성공"
       });  
 });
+});
+app.get('/api/ListData', (req, res) => {
+  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
+    if (error) throw error;
+    console.log('holiday date\n', rows);
+    res.send(rows);
+  });
 });
 
 //port number를 콘솔에 출력

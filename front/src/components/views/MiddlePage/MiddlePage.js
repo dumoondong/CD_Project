@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LiveClock from '../MainPage/LiveClock';
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
-
+import ReactDOM from 'react-dom'
 //칼럼
 const columns = [
     {
@@ -62,10 +62,19 @@ const data = [
 const { Header, Content, Sider, Footer } = Layout;
 const { Option } = Select;
 
+
 function MiddlePage(props) {
 
   const [selectedOption, setSelectedOption] = useState(null);
   console.log(setSelectedOption);
+
+  const printDiv = () => {
+    var printContents = ReactDOM.findDOMNode("printArea").innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
 
     return(
       <div>
@@ -135,10 +144,10 @@ function MiddlePage(props) {
                   </Select>
                 </div>
                 <div style = {{display: 'inline-block', float: 'right'}}>
-                  <Button>인쇄</Button>
+                  <Button onClick = {printDiv}>인쇄</Button>
                 </div>
               </div>
-              <div>
+              <div id = "printArea">
                 {/* 이름칸 div
                 <div style = {{display: 'inline-block', borderTop: 'solid 1px', borderLeft: 'solid 1px', borderBottom: 'solid 1px'}}>
                       <h1>이름</h1>
@@ -182,6 +191,7 @@ function MiddlePage(props) {
         </Layout>
       </Layout>
     </div>
+    
     );
 };
 
