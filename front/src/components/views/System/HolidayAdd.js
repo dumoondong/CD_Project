@@ -1,27 +1,19 @@
-import React,{useState} from 'react'
 import { Modal } from 'antd';
 
 function HolidayAdd(props) {
-    const [Visible, setVisible] = useState(false);
     
-    // useEffect(() => {
-    //     //setVisible(props);
-    // }, [])
-
-    console.log(props);
-    const handleOk = () => {
-        setVisible(false);
-    }
-
     const handleCancel = () => {
-        setVisible(false);
+        props.showCancel();
+      };
+    //팝업 저장(유저 생성)
+    const handleOk = () => {
+        props.showOk()
     }
-
     return (
         <>
-            <Modal
+        <Modal
           title="Basic Modal"
-          visible={Visible}
+          visible={props.showModal}
           onOk={handleOk}
           onCancel={handleCancel}
         >
@@ -30,9 +22,8 @@ function HolidayAdd(props) {
           <p>Some contents...</p>
         </Modal>
         </>
-    )
+    );
 }
 
 export default HolidayAdd
-
 

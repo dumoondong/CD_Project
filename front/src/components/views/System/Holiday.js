@@ -7,7 +7,7 @@ import LiveClock from '../MainPage/LiveClock';
 import { useDispatch } from 'react-redux';
 import { holidayInfo } from '../../../_actions/holiday_action';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {test} from './HolidayAdd';
+import HolidayAdd from './HolidayAdd';
 
 const { Header, Content, Sider, Footer } = Layout;
 const { Option} = Select;
@@ -132,22 +132,20 @@ function Holiday(props) {
     });
 }, []);
   //팝업
-  const [Visible, setVisible] = useState(false);
-  const showModal = (value) => {
-    setVisible(true);
-  };
+  // const [Visible, setVisible] = useState(false);
+  // const showModal = (value) => {
+  //   setVisible(true);
+  // };
  //취소
-  const handleCancel = () => {
-    setVisible(false);
-  };
+
   //비고
-  const [HoliContent,setHoliContent] =useState(''); 
+  const [HoliContent,setHoliContent] =useState(); 
   const handleChangeHoliContent = (e) => { 
     setHoliContent(e.currentTarget.value);
   }
   //저장
   const handleOk = () => {
-    setVisible(false);
+    //setVisible(false);
 
     let body = {
       Date:Date, //날짜
@@ -165,7 +163,22 @@ function Holiday(props) {
                   alert('Failed to sign up...');
                 }
             }) 
-  }
+          }
+    //분리 작업 테스트 성공...
+    const [Visible, setVisible] = useState(false);
+
+    const show = () => {
+      setVisible(true);
+    }
+
+    const showCancel = () => {
+      setVisible(false);
+    }
+
+    const showOk = () => {
+      setVisible(false);
+    }
+
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -210,8 +223,8 @@ function Holiday(props) {
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>     
-            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
-           
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={show} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
+            <HolidayAdd showModal={Visible} showOk={showOk} showCancel={showCancel}/>
         {/* <Modal
           title="휴일설정"
           visible={Visible}
