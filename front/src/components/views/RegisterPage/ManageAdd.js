@@ -7,7 +7,7 @@ const { Option } = Select;
 
 function ManageAdd(props){
   const dispatch = useDispatch(); //redux
-  const [Visible, setVisible] = useState(false);
+
   const [Id, setId] = useState('')
   const [Name, setName] = useState('');
   const [Password, setPassword] = useState('');
@@ -18,11 +18,7 @@ function ManageAdd(props){
   const [Des, setDes] = useState('');
   const [Dept, setDept] = useState('');
   const [Rank, setRank] = useState('');
-//팝업 활성
-  const showModal = () => {
-    setVisible(true);
-  };
-//state 값
+  //state 값
   const handleChangeId = (e) => {
     setId(e.currentTarget.value);
   }
@@ -57,11 +53,11 @@ function ManageAdd(props){
   }
 //팝업 취소
   const handleCancel = () => {
-    setVisible(false);
+    props.handleCancel();
   };
 //팝업 저장(유저 생성)
   const handleOk = () => {
-    setVisible(false);
+    props.handleOk();
 
     let body = {
       id:Id,
@@ -91,10 +87,9 @@ function ManageAdd(props){
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>추가</Button>
       <Modal
         title="추가"
-        visible={Visible}
+        visible={props.Visible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
