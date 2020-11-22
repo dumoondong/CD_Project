@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import { Modal, Select,Input,Button } from 'antd';
+import { Modal, Select,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
 

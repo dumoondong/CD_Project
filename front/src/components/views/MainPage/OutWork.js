@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Layout, Menu, Breadcrumb, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
 import 'antd/dist/antd.css';
-import LiveClock from './LiveClock';
+import LiveClock from '../../../utils/LiveClock';
 import MiddlePage from '../MiddlePage/MiddlePage';
 import MyPage from '../MyPage/MyPage';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";

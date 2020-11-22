@@ -3,7 +3,7 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import LiveClock from '../MainPage/LiveClock';
+import LiveClock from '../../../utils/LiveClock';
 import ManageAdd from '../RegisterPage/ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ColumnTable from './columnTable';
