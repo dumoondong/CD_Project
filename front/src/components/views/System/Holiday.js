@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../MainPage/LiveClock';
 import { Link } from "react-router-dom";
-import HolidayAdd from './HolidayAdd';
+import HolidayAdd from '../RegisterPage/HolidayAdd';
 
 const { Header, Content, Sider, Footer } = Layout;
 
