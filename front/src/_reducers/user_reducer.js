@@ -16,10 +16,10 @@ export default function(state= {}, action) {
             break;
             case HOLIDAY_INFO:
                 return { ...state, holidaySaveSuccess: action.payload }
-            break;
+            break; 
             case SMALLCODE_INFO:
                 return { ...state, smallcodeSaveSuccess: action.payload }
-
+            break;
             case ONWORK_USER:
                 return { ...state, success: action.payload }
             break; 
