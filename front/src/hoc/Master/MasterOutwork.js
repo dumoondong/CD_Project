@@ -1,12 +1,19 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
+import { Layout, Menu, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker, Form} from 'antd';
 import 'antd/dist/antd.css';
+<<<<<<< HEAD:front/src/components/views/MainPage/OutWork.js
+import LiveClock from './LiveClock';
+import { Link } from "react-router-dom";
+import LoginedUser from '../../../utils/LoginedUser';
+import LogoutUser from '../../../utils/LogoutUser';
+=======
 import LiveClock from '../../components/views/MainPage/LiveClock';
 import MiddlePage from '../../components/views/MiddlePage/MiddlePage';
 import MyPage from '../../components/views/MyPage/MyPage';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LoginedUser from '../../utils/LoginedUser';
 import LogoutUser from '../../utils/LogoutUser';
+>>>>>>> updateMain/main:front/src/hoc/Master/MasterOutwork.js
 
 const columns = [
   {
@@ -125,6 +132,7 @@ function MasterOutWork(props) {
                   visible={Visible}
                   onOk={handleOk}
                   onCancel={handleCancel}
+                  destroyOnClose
                   width={750}
                 >
                   <div>

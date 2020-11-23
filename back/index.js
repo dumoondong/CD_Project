@@ -103,6 +103,14 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
+app.get('/api/MasterCode', (req, res) => {
+  db.query('SELECT * from MasterCode', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
+  });
+});
+
 //휴일설정 db에 저장
 app.post('/api/holidaysave', (req, res) => {
   db.query(`INSERT INTO holiday(Date,HoliManage,HoliContent) VALUES(?,?,?)`,
@@ -119,10 +127,37 @@ app.post('/api/holidaysave', (req, res) => {
       });  
 });
 });
+//공통코드 db에 저장
+app.post('/api/smallcodesave', (req, res) => {
+  db.query(`INSERT INTO holiday(LargeCode,SmallCode,SmallInfo,SmallContent) VALUES(?,?,?,?)`,
+  [req.body.LargeCode, req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
+    if(error) {
+      return  res.json({
+        smallcodeSaveSuccess: false,
+          message: "실패"
+          });  
+  }
+  return res.json({
+    smallcodeSaveSuccess: true,
+      message: "성공"
+      });  
+});
+});
+
+
 app.get('/api/ListData', (req, res) => {
   db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
     if (error) throw error;
     console.log('holiday date\n', rows);
+    res.send(rows);
+  });
+});
+
+//근무조회db 연습
+app.get('/api/worklist', (req, res) => {
+  db.query('SELECT * from worklist', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
     res.send(rows);
   });
 });
