@@ -45,7 +45,7 @@ function Manage(props) {
       check : CheckTarget
     }
     axios.post('/api/delete', body);
-    window.location.reload();
+    window.location.replace('/manage');
   }
   //근무부서 선택
   const tagRender = (props) => {

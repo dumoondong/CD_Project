@@ -1,12 +1,9 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Row, Col, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
+import { Layout, Button, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
 import 'antd/dist/antd.css';
-import LiveClock from '../../../utils/LiveClock';
-import MiddlePage from '../MiddlePage/MiddlePage';
-import MyPage from '../MyPage/MyPage';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LoginedUser from '../../../utils/LoginedUser';
+import LoginedUser from '../../../utils/LoginedUser';///utils 폴더
 import LogoutUser from '../../../utils/LogoutUser';
+import SideBar from '../../../utils/SideBar';///여기까지
 
 const columns = [
   {
@@ -47,7 +44,7 @@ const data = [
   },
 ];
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -59,7 +56,6 @@ function OutWork(props) {
   }
 
   const setOnSelect = (value) => {
-    //console.log(value.format('YYYY-MM-DD'));
     setDate(...Date, value.format('YYYY-MM-DD'));
     console.log(Date);
   }
@@ -79,80 +75,46 @@ function OutWork(props) {
     return(
         <div>
           <Layout style={{ minHeight: '100vh' }}>
-          <Sider style={{background:'dark'}}>
-          <div>
-            <LiveClock></LiveClock>
-          </div>
-        {/* grid */}
-        <Row>
-          <Col span={12}><Button block>출근</Button></Col>
-          <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['2']} mode="inline">
-            <Menu.Item key="1">
-              <span>홈 바로가기</span>
-              <Link to="/main" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>연가</span>
-              <Link to="/outWork" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>근무조회</span>
-              <Link to="/middle" />
-            </Menu.Item>
-            <Menu.Item key="4">
-              <span>업무지시 및 조회</span>
-              <Link to="/employee" />
-            </Menu.Item>
-            <Menu.Item key="5">
-              <span>마이 페이지</span>
-              <Link to="/ckmypage" />
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-            <LoginedUser />
-            <LogoutUser pageChange={props}/>
-          </Header>
-          <Content style={{ margin: '0 16px' }}>
-            <Calendar/>
-            <div>
-              <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
-                <Modal
-                  title="휴일설정"
-                  visible={Visible}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                  width={750}
-                >
-                  <div>
-                    <Descriptions bordered style = {{width: 700}}>
-                      <Descriptions.Item label="날짜" span={3} style = {{textAlign: "center"}}><RangePicker /></Descriptions.Item>
-                      <Descriptions.Item label="연가종류" span={3} style = {{textAlign: "center"}}>
-                        <Select defaultValue="연가선택" style={{ width: 450 }} onChange={handleChange}>
-                          <Option value="연가">연가</Option>
-                          <Option value="병가">병가</Option>
-                          <Option value="공가">공가</Option>
-                          <Option value="특별휴가">특별휴가</Option>
-                        </Select>
-                      </Descriptions.Item>
-                      <Descriptions.Item label="연가내용" span={3} style = {{textAlign: "center"}}><Input style={{ width: 450 }}/></Descriptions.Item>
-                    </Descriptions>
-                  </div>
-                </Modal>
-            </div>
-            <div>
-              <Table columns={columns} dataSource={data} pagination={false} />
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
-        </Layout>
-      </Layout>
-    </div>
+            <SideBar DefaultKey={'2'}/>
+            <Layout>
+              <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+                <LoginedUser />
+                <LogoutUser pageChange={props}/>
+              </Header>
+              <Content style={{ margin: '0 16px' }}>
+                <Calendar/>
+                <div>
+                  <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
+                  <Modal
+                    title="휴일설정"
+                    visible={Visible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    width={750}
+                  >
+                    <div>
+                      <Descriptions bordered style = {{width: 700}}>
+                        <Descriptions.Item label="날짜" span={3} style = {{textAlign: "center"}}><RangePicker /></Descriptions.Item>
+                        <Descriptions.Item label="연가종류" span={3} style = {{textAlign: "center"}}>
+                          <Select defaultValue="연가선택" style={{ width: 450 }} onChange={handleChange}>
+                            <Option value="연가">연가</Option>
+                            <Option value="병가">병가</Option>
+                            <Option value="공가">공가</Option>
+                            <Option value="특별휴가">특별휴가</Option>
+                          </Select>
+                        </Descriptions.Item>
+                        <Descriptions.Item label="연가내용" span={3} style = {{textAlign: "center"}}><Input style={{ width: 450 }}/></Descriptions.Item>
+                      </Descriptions>
+                    </div>
+                  </Modal>
+                </div>
+                <div>
+                  <Table columns={columns} dataSource={data} pagination={false} />
+                </div>
+              </Content>
+            </Layout>
+          </Layout>
+        </div>
     );
 }
 

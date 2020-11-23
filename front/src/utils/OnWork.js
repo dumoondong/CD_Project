@@ -17,6 +17,7 @@ function OnWork(props) {
         }
         dispatch(onWorkUser(body))
                 .then(response => { 
+                    console.log(response);
                     if(response.payload.success){ 
                         console.log(response.payload);
                     }
