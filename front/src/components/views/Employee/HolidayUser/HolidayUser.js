@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import { Layout, Button, Table, Calendar, Modal, Descriptions, Input, Select, DatePicker} from 'antd';
-import 'antd/dist/antd.css';
-import LoginedUser from '../../../utils/LoginedUser';///utils 폴더
-import LogoutUser from '../../../utils/LogoutUser';
-import SideBar from '../../../utils/SideBar';///여기까지
+import 'antd/dist/antd.css'; //antd디자인 CSS
+import LoginedUser from '../../../../utils/LoginedUser';///utils 폴더
+import LogoutUser from '../../../../utils/LogoutUser';
+import SideBar from '../../../../utils/SideBar';///여기까지
 
 const columns = [
   {

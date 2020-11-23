@@ -50,15 +50,15 @@ function SideBar(props) {
                   <span>연가</span>
                   <Link to="/holidayuser" />
                 </Menu.Item>
-                <Menu.Item key="3" >
+                {/* <Menu.Item key="3" >
                   <span>근무조회</span>
                   <Link to="/middle" />
+                </Menu.Item> */}
+                <Menu.Item key="3" >
+                  <span>업무지시 및 조회</span>
+                  <Link to="/workmanage" />
                 </Menu.Item>
                 <Menu.Item key="4" >
-                  <span>업무지시 및 조회</span>
-                  <Link to="/employee" />
-                </Menu.Item>
-                <Menu.Item key="5" >
                   <span>마이 페이지</span>
                   <Link to="/ckmypage" />
                 </Menu.Item>

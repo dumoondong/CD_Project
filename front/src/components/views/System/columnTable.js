@@ -1,5 +1,5 @@
 import { Checkbox } from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 //테이블 칼럼 틀
 const columnTable = [
     {
