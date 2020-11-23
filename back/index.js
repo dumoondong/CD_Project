@@ -162,6 +162,15 @@ app.get('/api/worklist', (req, res) => {
   });
 });
 
+//mypage조회 연습
+app.get('/api/mypage', (req, res) => {
+  db.query('SELECT dept from employee', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
+  });
+});
+
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

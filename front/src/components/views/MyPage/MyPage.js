@@ -1,15 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Layout, Menu, Button, Row, Col, Descriptions, Input, Modal} from 'antd';
 import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
 import LiveClock from '../../../utils/LiveClock';
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
+import SideBar from '../../../utils/SideBar';
+import axios from 'axios';
 
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;
 
 function MyPage(props) {
+  const columns = [
+    {
+        title: '부서',
+        dataIndex: '부서',
+        key: '부서',
+      },
+      {
+        title: '직급',
+        dataIndex: '직급',
+        key: '직급',
+      },
+      {
+        title: '사원번호',
+        dataIndex: '사원번호',
+        key: '사원번호',
+      },
+      {
+        title: '사원이름',
+        dataIndex: '사원이름',
+        key: '사원이름',
+      },
+      {
+        title: 'email',
+        dataIndex: 'email',
+        key: 'email',
+      },
+      {
+        title: '핸드폰번호',
+        dataIndex: '핸드폰번호',
+        key: '핸드폰번호',
+      },
+      {
+        title: '우편번호',
+        dataIndex: '우편번호',
+        key: '우편번호',
+      },
+      {
+        title: '주소',
+        dataIndex: '주소',
+        key: '주소',
+      },
+  ];
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/manage').then(response => {
+      var temp = {};
+      console.log(response.data);
+      for(var i=0; i< response.data.length; i++) {
+        temp = {
+          key: String(i+1),
+          부서: response.data[i].dept,
+          직급: response.data[i].rank,
+          사원번호: response.data[i].id,
+          사원이름: response.data[i].name,
+          email: response.data[i].email,
+          핸드폰번호: response.data[i].phone,
+          우편번호: response.data[i].zim,
+          주소: response.data[i].address,
+        };
+        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
+      }
+    });
+  }, []);
 
     //팝업
     const [Visible, setVisible] = useState(false);
@@ -27,38 +94,7 @@ function MyPage(props) {
     return(
       <div>
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider style={{background:'dark'}}>
-          <div>
-              <LiveClock></LiveClock>
-          </div>
-          {/* grid */}
-          <Row>
-              <Col span={12}><Button block>출근</Button></Col>
-              <Col span={12}><Button block>퇴근</Button></Col>
-          </Row>
-          <Menu theme="dark" defaultSelectedKeys={['5']} mode="inline">
-            <Menu.Item key="1">
-              <span>홈 바로가기</span>
-              <Link to="/main" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>연가</span>
-              <Link to="/outWork" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>근무조회</span>
-              <Link to="/middle" />
-            </Menu.Item>
-            <Menu.Item key="4">
-              <span>업무지시 및 조회</span>
-              <Link to="/employee" />
-            </Menu.Item>
-            <Menu.Item key="5">
-              <span>마이 페이지</span>
-              <Link to="/ckmypage" />
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        <SideBar DefaultKey={'5'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
             {/* 로그인 시 유저 이름 및 로그아웃 */}
@@ -75,7 +111,7 @@ function MyPage(props) {
                 <div  style = {{display: "flex"}}>
                     <div style = {{margin: '0px auto'}}>
                         <Descriptions bordered style = {{width: 700}}>
-                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>경리부</Descriptions.Item>
+                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>경리</Descriptions.Item>
                             <Descriptions.Item label="직급" span={3} style = {{textAlign: "center"}}>인턴</Descriptions.Item>
                             <Descriptions.Item label="사원번호" span={3} style = {{textAlign: "center"}}>12</Descriptions.Item>
                             <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>홍길이</Descriptions.Item>
