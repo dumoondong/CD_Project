@@ -42,11 +42,12 @@ function Code(props) {
     );
   }
   useEffect(() => {
-    axios.get('/api/smallcode').then(response => {
+    axios.get('/api/codetable').then(response => {
       var temp = {};
       for(var i=0; i< response.data.length; i++) {
         temp = {
           key: String(i+1),
+          대코드: response.data[i].LargeCode,
           선택: <Checkbox onChange={onChange} value={response.data[i].id}></Checkbox>,
           소코드: response.data[i].SmallCode,
           코드정보: response.data[i].SmallInfo,

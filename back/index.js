@@ -144,7 +144,13 @@ app.post('/api/smallcodesave', (req, res) => {
 });
 });
 
-
+app.get('/api/codetable', (req, res) => {
+  db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
+    if (error) throw error;
+    console.log('holiday date\n', rows);
+    res.send(rows);
+  });
+});
 
 app.get('/api/ListData', (req, res) => {
   db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
