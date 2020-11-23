@@ -1,20 +1,38 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
   Breadcrumb} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from '../RegisterPage/CodeAdd';
+import CodeAdd from '../SystemAdd/CodeAdd';
+import CodeColumn from './CodeColumn';
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
+
+  const columns = CodeColumn;//CodeColumn테이블 
+  const [data, setData] = useState([]);//칼럼 안 데이터
+  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
+  const [CheckTarget, setCheckTarget] = useState('');
   //선택 체크박스
   function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
+    console.log('e.target.value : ',e.target.value);
+    setCheckTarget(e.target.value);
   }
-  //선택창
-  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
+      //확인용
+      const handleSave = () => {
+        console.log('CheckTarget : ',CheckTarget);
+      }
+      //delete -> 한개씩만 삭제됨
+      const handleDelete = () => {
+        const body = {
+          check : CheckTarget
+        }
+        axios.post('/api/delete', body);
+        window.location.reload();
+      }
+    //근무부서 선택
   function tagRender(props) {
     const { label, value, closable, onClose } = props;
     return (
@@ -23,53 +41,26 @@ function Code(props) {
       </Tag>
     );
   }
-  const columns = [
-    {
-      title: <Checkbox onChange={onChange}></Checkbox>,
-      dataIndex: '선택',
-      key: '선택',
-    },
-    {
-        title: '대코드',
-        dataIndex: '대코드',
-        key: '대코드',
-    },
-    {
-      title: '소코드',
-      dataIndex: '소코드',
-      key: '소코드',
-    },
-    {
-      title: '코드정보',
-      dataIndex: '코드정보',
-      key: '코드정보',
-    },
-    {
-      title: '비고',
-      dataIndex: '비고',
-      key: '비고',
-    }
-  ];
-
-    //칼럼 안 데이터
-    const [data, setData] = useState([
-      {
-        key: '1',
-        선택: <Checkbox onChange={onChange}></Checkbox>,
-        대코드: 'CP',
-        소코드: '01',
-        코드정보:'공휴일설정',
-        비고: '-'
-      },
-      {
-        key: '2',
-        선택: <Checkbox onChange={onChange}></Checkbox>,
-        대코드: 'CP',
-        소코드: '02',
-        코드정보:'회사창립일',
-        비고: '-'
-      },
-    ]);
+  
+    // //칼럼 안 데이터
+    // const [data, setData] = useState([
+    //   {
+    //     key: '1',
+    //     선택: <Checkbox onChange={onChange}></Checkbox>,
+    //     대코드: 'CP',
+    //     소코드: '01',
+    //     코드정보:'공휴일설정',
+    //     비고: '-'
+    //   },
+    //   {
+    //     key: '2',
+    //     선택: <Checkbox onChange={onChange}></Checkbox>,
+    //     대코드: 'CP',
+    //     소코드: '02',
+    //     코드정보:'회사창립일',
+    //     비고: '-'
+    //   },
+    // ]);
 
     
     //main

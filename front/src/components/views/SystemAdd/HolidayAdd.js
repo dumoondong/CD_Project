@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { Select, Modal, Alert, Input} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { holidayInfo } from '../../../_actions/holiday_action';

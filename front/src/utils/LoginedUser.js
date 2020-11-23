@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Typography} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 
 const {Text} = Typography;

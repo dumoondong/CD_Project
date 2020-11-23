@@ -1,10 +1,10 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
   Breadcrumb} from 'antd';
-import 'antd/dist/antd.css';
+  import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
-import ManageAdd from '../RegisterPage/ManageAdd';
+import ManageAdd from '../SystemAdd/ManageAdd';
 import { Link } from "react-router-dom";
 import ColumnTable from './columnTable';
 
@@ -134,7 +134,7 @@ function Manage(props) {
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                 <Button type="primary" onClick={showModal}>추가</Button>
-                <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}></ManageAdd>
+                <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
                 <Button>수정</Button>
                 <Button onClick={handleSave}>확인(개발)</Button>
