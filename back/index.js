@@ -155,7 +155,7 @@ app.get('/api/ListData', (req, res) => {
 
 //근무조회db 연습
 app.get('/api/worklist', (req, res) => {
-  db.query('SELECT * from worklist', (error, rows) => {
+  db.query('SELECT * from employeeWork', (error, rows) => {
     if (error) throw error;
     console.log('User info is \n', rows);
     res.send(rows);

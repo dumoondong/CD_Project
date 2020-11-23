@@ -1,14 +1,13 @@
 import React, { useState} from "react";
-import 'antd/dist/antd.css';
-import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LiveClock from '../../../utils/LiveClock';
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
+import 'antd/dist/antd.css'; //antd디자인 CSS
+import {Layout, Button, Table, Select} from 'antd';
+import LoginedUser from '../../../../utils/LoginedUser';
+import LogoutUser from '../../../../utils/LogoutUser';
+import SideBar from '../../../../utils/SideBar';///여기까지
 
 
 //칼럼
-const { Header, Content, Sider, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
+const { Header, Content, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { Option } = Select;
 const yearData = ['2020', '2019', '2018', '2017'];
 const monthData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -72,39 +71,8 @@ const columns = [
     console.log(setSelectedOption); 
       return (
         <div>
-        <Layout style={{ minHeight: '100vh' }}>
-        <Sider style={{background:'dark'}}>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        {/* grid */}
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['4']} mode="inline">
-            <Menu.Item key="1">
-              <span>홈 바로가기</span>
-              <Link to="/main" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>연가</span>
-              <Link to="/outWork" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>근무조회</span>
-              <Link to="/middle" />
-            </Menu.Item>
-            <Menu.Item key="4">
-              <span>업무지시 및 조회</span>
-              <Link to="/employee" />
-            </Menu.Item>
-            <Menu.Item key="5">
-              <span>마이 페이지</span>
-              <Link to="/ckmypage" />
-            </Menu.Item>
-          </Menu>
-        </Sider>
+       <Layout style={{ minHeight: '100vh' }}>
+            <SideBar DefaultKey={'3'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
             {/* <Button style={{marginRight:'1%'}}>메시지조회</Button> */}
