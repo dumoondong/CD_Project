@@ -3,8 +3,9 @@ import 'antd/dist/antd.css';
 
 const CodeColumn = [
     {
-        title: <Checkbox />,
-      key: '선택',
+     title: <Checkbox />,
+     dataIndex: '선택',
+     key: '선택',
     },
     {
         title: '대코드',

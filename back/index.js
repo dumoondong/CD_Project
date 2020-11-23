@@ -129,8 +129,8 @@ app.post('/api/holidaysave', (req, res) => {
 });
 //공통코드 db에 저장
 app.post('/api/smallcodesave', (req, res) => {
-  db.query(`INSERT INTO holiday(LargeCode,SmallCode,SmallInfo,SmallContent) VALUES(?,?,?,?)`,
-  [req.body.LargeCode, req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
+  db.query(`INSERT INTO smallcode(SmallCode,SmallInfo,SmallContent) VALUES(?,?,?)`,
+  [req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
     if(error) {
       return  res.json({
         smallcodeSaveSuccess: false,
@@ -139,10 +139,11 @@ app.post('/api/smallcodesave', (req, res) => {
   }
   return res.json({
     smallcodeSaveSuccess: true,
-      message: "성공"
+      message: "성공" 
       });  
 });
 });
+
 
 
 app.get('/api/ListData', (req, res) => {
