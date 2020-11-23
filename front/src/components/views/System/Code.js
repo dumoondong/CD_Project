@@ -3,17 +3,14 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import LiveClock from '../MainPage/LiveClock';
+import LiveClock from '../../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from '../RegisterPage/CodeAdd';
 import CodeColumn from './CodeColumn';
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
-  const columns = CodeColumn;//CodeColumn테이블 
-  const [data, setData] = useState([]);//칼럼 안 데이터
-  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
-  const [CheckTarget, setCheckTarget] = useState('');
+
   //선택 체크박스
   function onChange(e) {
     console.log('e.target.value : ',e.target.value);

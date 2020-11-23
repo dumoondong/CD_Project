@@ -3,7 +3,7 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import LiveClock from '../MainPage/LiveClock';
+import LiveClock from '../../../utils/LiveClock';
 import ManageAdd from '../RegisterPage/ManageAdd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ColumnTable from './columnTable';
@@ -14,26 +14,41 @@ function Manage(props) {
   const columns = ColumnTable;//columnTable
   const [data, setData] = useState([]);//칼럼 안 데이터
   const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];//근무 부서
-  const [CheckTarget, setCheckTarget] = useState('');
+  const [CheckTarget, setCheckTarget] = useState(''); //체크 박스 한 대상
+  const [Visible, setVisible] = useState(false); //modal 관리
   //선택 체크박스
-  function onChange(e) {
+  const onChange = (e) => {
     console.log('e.target.value : ',e.target.value);
     setCheckTarget(e.target.value);
   }
-    //확인용
-    const handleSave = () => {
-      console.log('CheckTarget : ',CheckTarget);
+  //확인용
+  const handleSave = () => {
+    console.log('CheckTarget : ',CheckTarget);
+  }
+  ///ManageAdd 분리//////////////////////////
+  //팝업 창 ON
+  const showModal = () => {
+    setVisible(true);
+  }
+  //팝업 창 OFF
+  const handleCancel = () =>{
+    setVisible(false);
+  }
+  //팝업 창 OFF
+  const handleOk = () =>{
+    setVisible(false);
+  }
+  ///////////////////////////////////////////
+  //delete -> 한개씩만 삭제됨
+  const handleDelete = () => {
+    const body = {
+      check : CheckTarget
     }
-    //delete -> 한개씩만 삭제됨
-    const handleDelete = () => {
-      const body = {
-        check : CheckTarget
-      }
-      axios.post('/api/delete', body);
-      window.location.reload();
-    }
+    axios.post('/api/delete', body);
+    window.location.replace('/manage');
+  }
   //근무부서 선택
-  function tagRender(props) {
+  const tagRender = (props) => {
     const { label, value, closable, onClose } = props;
     return (
       <Tag color={value} closable={closable} onClose={onClose} style={{ marginRight: 3 }}>
@@ -118,7 +133,8 @@ function Manage(props) {
                 />
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-                <ManageAdd></ManageAdd>
+                <Button type="primary" onClick={showModal}>추가</Button>
+                <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}></ManageAdd>
                 <Button onClick={handleDelete}>삭제</Button>
                 <Button>수정</Button>
                 <Button onClick={handleSave}>확인(개발)</Button>

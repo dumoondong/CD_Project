@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select, Descriptions, Input, Modal} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LiveClock from '../../../utils/LiveClock';
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
+import LiveClock from '../../../src/components/views/MainPage/LiveClock';
+import LoginedUser from '../../utils/LoginedUser';
+import LogoutUser from '../../utils/LogoutUser';
 
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;
 
-function MyPage(props) {
+function MasterPage(props) {
 
     //팝업
     const [Visible, setVisible] = useState(false);
@@ -37,25 +37,25 @@ function MyPage(props) {
               <Col span={12}><Button block>퇴근</Button></Col>
           </Row>
           <Menu theme="dark" defaultSelectedKeys={['5']} mode="inline">
-            <Menu.Item key="1">
+          <Menu.Item key="1">
               <span>홈 바로가기</span>
-              <Link to="/main" />
+              <Link to="/mastermain" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>연가</span>
-              <Link to="/outWork" />
+              <Link to="/masteroutWork" />
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
-              <Link to="/middle" />
+              <Link to="/mastermiddle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
-              <Link to="/employee" />
+              <Link to="/mastermanage" />
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
-              <Link to="/ckmypage" />
+              <Link to="/masterpage" />
             </Menu.Item>
           </Menu>
         </Sider>
@@ -75,10 +75,10 @@ function MyPage(props) {
                 <div  style = {{display: "flex"}}>
                     <div style = {{margin: '0px auto'}}>
                         <Descriptions bordered style = {{width: 700}}>
-                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>경리부</Descriptions.Item>
-                            <Descriptions.Item label="직급" span={3} style = {{textAlign: "center"}}>인턴</Descriptions.Item>
-                            <Descriptions.Item label="사원번호" span={3} style = {{textAlign: "center"}}>12</Descriptions.Item>
-                            <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>홍길이</Descriptions.Item>
+                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>총무부</Descriptions.Item>
+                            <Descriptions.Item label="직급" span={3} style = {{textAlign: "center"}}>사장</Descriptions.Item>
+                            <Descriptions.Item label="사원번호" span={3} style = {{textAlign: "center"}}>1</Descriptions.Item>
+                            <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>홍길삼</Descriptions.Item>
                             <Descriptions.Item label="새로운 비밀번호" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 입력"/></Descriptions.Item>
                             <Descriptions.Item label="새로운 비밀번호 확인" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 확인"/></Descriptions.Item>
                             <Descriptions.Item label="이메일" span={3} style = {{textAlign: "center"}}>hallym@naver.com</Descriptions.Item>
@@ -110,4 +110,4 @@ function MyPage(props) {
     );
 };
 
-export default MyPage
+export default MasterPage
