@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import SideBar from '../../../../utils/SideBar';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;
@@ -53,30 +55,22 @@ function MyPage(props) {
       },
   ];
 
-  const [data, setData] = useState([]);
-
+  const [UserId, setUserId] = useState('');
+  const [UserName, setUserName] = useState('');
+  const dispatch = useDispatch(); //redux
+  
   useEffect(() => {
-    axios.get('/api/manage').then(response => {
-      var temp = {};
+    axios.get('/api/mypage').then(response => {
       console.log(response.data);
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          key: String(i+1),
-          부서: response.data[i].dept,
-          직급: response.data[i].rank,
-          사원번호: response.data[i].id,
-          사원이름: response.data[i].name,
-          email: response.data[i].email,
-          핸드폰번호: response.data[i].phone,
-          우편번호: response.data[i].zim,
-          주소: response.data[i].address,
-        };
-        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
-      }
+      setUserId(response.data.id);
+      setUserName(response.data.name);
+      console.log(UserId);
+      console.log(UserName);
+
     });
   }, []);
-
     //팝업
+    
     const [Visible, setVisible] = useState(false);
     const showModal = () => {
       setVisible(true);
@@ -87,7 +81,6 @@ function MyPage(props) {
     const handleOk = () => {
       setVisible(false);
     }
-
 
     return(
       <div>
@@ -109,10 +102,10 @@ function MyPage(props) {
                 <div  style = {{display: "flex"}}>
                     <div style = {{margin: '0px auto'}}>
                         <Descriptions bordered style = {{width: 700}}>
-                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>경리</Descriptions.Item>
+                            <Descriptions.Item label="부서" span={3} style = {{textAlign: "center"}}>{UserId}</Descriptions.Item>
                             <Descriptions.Item label="직급" span={3} style = {{textAlign: "center"}}>인턴</Descriptions.Item>
                             <Descriptions.Item label="사원번호" span={3} style = {{textAlign: "center"}}>12</Descriptions.Item>
-                            <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>홍길이</Descriptions.Item>
+                            <Descriptions.Item label="사원이름" span={3} style = {{textAlign: "center"}}>{UserName}</Descriptions.Item>
                             <Descriptions.Item label="새로운 비밀번호" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 입력"/></Descriptions.Item>
                             <Descriptions.Item label="새로운 비밀번호 확인" span={3} style = {{textAlign: "center"}}><Input.Password placeholder="새로운 비밀번호 확인"/></Descriptions.Item>
                             <Descriptions.Item label="이메일" span={3} style = {{textAlign: "center"}}>hallym@naver.com</Descriptions.Item>
