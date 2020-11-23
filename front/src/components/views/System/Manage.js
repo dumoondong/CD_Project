@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
 import ManageAdd from '../RegisterPage/ManageAdd';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ColumnTable from './columnTable';
 
 const { Header, Content, Sider, Footer } = Layout;
