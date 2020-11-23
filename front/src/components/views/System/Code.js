@@ -1,11 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
   Breadcrumb} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from '../RegisterPage/CodeAdd';
+import CodeAdd from '../SystemAdd/CodeAdd';
 import CodeColumn from './CodeColumn';
 const { Header, Content, Sider, Footer } = Layout;
 
