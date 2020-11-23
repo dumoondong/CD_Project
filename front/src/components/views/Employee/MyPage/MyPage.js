@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {Layout, Menu, Button, Row, Col, Descriptions, Input, Modal} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import { Link } from "react-router-dom";
-import LiveClock from '../../../utils/LiveClock';
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
-import SideBar from '../../../utils/SideBar';
-import axios from 'axios';
+import SideBar from '../../../../utils/SideBar';
+import LoginedUser from '../../../../utils/LoginedUser';
+import LogoutUser from '../../../../utils/LogoutUser';
 
 // 불러오는 곳
 const { Header, Content, Sider, Footer } = Layout;

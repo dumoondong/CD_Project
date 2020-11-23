@@ -1,11 +1,10 @@
 import React from "react";
 import {Layout, Menu, Breadcrumb, PageHeader,Button, Row, Col} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import { Link } from 'react-router-dom';
-import LiveClock from '../../../utils/LiveClock';
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
-import SideBar from '../../../utils/SideBar';
+import SideBar from '../../../../utils/SideBar';
+import LoginedUser from '../../../../utils/LoginedUser';
+import LogoutUser from '../../../../utils/LogoutUser';
 
 const { Header, Content, Sider, Footer } = Layout;
 

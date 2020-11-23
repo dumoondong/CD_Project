@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button } from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 //로그아웃 버튼 및 로그아웃 기능
 function LogoutUser(props){
     const handleLogout =  () => {
