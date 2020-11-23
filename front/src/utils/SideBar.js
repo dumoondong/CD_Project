@@ -29,7 +29,7 @@ function SideBar(props) {
   const handleOnOk = () => {
     setOnVisible(false);
   }
-  ////////////////////////////////////////////////////////출근 버튼 연동
+  ////////////////////////////////////////////////////////퇴근 버튼 연동
   const [OffVisible, setOffVisible] = useState(false);
 
   const handleOffWork = () => {
@@ -61,10 +61,6 @@ function SideBar(props) {
                   <span>연가</span>
                   <Link to="/holidayuser" />
                 </Menu.Item>
-                {/* <Menu.Item key="3" >
-                  <span>근무조회</span>
-                  <Link to="/middle" />
-                </Menu.Item> */}
                 <Menu.Item key="3" >
                   <span>업무지시 및 조회</span>
                   <Link to="/workmanage" />

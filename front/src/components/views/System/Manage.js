@@ -56,6 +56,7 @@ function Manage(props) {
       </Tag>
     );
   }
+  console.log('test');
   //데이터 GET
     useEffect(() => {
       axios.get('/api/manage').then(response => {
