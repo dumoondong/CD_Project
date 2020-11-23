@@ -48,7 +48,7 @@ function SideBar(props) {
                 </Menu.Item>
                 <Menu.Item key="2" >
                   <span>연가</span>
-                  <Link to="/outWork" />
+                  <Link to="/holidayuser" />
                 </Menu.Item>
                 <Menu.Item key="3" >
                   <span>근무조회</span>
