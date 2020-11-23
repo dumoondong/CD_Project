@@ -3,13 +3,12 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import LiveClock from '../MainPage/LiveClock';
+import LiveClock from '../../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from '../RegisterPage/CodeAdd';
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
-  
   //선택 체크박스
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);

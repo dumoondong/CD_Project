@@ -1,54 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import 'antd/dist/antd.css';
-<<<<<<< HEAD
-import { Layout, Menu, Button, Row, Col, Table, Select} from 'antd';
-import { Link } from "react-router-dom";
-import LiveClock from '../MainPage/LiveClock';
-=======
 import { DatePicker, message, Alert, Layout, Menu, Breadcrumb, Button, Row, Col, Switch, Table, Select} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LiveClock from '../../../utils/LiveClock';
->>>>>>> updateMain/main
-import LoginedUser from '../../../utils/LoginedUser';
-import LogoutUser from '../../../utils/LogoutUser';
-import axios from 'axios';
-
+import LiveClock from '../../../src/components/views/MainPage/LiveClock';
+import LoginedUser from '../../utils/LoginedUser';
+import LogoutUser from '../../utils/LogoutUser';
+import ReactDOM from 'react-dom'
 //칼럼
-
-
-
-// //칼럼 안 데이터
-// const data = [
-//     {
-//       key: '1',
-//       date: 'YYYY/MM/DD',
-//       day: 'Mon',
-//       work: 'HH:MM ~ HH:MM',
-//       workTime: 'onWork-offWork',
-//       workContent: 'Null',
-//       overWorkTime: 'Null',
-//       overWorkContent: 'Null',
-//     },
-
-//     {
-//       key: '2',
-//       date: 'YYYY/MM/DD',
-//       day: 'Tue',
-//       work: 'HH:MM ~ HH:MM',
-//       workTime: 'onWork-offWork',
-//       workContent: 'Null',
-//       overWorkTime: 'Null',
-//       overWorkContent: 'Null',
-//     },
-
-// ];
-// // 불러오는 곳
-
-const { Header, Content, Sider, Footer } = Layout;
-const { Option } = Select;
-
-function MiddlePage(props) {
-  const columns = [
+const columns = [
     {
       title: '날짜',
       dataIndex: 'date',
@@ -85,53 +44,38 @@ function MiddlePage(props) {
       key: 'overWorkContent',
     },
 ];
+//칼럼 안 데이터
+const data = [
+    {
+      key: '1',
+      date: 'YYYY/MM/DD',
+      day: 'Mon',
+      work: 'HH:MM ~ HH:MM',
+      workTime: 'onWork-offWork',
+      workContent: 'Null',
+      overWorkTime: 'Null',
+      overWorkContent: 'Null',
+    },
+];
+// 불러오는 곳
 
-  const [data, setData] = useState([]);
+const { Header, Content, Sider, Footer } = Layout;
+const { Option } = Select;
 
-  useEffect(() => {
-    axios.get('/api/worklist').then(response => {
-      var temp = {};
-      console.log(response.data);
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          key: String(i+1),
-          date: response.data[i].Date,
-          day: response.data[i].day,
-        };
-        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
-      }
-    });
-  }, []);
 
-  function printDiv (){
-    var initBody = document.body.innerHTML;
+function MiddlePage(props) {
 
-    window.onbeforeprint = function(){
-      document.title = "월 별 근무조회"
-      document.body.innerHTML = document.getElementById('printArea').innerHTML;
-    }
-    window.onafterprint = function(){
-      document.body.innerHTML = initBody;
-      window.location.reload();
-    }
+  const [selectedOption, setSelectedOption] = useState(null);
+  console.log(setSelectedOption);
+
+  const printDiv = () => {
+    var printContents = ReactDOM.findDOMNode("printArea").innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
     window.print();
+    document.body.innerHTML = originalContents;
   };
 
-  const cd = {
-    year: null,
-    month: null
-  }
-
-  function yearChange(value) {
-    cd.year = value;
-    console.log(cd.year);
-  }
-
-  function monthChange(value) {
-    cd.month = value;
-    console.log(cd.month);
-  }
-  
     return(
       <div>
         <Layout style={{ minHeight: '100vh' }}>
@@ -145,25 +89,25 @@ function MiddlePage(props) {
               <Col span={12}><Button block>퇴근</Button></Col>
           </Row>
           <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
+          <Menu.Item key="1">
               <span>홈 바로가기</span>
-              <Link to="/main" />
+              <Link to="/mastermain" />
             </Menu.Item>
             <Menu.Item key="2">
               <span>연가</span>
-              <Link to="/outWork" />
+              <Link to="/masteroutWork" />
             </Menu.Item>
             <Menu.Item key="3">
               <span>근무조회</span>
-              <Link to="/middle" />
+              <Link to="/mastermiddle" />
             </Menu.Item>
             <Menu.Item key="4">
               <span>업무지시 및 조회</span>
-              <Link to="/employee" />
+              <Link to="/mastermanage" />
             </Menu.Item>
             <Menu.Item key="5">
               <span>마이 페이지</span>
-              <Link to="/ckmypage" />
+              <Link to="/masterpage" />
             </Menu.Item>
           </Menu>
         </Sider>
@@ -177,14 +121,14 @@ function MiddlePage(props) {
             <div style = {{margin: '0 auto', width: '1000px'}}>
               <div style = {{marginBottom: '20px'}}>{/* 년 월 인쇄 통합 div */}
                 <div style = {{display: 'inline-block', marginLeft: '44%'}}>
-                  <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={yearChange}>
+                  <Select name = 'year' defaultValue="년도" style={{ width: 80 }}>
                     <Option value="2020">2020</Option>
                     <Option value="2019">2019</Option>
                     <Option value="2018">2018</Option>
                     <Option value="2017">2017</Option>
                     <Option value="2016">2016</Option>
                   </Select>
-                  <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={monthChange}>
+                  <Select name = 'month' defaultValue="월" style={{ width: 60 }}>
                     <Option value="1">1</Option>
                     <Option value="2">2</Option>
                     <Option value="3">3</Option>
@@ -200,7 +144,6 @@ function MiddlePage(props) {
                   </Select>
                 </div>
                 <div style = {{display: 'inline-block', float: 'right'}}>
-                  {/* <Button onClick = {printDiv("printArea")}>인쇄</Button> */}
                   <Button onClick = {printDiv}>인쇄</Button>
                 </div>
               </div>
@@ -215,7 +158,7 @@ function MiddlePage(props) {
                      */}
                 <div style = {{width:'1000px', margin: '0 auto'}}>
                   <div style = {{display: 'inline-block', marginLeft: '40%', textAlign: 'center'}}>
-                      <h2>{cd.year}년 {cd.month}월 근무현황</h2>
+                      <h2>yyyy년 MM월 근무현황</h2>
                   </div>
                   <div style = {{display: 'inline-block', float: 'right'}}>
                     <h1><LoginedUser/></h1>
