@@ -4,8 +4,8 @@ import 'antd/dist/antd.css';
 import { Link } from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
-import LiveClock from '../../../src/components/views/MainPage/LiveClock';
-import MainTable from '../../../src/components/views/MainPage/MainTable';
+import LiveClock from '../../utils/LiveClock';
+import MainTable from '../../../src/components/views/MainPage/MainWorkTable';
 import LoginedUser from '../../utils/LoginedUser';
 import LogoutUser from '../../utils/LogoutUser';
 
