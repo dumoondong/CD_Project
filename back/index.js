@@ -59,7 +59,7 @@ app.post('/api/delete',(req,res)=>{
 app.post('/api/onWork',(req, res) => {
       db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
         if(userDate[0] === undefined){ //다른 날짜 유무
-          db.query(`INSERT INTO employeeWork(DATE,Time,id) VALUES(?,?,?)`,
+          db.query(`INSERT INTO employeeWork(DATE,OnWork,id) VALUES(?,?,?)`,
           [req.body.date, req.body.time, req.session.userId],(error,result) => {
             if(error) throw error;
             return res.json({
@@ -75,7 +75,27 @@ app.post('/api/onWork',(req, res) => {
         }
       });
     });
-
+//퇴근 버튼
+app.post('/api/offWork',(req, res) => {
+  db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
+    console.log(userDate);
+    if(userDate[0] != undefined){
+      db.query(`update employeeWork SET OffWork =? where id=?;`,
+      [req.body.time, req.session.userId],(error,result) => {
+        if(error) throw error;
+        return res.json({
+          success : true,
+          message:'ok'
+        });
+      });
+    } else {
+        return res.json({
+          success : false,
+          message:'no'
+        });
+    }
+  });
+});
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
   db.query('SELECT * from employee', (error, rows) => {
@@ -157,7 +177,7 @@ app.get('/api/ListData', (req, res) => {
 app.get('/api/worklist', (req, res) => {
   db.query('SELECT * from employeeWork', (error, rows) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
+    //console.log('User info is \n', rows);
     res.send(rows);
   });
 });
