@@ -68,7 +68,7 @@ function MainTable(){
   //근무 조회
   useEffect(() => {
     axios.get('/api/worklist').then(response => {
-      console.log(Number(response.data[0].OnWork.split(':')[0])-7);
+      //console.log(Number(response.data[0].OnWork.split(':')[0])-7);
       for(var i=0; i< response.data.length; i++) {
         let temp = {
           key: String(i+1),
