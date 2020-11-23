@@ -127,6 +127,14 @@ app.get('/api/ListData', (req, res) => {
   });
 });
 
+//근무조회db 연습
+app.get('/api/worklist', (req, res) => {
+  db.query('SELECT * from worklist', (error, rows) => {
+    if (error) throw error;
+    console.log('User info is \n', rows);
+    res.send(rows);
+  });
+});
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
