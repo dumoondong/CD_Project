@@ -71,7 +71,12 @@ create table employeeWork(
     );
     
 INSERT INTO employeeWork (DATE,Time,id) VALUES('2020-11-18','22:00','1111');
+INSERT INTO employeeWork (DATE,Time,id) VALUES('2020-11-19','22:00','1111');
+INSERT INTO employeeWork (DATE,Time,id) VALUES('2020-11-18','22:00','1112');
+INSERT INTO employeeWork (DATE,Time,id) VALUES('2020-11-18','22:00','1113');
 
 delete from employeeWork;
+
+select * from employeeWork where id='1117' and Date='2020-11-22';
 
 select * from employeeWork;
