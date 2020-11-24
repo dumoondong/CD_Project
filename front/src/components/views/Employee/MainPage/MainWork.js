@@ -26,16 +26,7 @@ function MainTable(){
   //근무 조회
   useEffect(() => {
     axios.get('/api/worklist').then(response => {
-      //console.log(Number(response.data[0].OnWork.split(':')[0])-7);
-      for(var i=0; i< response.data.length; i++) {
-        let temp = {
-          key: String(i+1),
-          date: response.data[i].Date,
-          onWork: response.data[i].OnWork,
-          offWork : response.data[i].OffWork
-        };
-        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
-      }
+      setData(response.data);
     });
   }, []);
 

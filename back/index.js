@@ -195,12 +195,26 @@ app.get('/api/ListData', (req, res) => {
   });
 });
 
-//근무조회db 연습
+
+//console.log(Number(response.data[0].OnWork.split(':')[0])-7);
+//근무조회
 app.get('/api/worklist', (req, res) => {
-  db.query('SELECT * from employeeWork', (error, rows) => {
+  db.query('SELECT * from employeeWork where id=?',[req.session.userId], (error, works) => {
     if (error) throw error;
-    //console.log('User info is \n', rows);
-    res.send(rows);
+    let temp = [];
+    let data = {};
+    let i = 0;
+    works.forEach(work => {
+      data = {
+        key : String(i+1),
+        date : work.Date,
+        onWork: work.OnWork,
+        offWork: work.OffWork
+      }
+      temp.push(data);
+      i++;
+    });
+    res.send(temp);
   });
 });
 
