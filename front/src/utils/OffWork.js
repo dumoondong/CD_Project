@@ -1,13 +1,13 @@
 import React from 'react'
 import { Modal } from 'antd';
 import { useDispatch } from 'react-redux';
-import {onWorkUser} from '../_actions/user_action';
+import { offWorkUser } from '../_actions/user_action';
 
-function OnWork(props) {
+function OffWork(props) {
     const dispatch = useDispatch(); //redux
     //확인 창
     const handleOk = () => {
-        props.handleOnOk();
+        props.handleOffOk();
     }
     //체크 시 출근
     const handleCheck = () =>{
@@ -15,7 +15,7 @@ function OnWork(props) {
             date:props.Date,
             time:props.Time
         }
-        dispatch(onWorkUser(body))
+        dispatch(offWorkUser(body))
                 .then(response => { 
                     console.log(response);
                     if(response.payload.success){ 
@@ -31,7 +31,7 @@ function OnWork(props) {
     return (
         <>
         <Modal
-          visible={props.OnVisible}
+          visible={props.OffVisible}
           onOk={handleOk}
           afterClose={handleCheck}
           closable={false}
@@ -39,10 +39,10 @@ function OnWork(props) {
           width={250}
           style={{textAlign:'center'}}
         >
-          출근되었습니다
+          퇴근되었습니다
         </Modal>
         </>
     )
 }
 
-export default OnWork
+export default OffWork

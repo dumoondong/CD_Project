@@ -4,3 +4,4 @@ export const REGISTER_USER = "register_user";
 export const HOLIDAY_INFO = "holiday_info";
 export const SMALLCODE_INFO = "SmallCode_info";
 export const ONWORK_USER = "onwork_user";
+export const OFFWORK_USER = "offwork_user";
