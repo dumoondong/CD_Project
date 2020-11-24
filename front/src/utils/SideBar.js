@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react'; //리액트
 import { Layout, Menu, Button, Row, Col} from 'antd'; //antd디자인
-import OnWork from './OnWork';
-import OffWork from './OffWork';
-import { Link } from "react-router-dom"; //라우터
-import LiveClock from './LiveClock'; //시계
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import moment from 'moment'; //시간과 날짜
+import LiveClock from './LiveClock'; //시계
+import OnWork from './OnWork'; //출근 기능
+import OffWork from './OffWork'; //퇴근 기능
+import { Link } from "react-router-dom"; //라우터
 
 const { Sider } = Layout;
 
 function SideBar(props) {
+  //변수
   const [Date, setDate] = useState(''); //날짜 변수
   const [Time, setTime] = useState(''); //시간 변수
 
