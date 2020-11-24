@@ -52,7 +52,7 @@ export const ManageColumns = [
       }
 ];
 //CodeColumnTable
-export const CodeColumns = [
+export const CodeColumn = [
   // {
   //     title: <Checkbox />,
   //   key: '선택',
