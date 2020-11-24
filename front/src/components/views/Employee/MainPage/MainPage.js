@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import LoginedUser from '../../../../utils/LoginedUser'; ///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBar';///여기까지
-import MainTable from './MainWork'; //주차 테이블
+import MainWork from './MainWork'; //근무조회
 
 const { Header, Content } = Layout;
 
@@ -19,7 +19,7 @@ function MainPage(props) {
             <LogoutUser pageChange={props}/>
           </Header>
           <Content style={{ margin: '0 16px' }}>
-            <MainTable />
+            <MainWork />
           </Content>
         </Layout>
       </Layout>

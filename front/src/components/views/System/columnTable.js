@@ -26,7 +26,7 @@ export const ManageColumns = [
         key: 'password',
       },
       {
-        title: 'email',
+        title: 'Email',
         dataIndex: 'email',
         key: 'email',
       },
