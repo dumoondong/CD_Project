@@ -145,13 +145,24 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
+
 app.get('/api/MasterCode', (req, res) => {
   db.query('SELECT * from MasterCode', (error, rows) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
-  });
+  //   let temp = [];
+  //   let data = {};
+  //  rows.forEach(row => {
+  //  data = {
+  //         LargeCode: row.LargeCode,
+  //         LargeInfo: row.LargeInfo,
+	// }
+  //     temp.push(data);
+
+res.send(rows);
+
 });
+  });
+
 
 //휴일설정 db에 저장
 app.post('/api/holidaysave', (req, res) => {

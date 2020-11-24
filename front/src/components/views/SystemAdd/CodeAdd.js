@@ -27,15 +27,14 @@ function CodeAdd(props){
   const handleChangeSmallContent= (e) => {
     setSmallContent(e.currentTarget.value);
   }
+
   const [SaveCode,setSaveCode] = useState(''); //대코드
-   //대코드 종류 선택
+
    function onChange(value) {
-    for(var i=0; i< data.length; i++) {
-      if(data[i].LargeInfo === value)  {  
-        setSaveCode(data[i].LargeCode);       
-      }
-    }
+    console.log(value);
+    setSaveCode(value); //대코드
   }
+
    function onBlur() {
      console.log('blur');
    }
@@ -49,32 +48,23 @@ function CodeAdd(props){
    }
   //대코드 종류 설정
   const [data, setData] = useState([]);
-  const [LargeCode, setLargeCode] = useState([]);//스몰코드 정보 리스트
-
   useEffect(() => {         
     axios.get('/api/mastercode').then(response => {
-      var temp = {};
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          LargeCode: response.data[i].LargeCode,
-          LargeInfo: response.data[i].LargeInfo,
-        };
-        setData(data => [...data, temp]);     // 이전값에 temp값 합쳐서 저장
-        setLargeCode(DeCode => [...DeCode,response.data[i].LargeInfo]);//라지코드 정보 저장
-      }
+      setData(response.data);
     });
-}, []);
+    }, []);
 
 //팝업 취소
   const handleCancel = () => {
     setVisible(false);
   };
+  
 //팝업 저장(유저 생성)
   const handleOk = () => {
     setVisible(false);
 
     let body = {
-      SaveCode:SaveCode, //대코드
+      LargeCode:SaveCode,
       SmallCode:SmallCode,
       SmallInfo:SmallInfo,
       SmallContent:SmallContent,
@@ -113,8 +103,8 @@ function CodeAdd(props){
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
-         {LargeCode.map(LargeCode => (
-          <Option key={LargeCode}>{LargeCode}</Option>
+         {data.map(code => (
+          <Option key={code.LargeCode}>{code.LargeInfo}</Option>
         ))}
          </Select>
       
