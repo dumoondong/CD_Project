@@ -285,6 +285,18 @@ app.get('/api/leavelist', (req, res) => {
   });
 });
 
+//비밀번호 예시
+// const crypto = require('crypto');
+// const password = '123q';
+// const pass = crypto.createHash('sha512').update(password).digest('base64');
+// const pass2 = crypto.createHash('sha512').update(password).digest('base64');
+
+// if(pass === pass2){
+//   console.log('같다');
+// }else{
+//   console.log('다르다');
+// }
+
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

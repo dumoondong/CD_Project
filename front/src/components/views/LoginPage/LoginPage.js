@@ -51,7 +51,7 @@ function LoginPage(props) {
 
     return (
         <div style={{width: '380px', margin: '0 auto'}}>
-            <div style = {{display: 'block', margin: 'auto', marginTop: '100px', width: '380px', height: '75px', borderBottom: 'black solid 1px', backgroundColor: 'white'}}>
+            <div style = {{display: 'block', margin: 'auto', marginTop: '50%', width: '380px', height: '75px', borderBottom: 'black solid 1px', backgroundColor: 'white'}}>
                 <img src={LogoImage} width='380' height='70'/>
             </div>
             <div style = {{display: 'block', margin: '25px auto', width: '250px'}}>
