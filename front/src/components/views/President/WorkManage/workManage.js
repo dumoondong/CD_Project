@@ -9,26 +9,16 @@ import SideBar from '../../../../utils/SideBar';///여기까지
 //칼럼
 const { Header, Content, Footer } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { Option } = Select;
+const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];
 const yearData = ['2020', '2019', '2018', '2017'];
 const monthData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-const option = [
+const options = [
   { value: '2020', label: '2020' },
   { value: '2019', label: '2019' },
   { value: '2018', label: '2018' },
 ];
 
-// const App = () => {
-//   const [rows, setRows] = useState([]);
 
-  
-
-// const addRow =() => {
-//   let data = {
-//     id: rows.length + 1,
-//     todo:""
-//   };
-//   setRows({...rows, data});
-// }
 const columns = [
   {
     title: '보낸날짜 및 시간',
@@ -66,7 +56,7 @@ const columns = [
        Check: 'Check',
      },
   ];
-  function WorkManage(props) {
+  function PreWorkManage(props) {
     const [selectedOption, setSelectedOption] = useState(null);
     console.log(setSelectedOption); 
       return (
@@ -121,4 +111,4 @@ const columns = [
 );
 }
 
-export default WorkManage
+export default PreWorkManage
