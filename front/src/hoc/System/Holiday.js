@@ -1,13 +1,13 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb, Calendar} from 'antd';
+import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction' //fullCalender 데이터 선택할려면 필요함
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'; //fullCalender 데이터 선택할려면 필요함
 
 const { Header, Content, Sider } = Layout;
 
@@ -16,10 +16,10 @@ function Holiday(props) {
 
   useEffect(() => {         
     axios.get('/api/listdata').then(response => {
-      response.data.map(listData => (
-        console.log(listData)
-      ));
-      //setListData(response.data);
+      // response.data.map(listData => (
+      //   console.log(listData)
+      // ));
+      setListData(response.data);
     });
 }, []);
   //캘린더
@@ -89,10 +89,7 @@ function Holiday(props) {
               plugins={[ dayGridPlugin, interactionPlugin]}
               dateClick = {handleDateSelect}
               height = '90%'
-              events={[
-                { title: 'event 1', date: '2020-11-01' },
-                { title: 'event 2', date: '2020-11-02' }
-              ]}
+              events={ListData}
             />
             <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>

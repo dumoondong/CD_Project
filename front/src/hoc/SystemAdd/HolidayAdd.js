@@ -55,11 +55,7 @@ function HolidayAdd(props) {
     const handleChangeHoliContent = (e) => { 
       setHoliContent(e.currentTarget.value);
     }
-    //modal 취소 버튼 기능
-    const handleCancel = () => {
-        props.handleCancel();
-      };
-    //modal OK 버튼 기능(유저 생성)
+    //modal OK 버튼 기능(휴일 생성)
     const handleOk = () => {
       props.handleOk();
   
@@ -86,7 +82,7 @@ function HolidayAdd(props) {
           title="휴일설정"
           visible={props.Visible}
           onOk={handleOk}
-          onCancel={handleCancel}
+          onCancel={props.handleCancel}
         >
           <div style = {{fontSize: 15,background: '#fff'}}>날짜
           <Alert style={{ background: '#fff'}} message={props.Date}/>
@@ -100,7 +96,7 @@ function HolidayAdd(props) {
           onBlur={onBlur}
           onSearch={onSearch}
           filterOption={(input, option) =>
-          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          option.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
          {Opt.map(SmallInfo => (

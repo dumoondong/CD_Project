@@ -232,9 +232,11 @@ app.get('/api/listdata', (req, res) => {
     lists.forEach(list => {
       data = {
         title : list.SmallInfo,
+        date : list.DATE
       }
+      temp.push(data);
     });
-    res.send(lists);
+    res.send(temp);
   });
 });
 
@@ -261,12 +263,12 @@ app.get('/api/worklist', (req, res) => {
   });
 });
 
-//mypage조회 연습
+//mypage조회
 app.get('/api/mypage', (req, res) => {
-  db.query('SELECT dept from employee', (error, rows) => {
+  db.query('SELECT * from employee where id =?',[req.session.userId], (error, user) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
+    //console.log('User info is \n', user);
+    res.send(user);
   });
 });
 
