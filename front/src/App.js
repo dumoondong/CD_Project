@@ -6,8 +6,10 @@ import {
   Link
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
+import PrezHoliConfirm from './components/views/President/PresidentHoliConfim';
+import PrezHoli from './components/views/President/PresidentHoli';
 import PrezMain from './components/views/President/PresidentMain';
-import CheckMyPage from './components/views/Employee/MyPage/CheckMyPage';
+import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MyPage from './components/views/Employee/MyPage/MyPage';
 import MainPage from './components/views/Employee/MainPage/MainPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
@@ -28,6 +30,8 @@ function App() {
     <Router>
       <div>
         <Switch>
+          <Route exact path="/prezholiconfirm" component={PrezHoliConfirm} />
+          <Route exact path="/prezholi" component={PrezHoli} />
           <Route exact path="/prezmain" component={PrezMain} />
           <Route exact path="/ckmypage" component={CheckMyPage} />
           <Route exact path="/mypage" component={MyPage} />
