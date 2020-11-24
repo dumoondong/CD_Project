@@ -2,52 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
+import {MainColumns} from './MainTable';
 
 const { Option } = Select;
 const { Content } = Layout;
-
-const columns = [
-  {
-    title: '날짜',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: '요일',
-    dataIndex: 'day',
-    key: 'day',
-  },
-  {
-    title: '출근시간',
-    dataIndex: 'onWork',
-    key: 'onWork',
-  },
-  {
-    title: '퇴근시간',
-    dataIndex: 'offWork',
-    key: 'offWork',
-  },
-  {
-    title: '근무시간',
-    dataIndex: 'workTime',
-    key: 'workTime',
-  },
-  {
-    title: '근무내용',
-    dataIndex: 'workContent',
-    key: 'workContent',
-  },
-  {
-    title: '초과근무시간',
-    dataIndex: 'overWorkTime',
-    key: 'overWorkTime',
-  },
-  {
-    title: '초과근무내용',
-    dataIndex: 'overWorkContent',
-    key: 'overWorkContent',
-  },
-];
 
 const printDiv = () => {
   var initBody = document.body.innerHTML;
@@ -120,7 +78,7 @@ function MainTable(){
             </div>
           </div>
 
-          <Table columns={columns} dataSource={data} pagination={false} />
+          <Table columns={MainColumns} dataSource={data} pagination={false} />
 
           <div style = {{backgroundColor: 'blue', textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
