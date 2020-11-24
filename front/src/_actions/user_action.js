@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
     LOGIN_USER,
     REGISTER_USER,
-    ONWORK_USER
+    ONWORK_USER,
+    OFFWORK_USER
 } from './types';
 //dataToSubmit에는 넘어온 body 데이터가 들어가 있다.;로그인 액션
 export function loginUser(dataToSubmit){
@@ -31,6 +32,16 @@ export function onWorkUser(dataToSubmit){
     
     return {
         type: ONWORK_USER,
+        payload: request //true,false를 받는 부분
+    }
+}
+//퇴근 버튼 액션
+export function offWorkUser(dataToSubmit){
+    const request = axios.post('/api/offWork', dataToSubmit)
+        .then(response => response.data)
+    
+    return {
+        type: OFFWORK_USER,
         payload: request //true,false를 받는 부분
     }
 }

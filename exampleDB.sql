@@ -75,6 +75,34 @@ drop table worklist;
 
 create table employeeWork(
         Date VARCHAR(12) NOT NULL ,
-        Time VARCHAR(6),
+        OnWork VARCHAR(6),
+        OffWork VARCHAR(6),
         id VARCHAR(50)
     );
+
+DROP TABLE employeeWork;
+    
+INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1111');
+INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-19','22:00','1111');
+INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1113');
+INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1113');
+
+delete from employeeWork;
+
+select * from employeeWork where id='1117' and Date='2020-11-22';
+
+select * from employeeWork;
+
+update employeeWork SET OffWork = "11:00" where id="1113";
+
+#스몰 코드 테이블
+alter table smallcode add SmallContent varchar(100);
+
+create table MasterCode(
+        LargeCode VARCHAR(3) NOT NULL,
+        LargeInfo varchar(45)
+    );
+
+INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
+
+select * from smallCode where SmallInfo = '회사창립일';
