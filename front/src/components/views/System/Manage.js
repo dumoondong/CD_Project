@@ -5,22 +5,32 @@ import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,For
 import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
 import ManageAdd from '../SystemAdd/ManageAdd';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ColumnTable from './columnTable';
+import { Link } from "react-router-dom";
+import {ManageColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 
 const { Header, Content, Sider, Footer } = Layout;
 
 function Manage(props) {
-  const columns = ColumnTable;//columnTable
   const [data, setData] = useState([]);//칼럼 안 데이터
   const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];//근무 부서
-  const [CheckTarget, setCheckTarget] = useState(''); //체크 박스 한 대상
   const [Visible, setVisible] = useState(false); //modal 관리
-  //선택 체크박스
-  const onChange = (e) => {
-    console.log('e.target.value : ',e.target.value);
-    setCheckTarget(e.target.value);
-  }
+
+  //직원 데이터 조회
+  useEffect(() => {
+    axios.get('/api/manage').then(response => {
+      setData(response.data);
+    });
+}, []);
+
+  //체크박스
+  const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setCheckTarget(selectedRows);
+    }
+  };
   //확인용
   const handleSave = () => {
     console.log('CheckTarget : ',CheckTarget);
@@ -39,13 +49,14 @@ function Manage(props) {
     setVisible(false);
   }
   ///////////////////////////////////////////
-  //delete -> 한개씩만 삭제됨
+  //직원 데이터 삭제
   const handleDelete = () => {
-    const body = {
-      check : CheckTarget
-    }
-    axios.post('/api/delete', body);
-    window.location.replace('/manage');
+    axios.post('/api/delete', CheckTarget).then(res =>{
+      if(res.data.success){
+        alert('삭제되었습니다.');
+        window.location.reload();
+      }
+    })
   }
   //근무부서 선택
   const tagRender = (props) => {
@@ -56,29 +67,7 @@ function Manage(props) {
       </Tag>
     );
   }
-  //데이터 GET
-    useEffect(() => {
-      axios.get('/api/manage').then(response => {
-        var temp = {};
-        for(var i=0; i< response.data.length; i++) {
-          temp = {
-            key: String(i+1),
-            선택: <Checkbox onChange={onChange} value={response.data[i].id}></Checkbox>,
-            dept: response.data[i].dept,
-            직급: response.data[i].rank,
-            사원번호: response.data[i].id,
-            사원이름: response.data[i].name,
-            비밀번호: response.data[i].password,
-            email: response.data[i].email,
-            핸드폰번호: response.data[i].phone,
-            우편번호: response.data[i].zim,
-            주소: response.data[i].address,
-            비고: response.data[i].des
-          };
-          setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
-        }
-      });
-  }, []);
+
     //main
   return (
     <div>
@@ -139,7 +128,7 @@ function Manage(props) {
                 <Button>수정</Button>
                 <Button onClick={handleSave}>확인(개발)</Button>
               </div>
-            <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
+            <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>
             <Footer style={{ textAlign: 'center' }}>
               Ant Design ©2018 Created by Ant UED

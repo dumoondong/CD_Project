@@ -1,6 +1,6 @@
 import { Checkbox } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
-
+//ColumnTable.js를 이용해주길 바람
 const CodeColumn = [
     {
      title: <Checkbox />,

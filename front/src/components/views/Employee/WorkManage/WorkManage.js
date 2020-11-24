@@ -66,7 +66,7 @@ const columns = [
        Check: 'Check',
      },
   ];
-  function Employee(props) {
+  function WorkManage(props) {
     const [selectedOption, setSelectedOption] = useState(null);
     console.log(setSelectedOption); 
       return (
@@ -86,14 +86,14 @@ const columns = [
           <Button style = {{textAlign: 'left'}}>업무조회</Button>  
             <div style = {{display: 'flex'}}>
               <div style = {{display: 'inline-block', margin: '0px auto'}}>
-                  <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={Employee}>
+                  <Select name = 'year' defaultValue="년도" style={{ width: 80 }} >
                     <Option value="2020">2020</Option>
                     <Option value="2019">2019</Option>
                     <Option value="2018">2018</Option>
                     <Option value="2017">2017</Option>
                     <Option value="2016">2016</Option>
                   </Select>
-                  <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={Employee}>
+                  <Select name = 'month' defaultValue="월" style={{ width: 60 }} >
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
                   <Option value="3">3</Option>
@@ -121,4 +121,4 @@ const columns = [
 );
 }
 
-export default Employee
+export default WorkManage

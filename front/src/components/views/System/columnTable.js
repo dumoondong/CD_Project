@@ -1,12 +1,5 @@
-import { Checkbox } from 'antd';
-import 'antd/dist/antd.css'; //antd디자인 CSS
-//테이블 칼럼 틀
-const columnTable = [
-    {
-        title: <Checkbox />,
-        dataIndex: '선택',
-        key: '선택',
-      },
+//ManageColumnTable
+export const ManageColumns = [  
       {
         title: '부서',
         dataIndex: 'dept',
@@ -14,49 +7,74 @@ const columnTable = [
       },
       {
         title: '직급',
-        dataIndex: '직급',
-        key: '직급',
+        dataIndex: 'rank',
+        key: 'rank',
       },
       {
         title: '사원번호',
-        dataIndex: '사원번호',
-        key: '사원번호',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         title: '사원이름',
-        dataIndex: '사원이름',
-        key: '사원이름',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         title: '비밀번호',
-        dataIndex: '비밀번호',
-        key: '비밀번호',
+        dataIndex: 'password',
+        key: 'password',
       },
       {
-        title: 'email',
+        title: 'Email',
         dataIndex: 'email',
         key: 'email',
       },
       {
         title: '핸드폰번호',
-        dataIndex: '핸드폰번호',
-        key: '핸드폰번호',
+        dataIndex: 'phone',
+        key: 'phone',
       },
       {
         title: '우편번호',
-        dataIndex: '우편번호',
-        key: '우편번호',
+        dataIndex: 'zim',
+        key: 'zim',
       },
       {
         title: '주소',
-        dataIndex: '주소',
-        key: '주소',
+        dataIndex: 'address',
+        key: 'address',
       },
       {
         title: '비고',
-        dataIndex: '비고',
-        key: '비고',
+        dataIndex: 'des',
+        key: 'des',
       }
 ];
-
-export default columnTable
+//CodeColumnTable
+export const CodeColumns = [
+  // {
+  //     title: <Checkbox />,
+  //   key: '선택',
+  // },
+  {
+      title: '대코드',
+      dataIndex: '대코드',
+      key: '대코드',
+  },
+  {
+    title: '소코드',
+    dataIndex: '소코드',
+    key: '소코드',
+  },
+  {
+    title: '코드정보',
+    dataIndex: '코드정보',
+    key: '코드정보',
+  },
+  {
+    title: '비고',
+    dataIndex: '비고',
+    key: '비고',
+  }
+];
