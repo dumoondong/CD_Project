@@ -6,13 +6,12 @@ import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from '../SystemAdd/CodeAdd';
-import CodeColumn from './CodeColumn';
+import {CodeColumns,DeCodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
-
-  const columns = CodeColumn;//CodeColumn테이블 
   const [data, setData] = useState([]);//칼럼 안 데이터
+  const [Dedata, setDeData] = useState('');//칼럼 안 데이터
   const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
   const [CheckTarget, setCheckTarget] = useState('');
   //선택 체크박스
@@ -41,24 +40,17 @@ function Code(props) {
       </Tag>
     );
   }
+  //공통 코드 데이터 조회
   useEffect(() => {
     axios.get('/api/codetable').then(response => {
-      var temp = {};
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          key: String(i+1),
-          대코드: response.data[i].LargeCode,
-          선택: <Checkbox onChange={onChange} value={response.data[i].id}></Checkbox>,
-          소코드: response.data[i].SmallCode,
-          코드정보: response.data[i].SmallInfo,
-          비고: response.data[i].SmallContent,
-        };
-        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
-      }
+      setData(response.data);
+    });
+    axios.get('/api/masterCode').then(response => {
+      setDeData(response.data);
     });
 }, []);
-  
-    
+
+console.log(Dedata);
     //main
   return (
     <div>
@@ -89,7 +81,9 @@ function Code(props) {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+          <Link  to="/">
             <Button style={{marginRight:'1%'}}>로그아웃</Button>
+            </Link>
           </Header>
           <Content>
           <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
@@ -109,20 +103,19 @@ function Code(props) {
                   defaultValue={['CP']}style={{ width: '30%' }}
                 options={options}
                 />
+                <Table style = {{background: '#fff',width: 400}} columns={DeCodeColumns} dataSource={Dedata} />
               </div>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-               
+              
                 <CodeAdd></CodeAdd>
                 <Button onClick={handleDelete}>삭제</Button>
                 <button>수정</button>
                 <button>저장</button>
               </div>
               
-            <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
-            <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-            <CodeAdd></CodeAdd>
+            <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} />
+            <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >          
             </div>
-            <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
       </Layout>
     </Layout>
