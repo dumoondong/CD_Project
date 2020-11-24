@@ -6,16 +6,16 @@ import {
   Link
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
-import PrezWork from './hoc/PresidentWork';
+import PrezWork from './components/views/President/PresidentWork';
 import CheckMyPage from './components/views/Employee/MyPage/CheckMyPage';
 import MyPage from './components/views/Employee/MyPage/MyPage';
 import MainPage from './components/views/Employee/MainPage/MainPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import HolidayUser from './components/views/Employee/HolidayUser/HolidayUser';
 import WorkManage from './components/views/Employee/WorkManage/WorkManage';
-import Manage from './components/views/System/Manage';
-import Code from './components/views/System/Code';
-import Holiday from './components/views/System/Holiday';
+import Manage from './hoc/System/Manage';
+import Code from './hoc/System/Code';
+import Holiday from './hoc/System/Holiday';
 // import MasterManage from './hoc/Master/MasterManage';
 // import MasterOutwork from './hoc/Master/MasterOutwork';
 // import MasterPage from './hoc/Master/MasterPage';
