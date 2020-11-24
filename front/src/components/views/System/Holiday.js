@@ -5,8 +5,11 @@ import axios from 'axios';
 import LiveClock from '../../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction' //fullCalender 데이터 선택할려면 필요함
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider } = Layout;
 
 function Holiday(props) {
   //holiday table 날짜 smallcode table 코드 정보 가져옴
@@ -17,77 +20,26 @@ function Holiday(props) {
 
   useEffect(() => {         
     axios.get('/api/ListData').then(response => {
-      var temp = {};
-      for(var i=0; i< response.data.length; i++) {
+      let temp = {};
+      for(let i=0; i< response.data.length; i++) {
         temp = {
           DATE: response.data[i].DATE,
           SmallInfo: response.data[i].SmallInfo,
         };
-        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보 
+        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보
         setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
         setDayInfo(DayInfo => [...DayInfo,response.data[i].DATE.substring(8,10)]);
       }
     });
 }, []);
-console.log(DayInfo[0]);
-  //캘린더에 표시
-  function getListData(value) {
-   
-    let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'error', content: Info},
-        ];
-        break;
-      default:
-    }
-    return listData || [];
-  }
-  //주석 필요
-  const dateCellRender = (value) => {
-    const listData = getListData(value);
-    return (
-      <ul className="events">
-        {listData.map(item => (
-          <li key={Info}>
-            <Badge status={'error'} text={Info} />
-          </li>
-        ))}
-      </ul>
-    );
-  }
-  //주석 필요
-  const getMonthData = (value) => {
-    if (value.month() === 8) {
-      return 1394;
-    }
-  }
-  //주석 필요
-  const monthCellRender = (value) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  }
   //캘린더
   const [Date, setDate] = useState('');
-  //주석 필요
-  const onPanelChange = (value, mode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
-  }
-  //주석 필요
-  const setOnSelect = (value) => {
-    //console.log(value.format('L'));
-    setDate(value.format('YYYY-MM-DD'));
-  }
-  ///HolidayAdd.js와 연결하는 부분//////////////
+  /////////////////////////////////////////////////HolidayAdd.js와 연결하는 부분
   const [Visible, setVisible] = useState(false);
-  //팝업 ON
-  const showModal = () => {
+  //팝업 ON(빅캘린더에서 날짜정보를 가져오고 모달창을 띄움)
+  const handleDateSelect = (value) => {
+    console.log(value.dateStr);
+    setDate(value.dateStr);
     setVisible(true);
   }
   //팝업 OFF
@@ -98,7 +50,7 @@ console.log(DayInfo[0]);
   const handleOk = () => {
     setVisible(false);
   }
-  //분리 작업 테스트 성공...휴일 설정///////////
+  //분리 작업 테스트 성공...휴일 설정/////////////////////////////////////////////
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -106,7 +58,6 @@ console.log(DayInfo[0]);
         <div>
         <LiveClock></LiveClock>
         </div>
-        {/* grid */}
         <Row>
             <Col span={12}><Button block>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>
@@ -143,8 +94,16 @@ console.log(DayInfo[0]);
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>     
-            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
-            <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel}/>
+            <FullCalendar 
+              initialView="dayGridMonth"
+              plugins={[ dayGridPlugin, interactionPlugin]}
+              dateClick = {handleDateSelect}
+              events={[
+                { title: 'event 1', date: '2020-11-01' },
+                { title: 'event 2', date: '2020-11-02' }
+              ]}
+            />
+            <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>
     </Layout>
