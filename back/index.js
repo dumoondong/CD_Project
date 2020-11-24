@@ -164,7 +164,8 @@ app.get('/api/worklist', (req, res) => {
 
 //mypage조회 연습
 app.get('/api/mypage', (req, res) => {
-  db.query('SELECT dept from employee', (error, rows) => {
+  console.log(req.session.userId);
+  db.query('SELECT * from employee where id = 1113', (error, rows) => {
     if (error) throw error;
     console.log('User info is \n', rows);
     res.send(rows);
