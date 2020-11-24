@@ -23,21 +23,20 @@ function Holiday(props) {
           DATE: response.data[i].DATE,
           SmallInfo: response.data[i].SmallInfo,
         };
-        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보 
+        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보
         setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
         setDayInfo(DayInfo => [...DayInfo,response.data[i].DATE.substring(8,10)]);
       }
     });
 }, []);
-console.log(DayInfo[0]);
-  //캘린더에 표시
+  //빅켈린터로 변경해야함
   function getListData(value) {
-   
     let listData;
+    console.log(value);
     switch (value.date()) {
       case 8:
         listData = [
-          { type: 'error', content: Info},
+          { type: 'error', content: Info}, //회사창립일
         ];
         break;
       default:
@@ -58,37 +57,33 @@ console.log(DayInfo[0]);
     );
   }
   //주석 필요
-  const getMonthData = (value) => {
-    if (value.month() === 8) {
-      return 1394;
-    }
-  }
+  // const getMonthData = (value) => {
+  //   if (value.month() === 0) {
+  //     return 'test';
+  //   }
+  // }
   //주석 필요
-  const monthCellRender = (value) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  }
+  // const monthCellRender = (value) => {
+  //   const num = getMonthData(value);
+  //   return num ? (
+  //     <div className="notes-month">
+  //       <section>{num}</section>
+  //       <span>Backlog number</span>
+  //     </div>
+  //   ) : null;
+  // }
   //캘린더
   const [Date, setDate] = useState('');
   //주석 필요
   const onPanelChange = (value, mode) => {
     console.log(value.format('YYYY-MM-DD'), mode);
   }
-  //주석 필요
-  const setOnSelect = (value) => {
-    //console.log(value.format('L'));
-    setDate(value.format('YYYY-MM-DD'));
-  }
   ///HolidayAdd.js와 연결하는 부분//////////////
   const [Visible, setVisible] = useState(false);
   //팝업 ON
-  const showModal = () => {
-    setVisible(true);
+  const setOnSelect = (value) => {
+    setDate(value.format('YYYY-MM-DD')); //날짜 정보
+    //setVisible(true);
   }
   //팝업 OFF
   const handleCancel = () => {
@@ -143,8 +138,8 @@ console.log(DayInfo[0]);
                 </PageHeader>
               </Breadcrumb.Item>
             </Breadcrumb>     
-            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} onChange={showModal} dateCellRender={dateCellRender} monthCellRender={monthCellRender}/>
-            <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel}/>
+            <Calendar onPanelChange={onPanelChange} onSelect={setOnSelect} dateCellRender={dateCellRender}/>
+            <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>
     </Layout>
