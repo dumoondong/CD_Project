@@ -51,10 +51,6 @@ function ManageAdd(props){
     console.log('직급 : ',value);
     setRank(value);
   }
-//팝업 취소
-  const handleCancel = () => {
-    props.handleCancel();
-  };
 //팝업 저장(유저 생성)
   const handleOk = () => {
     props.handleOk();
@@ -91,7 +87,7 @@ function ManageAdd(props){
         title="추가"
         visible={props.Visible}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={props.handleCancel}
       >
       <div>부서</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleDept}>

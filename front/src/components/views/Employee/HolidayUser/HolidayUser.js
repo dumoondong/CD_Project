@@ -11,28 +11,19 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';/////////////여기까지
 import HolidayUserAdd from './HolidayUserAdd';//연가신청 버튼의 기능
 
-//칼럼 안 데이터
-const data = [
-  {
-    key: '1',
-    date: 'YYYY/MM/DD',
-    day: 'n',
-    type: '연차',
-    content: 'Null',
-    confirm: 'Null',
-  },
-];
-
 const { Header, Content } = Layout;
 
 function HolidayUser(props) {
-  const [Date, setDate] = useState(''); //날짜 정보
+  const [LeaveData, setLeaveData] = useState(''); //날짜 정보
   const [ListData, setListData] = useState([]); //휴일 정보
 
   useEffect(() => {         
     //휴일 데이터를 가져옴
-    axios.get('/api/listdata').then(response => {
+    axios.get('/api/holidaydata').then(response => {
       setListData(response.data);
+    });
+    axios.get('/api/leavelist').then(response => {
+      setLeaveData(response.data);
     });
 }, []);
   
@@ -69,7 +60,7 @@ function HolidayUser(props) {
                 <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <div>
-                  <Table columns={HolidayColums} dataSource={data} pagination={false} />
+                  <Table columns={HolidayColums} dataSource={LeaveData} pagination={false} />
                 </div>
               </Content>
             </Layout>
