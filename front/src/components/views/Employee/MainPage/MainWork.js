@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {MainColumns} from './MainTable';
+import {MainColumns} from './MainTable'; //칼럼
 
 const { Option } = Select;
 const { Content } = Layout;
-
+//인쇄 기능
 const printDiv = () => {
   var initBody = document.body.innerHTML;
 
