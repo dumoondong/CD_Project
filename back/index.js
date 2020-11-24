@@ -196,9 +196,28 @@ app.post('/api/smallcodesave', (req, res) => {
       });  
 });
 });
+//대코드 db에 저장
+app.post('/api/mastercodesave', (req, res) => {
+  db.query(`INSERT INTO mastercode(LargeCode,LargeInfo) VALUES(?,?)`,
+  [req.body.LargeCode, req.body.LargeInfo],(error,result) => {
+    if(error) {
+      return  res.json({
+        largecodeSaveSuccess: false,
+          message: "실패"
+          });  
+  }
+  return res.json({
+    largecodeSaveSuccess: true,
+      message: "성공" 
+      });  
+});
+});
+
+
 
 app.get('/api/codetable', (req, res) => {
   db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
+    
     if (error) throw error;
     console.log('holiday date\n', rows);
     res.send(rows);

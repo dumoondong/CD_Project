@@ -5,11 +5,11 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from '../SystemAdd/CodeAdd';
-import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
+import MasterCodeAdd from '../SystemAdd/MasterCodeAdd';
+import {DeCodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
 
-function Code(props) {
+function MasterCode(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
   const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
   const [CheckTarget, setCheckTarget] = useState('');
@@ -41,7 +41,7 @@ function Code(props) {
   }
   //공통 코드 데이터 조회
   useEffect(() => {
-    axios.get('/api/codetable').then(response => {
+    axios.get('/api/masterCode').then(response => {
       setData(response.data);
     });
 }, []);
@@ -98,20 +98,16 @@ function Code(props) {
               </Breadcrumb.Item>
             </Breadcrumb>
             {/* 선택창 */}
-            <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>대코드
-                <Select mode="multiple"
-                  showArrowtagRender={tagRender}
-                  defaultValue={['CP']}style={{ width: '30%' }}
-                options={options}
-                />
+           
+                
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >        
-                <CodeAdd></CodeAdd>
+                <MasterCodeAdd></MasterCodeAdd>
                 <Button onClick={handleDelete}>삭제</Button>
                 <button>수정</button>
                 <button>저장</button>
               </div>
-            <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} />
-            </div>   
+            <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} />
+            
            
             </Content>
       </Layout>
@@ -120,4 +116,4 @@ function Code(props) {
   );
 };
 
-export default Code
+export default MasterCode
