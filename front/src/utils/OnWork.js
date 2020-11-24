@@ -5,10 +5,6 @@ import {onWorkUser} from '../_actions/user_action';
 
 function OnWork(props) {
     const dispatch = useDispatch(); //redux
-    //확인 창
-    const handleOk = () => {
-        props.handleOnOk();
-    }
     //체크 시 출근
     const handleCheck = () =>{
         let body ={ //보낼 값
@@ -32,7 +28,7 @@ function OnWork(props) {
         <>
         <Modal
           visible={props.OnVisible}
-          onOk={handleOk}
+          onOk={props.handleOnOk}
           afterClose={handleCheck}
           closable={false}
           cancelButtonProps={{disabled: true}}

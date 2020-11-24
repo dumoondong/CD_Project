@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
 import PrezWork from './components/views/President/PresidentWork';
-import CheckMyPage from './components/views/Employee/MyPage/CheckMyPage';
+import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MyPage from './components/views/Employee/MyPage/MyPage';
 import MainPage from './components/views/Employee/MainPage/MainPage';
 import LoginPage from './components/views/LoginPage/LoginPage';

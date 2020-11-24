@@ -13,7 +13,7 @@ function CheckMyPage(props) {
     return (
         <div>
         <Layout style={{ minHeight: '100vh' }}>
-        <SideBar DefaultKey={'5'}/>
+        <SideBar DefaultKey={'4'}/>
         <Layout>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
                 {/* 로그인 시 유저 이름 및 로그아웃 */}
