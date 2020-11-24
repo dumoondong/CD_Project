@@ -194,11 +194,18 @@ app.get('/api/codetable', (req, res) => {
   });
 });
 
-app.get('/api/ListData', (req, res) => {
-  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
+app.get('/api/listdata', (req, res) => {
+  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, lists) => {
     if (error) throw error;
-    console.log('holiday date\n', rows);
-    res.send(rows);
+    console.log('holiday date\n', lists);
+    let temp = [];
+    let data = {};
+    lists.forEach(list => {
+      data = {
+        title : list.SmallInfo,
+      }
+    });
+    res.send(lists);
   });
 });
 

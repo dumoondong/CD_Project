@@ -12,24 +12,14 @@ import interactionPlugin from '@fullcalendar/interaction' //fullCalender 데이�
 const { Header, Content, Sider } = Layout;
 
 function Holiday(props) {
-  //holiday table 날짜 smallcode table 코드 정보 가져옴
   const [ListData, setListData] = useState([]);
-  const [Info, setInfo] = useState([]); 
-  const [DateInfo, setDateInfo] = useState([]);
-  const [DayInfo,setDayInfo] = useState('');
 
   useEffect(() => {         
-    axios.get('/api/ListData').then(response => {
-      let temp = {};
-      for(let i=0; i< response.data.length; i++) {
-        temp = {
-          DATE: response.data[i].DATE,
-          SmallInfo: response.data[i].SmallInfo,
-        };
-        setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보
-        setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
-        setDayInfo(DayInfo => [...DayInfo,response.data[i].DATE.substring(8,10)]);
-      }
+    axios.get('/api/listdata').then(response => {
+      response.data.map(listData => (
+        console.log(listData)
+      ));
+      //setListData(response.data);
     });
 }, []);
   //캘린더
@@ -98,6 +88,7 @@ function Holiday(props) {
               initialView="dayGridMonth"
               plugins={[ dayGridPlugin, interactionPlugin]}
               dateClick = {handleDateSelect}
+              height = '90%'
               events={[
                 { title: 'event 1', date: '2020-11-01' },
                 { title: 'event 2', date: '2020-11-02' }
