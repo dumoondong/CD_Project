@@ -71,9 +71,9 @@ function HolidayAdd(props) {
       dispatch(holidayInfo(body))
               .then(response => { 
                   if(response.payload.holidaySaveSuccess){ 
-                    window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
                     alert('Success!',);
                     console.log(response.payload.holidaySaveSuccess);
+                    window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
                   }
                   else {
                     alert('Failed to sign up...');
