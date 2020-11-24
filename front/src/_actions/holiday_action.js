@@ -15,7 +15,7 @@ export function holidayInfo(dataToSubmit){
     }
 }
 export function SmallCodeInfo(dataToSubmit){
-    const request = axios.post('/api/SmallCodeSave', dataToSubmit)
+    const request = axios.post('/api/smallcodesave', dataToSubmit)
         .then(response => response.data)
 
     return {

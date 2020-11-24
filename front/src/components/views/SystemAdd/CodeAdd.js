@@ -9,36 +9,32 @@ const { Option } = Select;
 function CodeAdd(props){
   const dispatch = useDispatch(); //redux
   const [Visible, setVisible] = useState(false); //팝업
-  const [LargeCode, setLargeCode] = useState('')
-  const [Name, setName] = useState('');
-  const [Password, setPassword] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Dept, setDept] = useState('');
+  const [SmallCode, setSmallCode] = useState('');
+  const [SmallInfo, setSmallInfo] = useState('');
+  const [SmallContent, setSmallContent] = useState('');
 
 //팝업 활성
   const showModal = () => {
     setVisible(true);
   };
 //state 값
-  const handleChangeLargeCode = (e) => {
-    setLargeCode(e.currentTarget.value);
+  const handleChangeSmallCode = (e) => {
+    setSmallCode(e.currentTarget.value);
   }
-  const handleChangeName = (e) => {
-    setName(e.currentTarget.value);
+  const handleChangeSmallInfo = (e) => {
+    setSmallInfo(e.currentTarget.value);
   }
-  const handleChangePassword = (e) => {
-    setPassword(e.currentTarget.value);
+  const handleChangeSmallContent= (e) => {
+    setSmallContent(e.currentTarget.value);
   }
-  const handleChangeEmail= (e) => {
-    setEmail(e.currentTarget.value);
-  }
-  const handleDept = (value) => {
-    console.log('부서 : ',value);
-    setDept(value);
-  }
+  const [SaveCode,setSaveCode] = useState(''); //대코드
    //대코드 종류 선택
    function onChange(value) {
-    console.log(`selected ${value}`);
+    for(var i=0; i< data.length; i++) {
+      if(data[i].LargeInfo === value)  {  
+        setSaveCode(data[i].LargeCode);       
+      }
+    }
   }
    function onBlur() {
      console.log('blur');
@@ -53,16 +49,18 @@ function CodeAdd(props){
    }
   //대코드 종류 설정
   const [data, setData] = useState([]);
+  const [LargeCode, setLargeCode] = useState([]);//스몰코드 정보 리스트
 
   useEffect(() => {         
     axios.get('/api/mastercode').then(response => {
       var temp = {};
       for(var i=0; i< response.data.length; i++) {
         temp = {
-          MasterCode: response.data[i].MasterCode,
+          LargeCode: response.data[i].LargeCode,
+          LargeInfo: response.data[i].LargeInfo,
         };
         setData(data => [...data, temp]);     // 이전값에 temp값 합쳐서 저장
-       
+        setLargeCode(DeCode => [...DeCode,response.data[i].LargeInfo]);//라지코드 정보 저장
       }
     });
 }, []);
@@ -76,11 +74,10 @@ function CodeAdd(props){
     setVisible(false);
 
     let body = {
-      LargeCode:LargeCode,
-      name:Name,
-      password:Password,
-      email:Email,
-      dept:Dept,
+      SaveCode:SaveCode, //대코드
+      SmallCode:SmallCode,
+      SmallInfo:SmallInfo,
+      SmallContent:SmallContent,
     }
 
     dispatch(SmallCodeInfo(body))
@@ -116,37 +113,31 @@ function CodeAdd(props){
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
-         {data.map(MasterCode => (
-          <Option key={MasterCode}>{MasterCode}</Option>
+         {LargeCode.map(LargeCode => (
+          <Option key={LargeCode}>{LargeCode}</Option>
         ))}
          </Select>
       
 
-      <div>대코드</div>
-      <Input 
-        placeholder=""
-        value={LargeCode}
-        onChange={handleChangeLargeCode}
-      />
       <div>소코드</div>
       <Input 
         placeholder=""
-        value={Name}
-        onChange={handleChangeName}
+        value={SmallCode}
+        onChange={handleChangeSmallCode}
       />
 
       <div>코드정보</div>
       <Input 
         placeholder=""
-        value={Password}
-        onChange={handleChangePassword}
+        value={SmallInfo}
+        onChange={handleChangeSmallInfo}
       />
 
       <div>비고</div>
       <Input 
-        placeholder=""
-        value={Email}
-        onChange={handleChangeEmail}
+        placeholder="NULL가능"
+        value={SmallContent}
+        onChange={handleChangeSmallContent}
       />
 
       </Modal>

@@ -25,13 +25,14 @@ function Holiday(props) {
         };
         setInfo(Info => [...Info,response.data[i].SmallInfo]);  //코드정보 
         setDateInfo(DateInfo => [...DateInfo,response.data[i].DATE]);  //날짜정보
+        setDayInfo(DayInfo => [...DayInfo,response.data[i].DATE.substring(8,10)]);
       }
     });
-    setDayInfo(DateInfo[0],()=>{console.log(DayInfo)});
 }, []);
+console.log(DayInfo[0]);
   //캘린더에 표시
   function getListData(value) {
-  
+   
     let listData;
     switch (value.date()) {
       case 8:
@@ -49,8 +50,8 @@ function Holiday(props) {
     return (
       <ul className="events">
         {listData.map(item => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+          <li key={Info}>
+            <Badge status={'error'} text={Info} />
           </li>
         ))}
       </ul>

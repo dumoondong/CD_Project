@@ -171,8 +171,8 @@ app.post('/api/holidaysave', (req, res) => {
 });
 //공통코드 db에 저장
 app.post('/api/smallcodesave', (req, res) => {
-  db.query(`INSERT INTO holiday(LargeCode,SmallCode,SmallInfo,SmallContent) VALUES(?,?,?,?)`,
-  [req.body.LargeCode, req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
+  db.query(`INSERT INTO smallcode(SmallCode,SmallInfo,SmallContent) VALUES(?,?,?)`,
+  [req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
     if(error) {
       return  res.json({
         smallcodeSaveSuccess: false,
@@ -181,11 +181,18 @@ app.post('/api/smallcodesave', (req, res) => {
   }
   return res.json({
     smallcodeSaveSuccess: true,
-      message: "성공"
+      message: "성공" 
       });  
 });
 });
 
+app.get('/api/codetable', (req, res) => {
+  db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
+    if (error) throw error;
+    console.log('holiday date\n', rows);
+    res.send(rows);
+  });
+});
 
 app.get('/api/ListData', (req, res) => {
   db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
