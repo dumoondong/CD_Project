@@ -1,11 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
   Breadcrumb} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../../utils/LiveClock';
+import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from '../RegisterPage/CodeAdd';
+import CodeAdd from '../SystemAdd/CodeAdd';
 import CodeColumn from './CodeColumn';
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -30,7 +30,7 @@ function Code(props) {
           check : CheckTarget
         }
         axios.post('/api/delete', body);
-        window.location.reload();
+        window.location.replace('/code');
       }
     //근무부서 선택
   function tagRender(props) {
@@ -41,27 +41,23 @@ function Code(props) {
       </Tag>
     );
   }
+  useEffect(() => {
+    axios.get('/api/codetable').then(response => {
+      var temp = {};
+      for(var i=0; i< response.data.length; i++) {
+        temp = {
+          key: String(i+1),
+          대코드: response.data[i].LargeCode,
+          선택: <Checkbox onChange={onChange} value={response.data[i].id}></Checkbox>,
+          소코드: response.data[i].SmallCode,
+          코드정보: response.data[i].SmallInfo,
+          비고: response.data[i].SmallContent,
+        };
+        setData(data => [...data, temp]); //이전 값과 새로운 값을 더하여 새로운 값으로 반환
+      }
+    });
+}, []);
   
-    // //칼럼 안 데이터
-    // const [data, setData] = useState([
-    //   {
-    //     key: '1',
-    //     선택: <Checkbox onChange={onChange}></Checkbox>,
-    //     대코드: 'CP',
-    //     소코드: '01',
-    //     코드정보:'공휴일설정',
-    //     비고: '-'
-    //   },
-    //   {
-    //     key: '2',
-    //     선택: <Checkbox onChange={onChange}></Checkbox>,
-    //     대코드: 'CP',
-    //     소코드: '02',
-    //     코드정보:'회사창립일',
-    //     비고: '-'
-    //   },
-    // ]);
-
     
     //main
   return (
@@ -117,10 +113,15 @@ function Code(props) {
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                
                 <CodeAdd></CodeAdd>
-                <button>삭제</button>
+                <Button onClick={handleDelete}>삭제</Button>
                 <button>수정</button>
                 <button>저장</button>
               </div>
+              
+            <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
+            <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
+            <CodeAdd></CodeAdd>
+            </div>
             <Table style = {{background: '#fff'}} columns={columns} dataSource={data} />
             </Content>
       </Layout>

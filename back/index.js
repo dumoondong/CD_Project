@@ -42,24 +42,27 @@ app.get('/api/hello',(req,res)=>{
   res.send('안녕하세요~');
 });
 //=========================================================================================
-
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
 //직원 관리 데이터 삭제 부분 분리 예정
-//우선 데이터가 하나씩만 삭제되게 구현
 app.post('/api/delete',(req,res)=>{
-  console.log(req.body.check);
-  db.query(`DELETE FROM employee WHERE id = ?`,[req.body.check],function(error,result){
-    if(error){
-      throw error;
-    }
+  req.body.forEach(user => {
+    //console.log(user.id);
+    db.query(`DELETE FROM employee WHERE id = ?`,[user.id],function(error,result){
+      if(error){
+        throw error;
+      }
+    });
+  });
+  return res.json({
+    success : true
   });
 });
 //출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
 app.post('/api/onWork',(req, res) => {
       db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
         if(userDate[0] === undefined){ //다른 날짜 유무
-          db.query(`INSERT INTO employeeWork(DATE,Time,id) VALUES(?,?,?)`,
+          db.query(`INSERT INTO employeeWork(DATE,OnWork,id) VALUES(?,?,?)`,
           [req.body.date, req.body.time, req.session.userId],(error,result) => {
             if(error) throw error;
             return res.json({
@@ -75,13 +78,52 @@ app.post('/api/onWork',(req, res) => {
         }
       });
     });
-
+//퇴근 버튼
+app.post('/api/offWork',(req, res) => {
+  db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
+    console.log(userDate);
+    if(userDate[0] != undefined){
+      db.query(`update employeeWork SET OffWork =? where id=?;`,
+      [req.body.time, req.session.userId],(error,result) => {
+        if(error) throw error;
+        return res.json({
+          success : true,
+          message:'ok'
+        });
+      });
+    } else {
+        return res.json({
+          success : false,
+          message:'no'
+        });
+    }
+  });
+});
 //직원 관리 데이터 표시 부분 분리 예정
 app.get('/api/manage', (req, res) => {
-  db.query('SELECT * from employee', (error, rows) => {
+  db.query('SELECT * from employee', (error, users) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
+    let temp = [];
+    let data = {};
+    let i = 0;
+    users.forEach(user => {
+      data = {
+        key: String(i+1),
+        id: user.id,
+        dept: user.dept,
+        rank: user.rank,
+        name: user.name,
+        password: user.password,
+        email: user.email,
+        phone: user.phone,
+        zim: user.zim,
+        address: user.address,
+        des: user.des
+      }
+      i++;
+      temp.push(data);
+    });
+    res.send(temp);
   });
 });
 //로그인한 유저 정보
@@ -103,13 +145,24 @@ app.get('/api/SmallCode', (req, res) => {
     res.send(rows);
   });
 });
+
 app.get('/api/MasterCode', (req, res) => {
   db.query('SELECT * from MasterCode', (error, rows) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
-  });
+  //   let temp = [];
+  //   let data = {};
+  //  rows.forEach(row => {
+  //  data = {
+  //         LargeCode: row.LargeCode,
+  //         LargeInfo: row.LargeInfo,
+	// }
+  //     temp.push(data);
+
+res.send(rows);
+
 });
+  });
+
 
 //휴일설정 db에 저장
 app.post('/api/holidaysave', (req, res) => {
@@ -129,8 +182,8 @@ app.post('/api/holidaysave', (req, res) => {
 });
 //공통코드 db에 저장
 app.post('/api/smallcodesave', (req, res) => {
-  db.query(`INSERT INTO holiday(LargeCode,SmallCode,SmallInfo,SmallContent) VALUES(?,?,?,?)`,
-  [req.body.LargeCode, req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
+  db.query(`INSERT INTO smallcode(SmallCode,SmallInfo,SmallContent) VALUES(?,?,?)`,
+  [req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
     if(error) {
       return  res.json({
         smallcodeSaveSuccess: false,
@@ -139,23 +192,60 @@ app.post('/api/smallcodesave', (req, res) => {
   }
   return res.json({
     smallcodeSaveSuccess: true,
-      message: "성공"
+      message: "성공" 
       });  
 });
 });
 
-
-app.get('/api/ListData', (req, res) => {
-  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, rows) => {
+app.get('/api/codetable', (req, res) => {
+  db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
     if (error) throw error;
     console.log('holiday date\n', rows);
     res.send(rows);
   });
 });
 
-//근무조회db 연습
+app.get('/api/listdata', (req, res) => {
+  db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, lists) => {
+    if (error) throw error;
+    console.log('holiday date\n', lists);
+    let temp = [];
+    let data = {};
+    lists.forEach(list => {
+      data = {
+        title : list.SmallInfo,
+      }
+    });
+    res.send(lists);
+  });
+});
+
+
+//console.log(Number(response.data[0].OnWork.split(':')[0])-7);
+//근무조회
 app.get('/api/worklist', (req, res) => {
-  db.query('SELECT * from worklist', (error, rows) => {
+  db.query('SELECT * from employeeWork where id=?',[req.session.userId], (error, works) => {
+    if (error) throw error;
+    let temp = [];
+    let data = {};
+    let i = 0;
+    works.forEach(work => {
+      data = {
+        key : String(i+1),
+        date : work.Date,
+        onWork: work.OnWork,
+        offWork: work.OffWork
+      }
+      temp.push(data);
+      i++;
+    });
+    res.send(temp);
+  });
+});
+
+//mypage조회 연습
+app.get('/api/mypage', (req, res) => {
+  db.query('SELECT dept from employee', (error, rows) => {
     if (error) throw error;
     console.log('User info is \n', rows);
     res.send(rows);

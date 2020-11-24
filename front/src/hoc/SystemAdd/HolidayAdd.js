@@ -1,9 +1,9 @@
 import React, {useState,useEffect} from 'react'
 import { Select, Modal, Alert, Input} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { holidayInfo } from '../../../_actions/holiday_action';
+import { holidayInfo } from '../../_actions/holiday_action';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -71,9 +71,9 @@ function HolidayAdd(props) {
       dispatch(holidayInfo(body))
               .then(response => { 
                   if(response.payload.holidaySaveSuccess){ 
-                    window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
                     alert('Success!',);
                     console.log(response.payload.holidaySaveSuccess);
+                    window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
                   }
                   else {
                     alert('Failed to sign up...');

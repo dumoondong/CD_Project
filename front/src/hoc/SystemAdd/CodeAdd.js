@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import { Modal, Select,Input,Button } from 'antd';
 import { useDispatch } from 'react-redux';
-import { SmallCodeInfo } from '../../../_actions/holiday_action';
+import { SmallCodeInfo } from '../../_actions/holiday_action';
 import axios from 'axios';
 
 const { Option } = Select;
@@ -9,37 +9,32 @@ const { Option } = Select;
 function CodeAdd(props){
   const dispatch = useDispatch(); //redux
   const [Visible, setVisible] = useState(false); //팝업
-  const [LargeCode, setLargeCode] = useState('')
-  const [Name, setName] = useState('');
-  const [Password, setPassword] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Dept, setDept] = useState('');
+  const [SmallCode, setSmallCode] = useState('');
+  const [SmallInfo, setSmallInfo] = useState('');
+  const [SmallContent, setSmallContent] = useState('');
 
 //팝업 활성
   const showModal = () => {
     setVisible(true);
   };
 //state 값
-  const handleChangeLargeCode = (e) => {
-    setLargeCode(e.currentTarget.value);
+  const handleChangeSmallCode = (e) => {
+    setSmallCode(e.currentTarget.value);
   }
-  const handleChangeName = (e) => {
-    setName(e.currentTarget.value);
+  const handleChangeSmallInfo = (e) => {
+    setSmallInfo(e.currentTarget.value);
   }
-  const handleChangePassword = (e) => {
-    setPassword(e.currentTarget.value);
+  const handleChangeSmallContent= (e) => {
+    setSmallContent(e.currentTarget.value);
   }
-  const handleChangeEmail= (e) => {
-    setEmail(e.currentTarget.value);
-  }
-  const handleDept = (value) => {
-    console.log('부서 : ',value);
-    setDept(value);
-  }
-   //대코드 종류 선택
+
+  const [SaveCode,setSaveCode] = useState(''); //대코드
+
    function onChange(value) {
-    console.log(`selected ${value}`);
+    console.log(value);
+    setSaveCode(value); //대코드
   }
+
    function onBlur() {
      console.log('blur');
    }
@@ -53,34 +48,26 @@ function CodeAdd(props){
    }
   //대코드 종류 설정
   const [data, setData] = useState([]);
-
   useEffect(() => {         
     axios.get('/api/mastercode').then(response => {
-      var temp = {};
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          MasterCode: response.data[i].MasterCode,
-        };
-        setData(data => [...data, temp]);     // 이전값에 temp값 합쳐서 저장
-       
-      }
+      setData(response.data);
     });
-}, []);
+    }, []);
 
 //팝업 취소
   const handleCancel = () => {
     setVisible(false);
   };
+  
 //팝업 저장(유저 생성)
   const handleOk = () => {
     setVisible(false);
 
     let body = {
-      LargeCode:LargeCode,
-      name:Name,
-      password:Password,
-      email:Email,
-      dept:Dept,
+      LargeCode:SaveCode,
+      SmallCode:SmallCode,
+      SmallInfo:SmallInfo,
+      SmallContent:SmallContent,
     }
 
     dispatch(SmallCodeInfo(body))
@@ -116,37 +103,31 @@ function CodeAdd(props){
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
-         {data.map(MasterCode => (
-          <Option key={MasterCode}>{MasterCode}</Option>
+         {data.map(code => (
+          <Option key={code.LargeCode}>{code.LargeInfo}</Option>
         ))}
          </Select>
       
 
-      <div>대코드</div>
-      <Input 
-        placeholder=""
-        value={LargeCode}
-        onChange={handleChangeLargeCode}
-      />
       <div>소코드</div>
       <Input 
         placeholder=""
-        value={Name}
-        onChange={handleChangeName}
+        value={SmallCode}
+        onChange={handleChangeSmallCode}
       />
 
       <div>코드정보</div>
       <Input 
         placeholder=""
-        value={Password}
-        onChange={handleChangePassword}
+        value={SmallInfo}
+        onChange={handleChangeSmallInfo}
       />
 
       <div>비고</div>
       <Input 
-        placeholder=""
-        value={Email}
-        onChange={handleChangeEmail}
+        placeholder="NULL가능"
+        value={SmallContent}
+        onChange={handleChangeSmallContent}
       />
 
       </Modal>
