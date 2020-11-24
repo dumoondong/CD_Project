@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb, Calendar} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../../utils/LiveClock';
+import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
 import FullCalendar from '@fullcalendar/react'
