@@ -17,7 +17,7 @@ function SideBar(props) {
   useEffect(() => {
     //메인 페이지 들어오면 우선 그 시간으로 시간 초기화(오류방지)
     setDate(moment().format('YYYY/MM/DD')); //현재 날짜
-    setTime(moment().format('hh:mm'));//현재 시각
+    setTime(moment().format('HH:mm'));//현재 시각
   }, []);
 ////////////////////////////////////////////////////////출근 버튼 연동
   const [OnVisible, setOnVisible] = useState(false);
@@ -25,7 +25,7 @@ function SideBar(props) {
   const handleOnWork = () => {
     setOnVisible(true);
     setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
+    setTime(moment().format('HH:mm'));
   };
   //팝업 창 OFF
   const handleOnOk = () => {
@@ -37,7 +37,7 @@ function SideBar(props) {
   const handleOffWork = () => {
     setOffVisible(true);
     setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
+    setTime(moment().format('HH:mm'));
   }
   const handleOffOk = () => {
     setOffVisible(false);

@@ -1,0 +1,27 @@
+export const workManageColumn = [
+    {
+      title: '보낸날짜 및 시간',
+      dataIndex: 'Date',
+      key: 'Date',
+    },
+    {
+        title: '보낸 이',
+        dataIndex: 'User',
+        key: 'User',
+      },
+      {
+        title: '제목',
+        dataIndex: 'Title',
+        key: 'Title',
+      },
+      {
+        title: '내용',
+        dataIndex: 'Dsc',
+        key: 'Dsc',
+      },
+      {
+        title: '확인',
+        dataIndex: 'Check',
+        key: 'Check',
+      },
+    ];
