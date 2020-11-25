@@ -58,6 +58,7 @@ app.post('/api/deleteUser',(req,res)=>{
     success : true
   });
 });
+//대코드 테이블 삭제
 app.post('/api/MasterCodedelete',(req,res)=>{
   req.body.forEach(user => {
     //console.log(user.id);
@@ -71,6 +72,34 @@ app.post('/api/MasterCodedelete',(req,res)=>{
     success : true
   });
 });
+//소코드 테이블 삭제
+app.post('/api/SmallCodedelete',(req,res)=>{
+  req.body.forEach(user => {
+    db.query(`DELETE FROM smallcode WHERE SmallCode = ?`,[user.SmallCode],function(error,result){
+      if(error){
+        throw error;
+      }
+    });
+  });
+  return res.json({
+    success : true
+  });
+});
+
+// //대코드 수정
+// app.post('/api/MasterCodeupdate',(req,res)=>{
+//   req.body.forEach(user => {
+//     db.query(`update from mastercode WHERE LargeCode = ?`,[user.LargeCode],function(error,result){
+//       if(error){
+//         throw error;
+//       }
+//     });
+//   });
+//   return res.json({
+//     success : true
+//   });
+// });
+
 //출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
 app.post('/api/onWork',(req, res) => {
       db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
@@ -154,24 +183,40 @@ app.get('/api/userInfo',(req, res) => {
 app.get('/api/SmallCode', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
     if (error) throw error;
-    console.log('User info is \n', rows);
-    res.send(rows);
-  });
-});
+    let temp = [];
+    let data = {};
+    let i = 0;
+   rows.forEach(row => {
+   data = {
+          key: String(i+1),
+          SmallCode: row.SmallCode,
+          SmallInfo: row.SmallInfo,
+          SmallContent: row.SmallContent,
+  }
+      i++;
+      temp.push(data);
+    });
+    res.send(temp);
 
+});
+  });
+//대코드 테이블
 app.get('/api/MasterCode', (req, res) => {
   db.query('SELECT * from MasterCode', (error, rows) => {
     if (error) throw error;
-  //   let temp = [];
-  //   let data = {};
-  //  rows.forEach(row => {
-  //  data = {
-  //         LargeCode: row.LargeCode,
-  //         LargeInfo: row.LargeInfo,
-	// }
-  //     temp.push(data);
-
-res.send(rows);
+    let temp = [];
+    let data = {};
+    let i = 0;
+   rows.forEach(row => {
+   data = {
+          key: String(i+1),
+          LargeCode: row.LargeCode,
+          LargeInfo: row.LargeInfo,
+  }
+      i++;
+      temp.push(data);
+    });
+    res.send(temp);
 
 });
   });
@@ -195,8 +240,9 @@ app.post('/api/holidaysave', (req, res) => {
 });
 //공통코드 db에 저장
 app.post('/api/smallcodesave', (req, res) => {
+  const code = req.body.LargeCode + req.body.SmallCode;
   db.query(`INSERT INTO smallcode(SmallCode,SmallInfo,SmallContent) VALUES(?,?,?)`,
-  [req.body.SmallCode, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
+  [code, req.body.SmallInfo,req.body.SmallContent],(error,result) => {
     if(error) {
       return  res.json({
         smallcodeSaveSuccess: false,
@@ -209,6 +255,7 @@ app.post('/api/smallcodesave', (req, res) => {
       });  
 });
 });
+
 //대코드 db에 저장
 app.post('/api/mastercodesave', (req, res) => {
   db.query(`INSERT INTO mastercode(LargeCode,LargeInfo) VALUES(?,?)`,
@@ -227,15 +274,15 @@ app.post('/api/mastercodesave', (req, res) => {
 });
 
 
-
-app.get('/api/codetable', (req, res) => {
-  db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
-    
-    if (error) throw error;
-    console.log('holiday date\n', rows);
-    res.send(rows);
-  });
-});
+// //공통코드 테이블 대코드 까지 뜨게하는건데 보류
+// app.get('/api/codetable', (req, res) => {
+//   //db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
+//   db.query('SELECT * from SmallCode', (error, rows) => {
+//     if (error) throw error;
+//     console.log('holiday date\n', rows);
+//     res.send(rows);
+//   });
+// });
 
 app.get('/api/holidaydata', (req, res) => {
   db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, lists) => {

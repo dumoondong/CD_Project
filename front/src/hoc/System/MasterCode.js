@@ -6,26 +6,24 @@ import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import MasterCodeAdd from '../SystemAdd/MasterCodeAdd';
+import MasterCodeUpdate from '../SystemUpdate/MasterCodeUpdate';
 import {DeCodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
 
 function MasterCode(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
+  const [Visible, setVisible] = useState(false); //modal 관리
   const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
-  //체크박스
   const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
-
+  //체크박스
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       setCheckTarget(selectedRows);
     }
   };
-      //확인용
-  const handleSave = () => {
-      console.log('CheckTarget : ',CheckTarget);
-    }
-      //delete -> 한개씩만 삭제됨
+  
+  //delete
   const handleDelete = () => {
     axios.post('/api/MasterCodedelete', CheckTarget).then(res =>{
      if(res.data.success){
@@ -34,11 +32,24 @@ function MasterCode(props) {
       }
     })
   }
-   
+    ///ManageAdd 분리//////////////////////////
+  //팝업 창 ON
+  const showModal = () => {
+    setVisible(true);
+  }
+  //팝업 창 OFF
+  const handleCancel = () =>{
+    setVisible(false);
+  }
+  //팝업 창 OFF
+  const handleOk = () =>{
+    setVisible(false);
+  }
   //공통 코드 데이터 조회
   useEffect(() => {
-    axios.get('/api/masterCode').then(response => {
+    axios.get('/api/MasterCode').then(response => {
       setData(response.data);
+      console.log(response.data);
     });
 }, []);
 
@@ -92,12 +103,14 @@ function MasterCode(props) {
             <Button style={{marginRight:'1%'}}>소코드</Button>
             </Link>
               </Breadcrumb.Item>
-            </Breadcrumb>        
-              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >        
-                <MasterCodeAdd></MasterCodeAdd>
+            </Breadcrumb>       
+              <div style = {{background: '#fff',minHeight: 36}}></div> 
+              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >     
+                <Button type="primary" onClick={showModal}>추가</Button>   
+                <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <button>수정</button>
-                <button>저장</button>
+                <Button type="primary" onClick={showModal}>수정</Button>   
+                <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
               </div>
             <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>
