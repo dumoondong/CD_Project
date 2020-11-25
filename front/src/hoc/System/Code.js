@@ -6,43 +6,70 @@ import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from '../SystemAdd/CodeAdd';
+import CodeUpdate from '../SystemUpdate/CodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
 
 function Code(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
-  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
-  const [CheckTarget, setCheckTarget] = useState('');
-  //선택 체크박스
-  function onChange(e) {
-    console.log('e.target.value : ',e.target.value);
-    setCheckTarget(e.target.value);
+  const [Masterdata, setMasterData] = useState([]);//칼럼 안 데이터
+  const { Option } = Select;
+  const [Visible, setVisible] = useState(false); //modal 관리
+  const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
+  //체크박스
+ const rowSelection = {
+   onChange: (selectedRowKeys, selectedRows) => {
+     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+     setCheckTarget(selectedRows);
+   }
+ };
+ 
+  //delete
+ const handleDelete = () => {
+   axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
+    if(res.data.success){
+    alert('삭제되었습니다.');
+    window.location.reload();
+     }
+   })
+ }
+  //mastercodeadd 분리
+  //팝업 창 ON
+  const showModal = () => {
+    setVisible(true);
   }
-      //확인용
-      const handleSave = () => {
-        console.log('CheckTarget : ',CheckTarget);
-      }
-      //delete -> 한개씩만 삭제됨
-      const handleDelete = () => {
-        const body = {
-          check : CheckTarget
-        }
-        axios.post('/api/delete', body);
-        window.location.replace('/code');
-      }
-    //근무부서 선택
-  function tagRender(props) {
-    const { label, value, closable, onClose } = props;
-    return (
-      <Tag color={value} closable={closable} onClose={onClose} style={{ marginRight: 3 }}>
-        {label}
-      </Tag>
-    );
+  //팝업 창 OFF
+  const handleCancel = () =>{
+    setVisible(false);
+  }
+  //팝업 창 OFF
+  const handleOk = () =>{
+    setVisible(false);
+  }
+  //대코드 종류선택
+  function onChange(value) {
+    console.log(value);
+    
+  }
+  //선택창 off
+  function onBlur() {
+    console.log('blur');
+  }
+  //선택창 on
+  function onFocus() {
+    console.log('focus');
+  }
+  
+  function onSearch(val) {
+    console.log('search:', val);
   }
   //공통 코드 데이터 조회
   useEffect(() => {
-    axios.get('/api/codetable').then(response => {
+    axios.get('/api/smallcode').then(response => {  
       setData(response.data);
+    });
+    axios.get('/api/mastercode').then(response => {
+      setMasterData(response.data);
     });
 }, []);
 
@@ -98,21 +125,30 @@ function Code(props) {
               </Breadcrumb.Item>
             </Breadcrumb>
             {/* 선택창 */}
-            <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>대코드
-                <Select mode="multiple"
-                  showArrowtagRender={tagRender}
-                  defaultValue={['CP']}style={{ width: '30%' }}
-                options={options}
-                />
-              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >        
-                <CodeAdd></CodeAdd>
+            <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>
+            <Select showSearch style={{ width: 200 }} placeholder="대코드 검색"
+          optionFilterProp="children"
+          onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onSearch={onSearch}
+          filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+           }
+           >
+         {Masterdata.map(code => (
+          <Option key={code.LargeCode}>{code.LargeInfo}</Option>
+        ))}
+         </Select>
+              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >  
+                <Button type="primary" onClick={showModal}>추가</Button>         
+                <CodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <button>수정</button>
-                <button>저장</button>
+                <Button type="primary" onClick={showModal}>수정</Button>         
+                <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
               </div>
-            <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} />
+            <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} rowSelection={rowSelection} />
             </div>   
-           
             </Content>
       </Layout>
     </Layout>

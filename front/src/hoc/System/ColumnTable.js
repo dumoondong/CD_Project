@@ -54,11 +54,6 @@ export const ManageColumns = [
 //CodeColumnTable
 export const CodeColumns = [
   {
-      title: '대코드',
-      dataIndex: 'LargeCode',
-      key: 'LargeCode',
-  },
-  {
     title: '소코드',
     dataIndex: 'SmallCode',
     key: 'SmallCode',

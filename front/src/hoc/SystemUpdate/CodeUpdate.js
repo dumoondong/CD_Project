@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const { Option } = Select;
 
-function CodeAdd(props){
+function CodeUpdate(props){
   const dispatch = useDispatch(); //redux
   const [SmallCode, setSmallCode] = useState('');
   const [SmallInfo, setSmallInfo] = useState('');
@@ -125,4 +125,4 @@ function CodeAdd(props){
   );
 }
 
-export default CodeAdd
+export default CodeUpdate

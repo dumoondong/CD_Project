@@ -4,7 +4,8 @@ import {
     REGISTER_USER,
     ONWORK_USER,
     OFFWORK_USER,
-    LEAVE_USER
+    LEAVE_USER,
+    MYPAGE_USER
 } from './types';
 //dataToSubmit에는 넘어온 body 데이터가 들어가 있다.;로그인 액션
 export function loginUser(dataToSubmit){
@@ -53,6 +54,16 @@ export function leaveUser(dataToSubmit){
     
     return {
         type: LEAVE_USER,
+        payload: request //true,false를 받는 부분
+    }
+}
+//마이페이지 체크
+export function myPageUser(dataToSubmit){
+    const request = axios.post('/api/mypagecheck', dataToSubmit)
+        .then(response => response.data)
+    
+    return {
+        type: MYPAGE_USER,
         payload: request //true,false를 받는 부분
     }
 }

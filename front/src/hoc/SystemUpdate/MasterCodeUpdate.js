@@ -5,7 +5,7 @@ import { LargeCodeInfo } from '../../_actions/holiday_action';
 import axios from 'axios';
 
 
-function MasterCodeAdd(props){
+function MasterCodeUpdate(props){
   const dispatch = useDispatch(); //redux
   const [LargeInfo, setLargeInfo] = useState('');
   const [LargeCode, setLargeCode] = useState('');
@@ -36,7 +36,15 @@ function MasterCodeAdd(props){
    function onSearch(val) {
      console.log('search:', val);
    }
- 
+
+  //  const handleSave = () => {
+  //   axios.post('/api/MasterCodeupdate', CheckTarget).then(res =>{
+  //     if(res.data.success){
+  //     alert('수정되었습니다.');
+  //     window.location.reload();
+  //      }
+  //    })
+  //   }
 //팝업 저장(유저 생성)
   const handleOk = () => {
 
@@ -61,7 +69,7 @@ function MasterCodeAdd(props){
   return (
     <>
       <Modal
-        title="추가"
+        title="수정"
         visible={props.Visible}
         onOk={handleOk}
         onCancel={props.handleCancel}
@@ -85,4 +93,4 @@ function MasterCodeAdd(props){
   );
 }
 
-export default MasterCodeAdd
+export default MasterCodeUpdate

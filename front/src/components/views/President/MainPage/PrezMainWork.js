@@ -76,17 +76,17 @@ function MainTable(){
 
           <Table columns={MainColumns} dataSource={data} pagination={false} />
 
-          <div style = {{backgroundColor: 'blue', textAlign: 'center'}}>
+          <div style = {{textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
               근무시간합계
             </div>
-            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'yellow'}}>
+            <div style = {{display: 'inline-block', width: '10%'}}>
               근무합
             </div>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
               초과근무시간합계
             </div>
-            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'yellow'}}>
+            <div style = {{display: 'inline-block', width: '10%'}}>
               초과합
             </div>
           </div>

@@ -6,6 +6,7 @@ import LiveClock from './LiveClock'; //시계
 import OnWork from './OnWork'; //출근 기능
 import OffWork from './OffWork'; //퇴근 기능
 import { Link } from "react-router-dom"; //라우터
+import './SideBar.css';
 
 const { Sider } = Layout;
 
@@ -49,12 +50,12 @@ function SideBarEmployee(props) {
             <LiveClock />
             </div>
             <Row>
-                <Col span={12}><Button block onClick={handleOnWork}>출근</Button></Col>
-                <Col span={12}><Button block onClick={handleOffWork}>퇴근</Button></Col>
+                <Col span={12}><Button block onClick={handleOnWork} className='btn'>출근</Button></Col>
+                <Col span={12}><Button block onClick={handleOffWork} className='btn'>퇴근</Button></Col>
             </Row>
             <OnWork OnVisible={OnVisible} Date={Date} Time={Time} handleOnOk={handleOnOk} />
             <OffWork OffVisible={OffVisible} Date={Date} Time={Time} handleOffOk={handleOffOk} />
-              <Menu theme="dark" defaultSelectedKeys={props.DefaultKey} mode="inline">
+              <Menu theme="dark" defaultSelectedKeys={props.DefaultKey} mode="inline" className='menu'>
                 <Menu.Item key="1" >
                   <span>홈 바로가기</span>
                   <Link to="/main" />
@@ -69,7 +70,7 @@ function SideBarEmployee(props) {
                 </Menu.Item>
                 <Menu.Item key="4" >
                   <span>마이 페이지</span>
-                  <Link to="/ckmypage" />
+                  <Link to="/mypage" />
                 </Menu.Item>
               </Menu>
           </Sider>
