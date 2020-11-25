@@ -80,7 +80,7 @@ function WorkManageSend() {
                             <Table columns={deptColums} dataSource={data} rowSelection={rowSelection} pagination={false} />
                         </div>
                     </div>
-                    <div id = "right" style = {{float: "left", width: "74%", marginLeft: "12px"}}>
+                    <div id = "right" style = {{float: "left", width: "64%", marginLeft: "12px"}}>
                         <div style = {{ display: "inline-block", width: "100%", height: "50%", marginTop: "7%"}}>
                             <div>
                                 <div style = {{display: "inline-block", width: "10%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
