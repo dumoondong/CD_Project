@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"; //라우터
 
 const { Sider } = Layout;
 
-function SideBar(props) {
+function SideBarPresident(props) {
   //변수
   const [Date, setDate] = useState(''); //날짜 변수
   const [Time, setTime] = useState(''); //시간 변수
@@ -57,19 +57,23 @@ function SideBar(props) {
               <Menu theme="dark" defaultSelectedKeys={props.DefaultKey} mode="inline">
                 <Menu.Item key="1" >
                   <span>홈 바로가기</span>
-                  <Link to="/main" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="2" >
                   <span>연가</span>
-                  <Link to="/holidayuser" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="3" >
-                  <span>업무지시 및 조회</span>
-                  <Link to="/workmanage" />
+                  <span>직원근무조회</span>
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="4" >
+                  <span>업무지시 및 조회</span>
+                  {/* <Link to="/" /> */}
+                </Menu.Item>
+                <Menu.Item key="5" >
                   <span>마이 페이지</span>
-                  <Link to="/ckmypage" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
               </Menu>
           </Sider>
@@ -77,4 +81,4 @@ function SideBar(props) {
     )
 }
 
-export default SideBar
+export default SideBarPresident

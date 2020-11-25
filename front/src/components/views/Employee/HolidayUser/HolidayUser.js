@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LoginedUser from '../../../../utils/LoginedUser';///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
-import SideBar from '../../../../utils/SideBar';///여기까지
+import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import {HolidayColums} from './HolidayUserColums'; //연가조회칼럼
 import FullCalendar from '@fullcalendar/react'; //////////fullCalender 기능
 import dayGridPlugin from '@fullcalendar/daygrid';

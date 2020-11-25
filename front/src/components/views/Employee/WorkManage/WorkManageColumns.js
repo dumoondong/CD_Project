@@ -1,6 +1,6 @@
 export const workManageColumn = [
     {
-      title: '보낸날짜 및 시간',
+      title: '보낸날짜',
       dataIndex: 'Date',
       key: 'Date',
     },
@@ -18,10 +18,5 @@ export const workManageColumn = [
         title: '내용',
         dataIndex: 'Dsc',
         key: 'Dsc',
-      },
-      {
-        title: '확인',
-        dataIndex: 'Check',
-        key: 'Check',
-      },
+      } 
     ];
