@@ -3,6 +3,7 @@ import {
     REGISTER_USER,
     HOLIDAY_INFO,
     SMALLCODE_INFO,
+    LARGECODE_INFO,
     ONWORK_USER,
     OFFWORK_USER,
     LEAVE_USER
@@ -21,6 +22,9 @@ export default function(state= {}, action) {
             break; 
             case SMALLCODE_INFO:
                 return { ...state, smallcodeSaveSuccess: action.payload }
+            break;
+            case LARGECODE_INFO:
+                return { ...state, largecodeSaveSuccess: action.payload }
             break;
             case ONWORK_USER:
                 return { ...state, success: action.payload }

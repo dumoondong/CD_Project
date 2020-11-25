@@ -20,6 +20,7 @@ import HolidayUser from './components/views/Employee/HolidayUser/HolidayUser';
 import WorkManage from './components/views/Employee/WorkManage/WorkManage';
 import Manage from './hoc/System/Manage';
 import Code from './hoc/System/Code';
+import MasterCode from './hoc/System/MasterCode';
 import Holiday from './hoc/System/Holiday';
 // import MasterManage from './hoc/Master/MasterManage';
 // import MasterOutwork from './hoc/Master/MasterOutwork';
@@ -49,6 +50,7 @@ function App() {
           <Route exact path="/holidayuser" component={HolidayUser} />
           <Route exact path="/manage" component={Manage} />
           <Route exact path="/code" component={Code} />
+          <Route exact path="/mastercode" component={MasterCode} />
           <Route exact path="/holiday" component={Holiday} />
           <Route exact path="/workmanage" component={WorkManage} />
           {/* <Route exact path="/mastermanage" component={MasterManage} />

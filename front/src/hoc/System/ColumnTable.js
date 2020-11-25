@@ -52,29 +52,38 @@ export const ManageColumns = [
       }
 ];
 //CodeColumnTable
-export const CodeColumn = [
-  // {
-  //     title: <Checkbox />,
-  //   key: '선택',
-  // },
+export const CodeColumns = [
   {
       title: '대코드',
-      dataIndex: '대코드',
-      key: '대코드',
+      dataIndex: 'LargeCode',
+      key: 'LargeCode',
   },
   {
     title: '소코드',
-    dataIndex: '소코드',
-    key: '소코드',
+    dataIndex: 'SmallCode',
+    key: 'SmallCode',
   },
   {
     title: '코드정보',
-    dataIndex: '코드정보',
-    key: '코드정보',
+    dataIndex: 'SmallInfo',
+    key: 'SmallInfo',
   },
   {
     title: '비고',
-    dataIndex: '비고',
-    key: '비고',
+    dataIndex: 'SmallContent',
+    key: 'SmallContent',
   }
+];
+
+export const DeCodeColumns = [
+  {
+      title: '대코드',
+      dataIndex: 'LargeCode',
+      key: 'LargeCode',
+  },
+  {
+    title: '대코드정보',
+    dataIndex: 'LargeInfo',
+    key: 'LargeInfo',
+  },
 ];
