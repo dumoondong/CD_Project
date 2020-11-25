@@ -2,7 +2,7 @@ import React from "react";
 import {Layout, Menu, Breadcrumb, PageHeader,Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import { Link } from 'react-router-dom';
-import SideBar from '../../../../utils/SideBar';
+import SideBar from '../../../../utils/SideBarPresident';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 

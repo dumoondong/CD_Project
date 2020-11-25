@@ -3,7 +3,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import {Layout, Button, Table, Select} from 'antd';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
-import SideBar from '../../../../utils/SideBar2';///여기까지
+import SideBar from '../../../../utils/SideBarPresident';///여기까지
 
 
 //칼럼
