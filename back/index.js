@@ -58,6 +58,19 @@ app.post('/api/delete',(req,res)=>{
     success : true
   });
 });
+app.post('/api/MasterCodedelete',(req,res)=>{
+  req.body.forEach(user => {
+    //console.log(user.id);
+    db.query(`DELETE FROM mastercode WHERE LargeCode = ?`,[user.LargeCode],function(error,result){
+      if(error){
+        throw error;
+      }
+    });
+  });
+  return res.json({
+    success : true
+  });
+});
 //출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
 app.post('/api/onWork',(req, res) => {
       db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {

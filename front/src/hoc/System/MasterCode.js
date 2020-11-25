@@ -12,33 +12,29 @@ const { Header, Content, Sider, Footer } = Layout;
 function MasterCode(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
   const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
-  const [CheckTarget, setCheckTarget] = useState('');
-  //선택 체크박스
-  function onChange(e) {
-    console.log('e.target.value : ',e.target.value);
-    setCheckTarget(e.target.value);
-  }
+  //체크박스
+  const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setCheckTarget(selectedRows);
+    }
+  };
       //확인용
-      const handleSave = () => {
-        console.log('CheckTarget : ',CheckTarget);
-      }
+  const handleSave = () => {
+      console.log('CheckTarget : ',CheckTarget);
+    }
       //delete -> 한개씩만 삭제됨
-      const handleDelete = () => {
-        const body = {
-          check : CheckTarget
-        }
-        axios.post('/api/delete', body);
-        window.location.replace('/code');
+  const handleDelete = () => {
+    axios.post('/api/MasterCodedelete', CheckTarget).then(res =>{
+     if(res.data.success){
+     alert('삭제되었습니다.');
+     window.location.reload();
       }
-    //근무부서 선택
-  function tagRender(props) {
-    const { label, value, closable, onClose } = props;
-    return (
-      <Tag color={value} closable={closable} onClose={onClose} style={{ marginRight: 3 }}>
-        {label}
-      </Tag>
-    );
+    })
   }
+   
   //공통 코드 데이터 조회
   useEffect(() => {
     axios.get('/api/masterCode').then(response => {
@@ -96,19 +92,14 @@ function MasterCode(props) {
             <Button style={{marginRight:'1%'}}>소코드</Button>
             </Link>
               </Breadcrumb.Item>
-            </Breadcrumb>
-            {/* 선택창 */}
-           
-                
+            </Breadcrumb>        
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >        
                 <MasterCodeAdd></MasterCodeAdd>
                 <Button onClick={handleDelete}>삭제</Button>
                 <button>수정</button>
                 <button>저장</button>
               </div>
-            <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} />
-            
-           
+            <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>
       </Layout>
     </Layout>
