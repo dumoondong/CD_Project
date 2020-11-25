@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
-import SideBar from '../../../utils/SideBar';
+import SideBar from '../../../utils/SideBarPresident';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';

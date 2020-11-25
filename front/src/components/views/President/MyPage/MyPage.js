@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Layout, Button, Descriptions, Input, Modal} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
-import SideBar from '../../../../utils/SideBar';
+import SideBar from '../../../../utils/SideBarPresident';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 import axios from 'axios';
