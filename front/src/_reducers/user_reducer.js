@@ -6,7 +6,8 @@ import {
     LARGECODE_INFO,
     ONWORK_USER,
     OFFWORK_USER,
-    LEAVE_USER
+    LEAVE_USER,
+    MYPAGE_USER
 } from '../_actions/types';
 //이전state 값과 action값을 묶어서 store(index.js)로 보냄
 export default function(state= {}, action) {
@@ -33,6 +34,9 @@ export default function(state= {}, action) {
                 return { ...state, success: action.payload }
             break; 
             case LEAVE_USER:
+                return { ...state, success: action.payload }
+            break; 
+            case MYPAGE_USER:
                 return { ...state, success: action.payload }
             break; 
         default:

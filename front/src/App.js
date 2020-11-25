@@ -12,8 +12,8 @@ import PrezWorkManage from './components/views/President/WorkManage/workManage2'
 import PrezMainPage from './components/views/President/MainPage/MainPage';
 import PrezMyPage from './components/views/President/MyPage/MyPage';
 import PrezCheckMyPage from './components/views/President/MyPage/CheckMyPage';
-import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
-import MyPage from './components/views/Employee/MyPage/MyPage';
+//import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
+import MyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MainPage from './components/views/Employee/MainPage/MainPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import HolidayUser from './components/views/Employee/HolidayUser/HolidayUser';
@@ -22,12 +22,6 @@ import Manage from './hoc/System/Manage';
 import Code from './hoc/System/Code';
 import MasterCode from './hoc/System/MasterCode';
 import Holiday from './hoc/System/Holiday';
-// import MasterManage from './hoc/Master/MasterManage';
-// import MasterOutwork from './hoc/Master/MasterOutwork';
-// import MasterPage from './hoc/Master/MasterPage';
-// import MasterMain from './hoc/Master/MasterMain';
-// import MasterMiddle from './hoc/Master/MasterMiddle';
-// import CheckMasterPage from './hoc/Master/CheckMasterPage';
 
 function App() {
   return (
@@ -40,7 +34,7 @@ function App() {
           <Route exact path="/prezmypage" component={PrezMyPage} />
           <Route exact path="/prezckmypage" component={PrezCheckMyPage} />
           <Route exact path="/prezworkmanage" component={PrezWorkManage} />
-          <Route exact path="/ckmypage" component={CheckMyPage} />
+          {/* <Route exact path="/ckmypage" component={CheckMyPage} /> */}
           <Route exact path="/mypage" component={MyPage} />
           {/* <Route exact path="/middle" component={MiddlePage} /> */}
           <Route exact path="/main" component={MainPage} />

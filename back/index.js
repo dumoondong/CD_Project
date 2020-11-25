@@ -122,11 +122,12 @@ app.post('/api/onWork',(req, res) => {
     });
 //퇴근 버튼
 app.post('/api/offWork',(req, res) => {
+  //console.log(req.body);
   db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
-    console.log(userDate);
+    //console.log(userDate);
     if(userDate[0] != undefined){
-      db.query(`update employeeWork SET OffWork =? where id=?;`,
-      [req.body.time, req.session.userId],(error,result) => {
+      db.query(`update employeeWork SET OffWork =?,WorkContent=?,OverWorkContent=? where id=? AND Date=?`,
+      [req.body.time,req.body.WorkContent,req.body.OverWorkContent,req.session.userId,req.body.date],(error,result) => {
         if(error) throw error;
         return res.json({
           success : true,
@@ -310,17 +311,35 @@ app.get('/api/worklist', (req, res) => {
     let temp = [];
     let data = {};
     let i = 0;
+    let workTime = null;
+    let workTimeSum = 0;
     works.forEach(work => {
+      //console.log('OnWork: ',work.OnWork);
+      //console.log('OnWorkSplit: ',Number(work.OnWork.split(':')[0]));
+      //console.log('OffWork: ',work.OffWork);
+      //console.log('OffWorkSplit: ',Number(work.OffWork.split(':')[0]));
+      //console.log('workTime:',Number(work.OffWork.split(':')[0]) - Number(work.OnWork.split(':')[0]));
+      if(work.OffWork != null){
+        workTime = Number(work.OffWork.split(':')[0]) - Number(work.OnWork.split(':')[0]);
+        workTimeSum += workTime;
+      }
       data = {
         key : String(i+1),
         date : work.Date,
         onWork: work.OnWork,
-        offWork: work.OffWork
+        offWork: work.OffWork,
+        workTime: workTime,
+        workContent: work.WorkContent,
+        overWorkContent: work.OverWorkContent
       }
       temp.push(data);
       i++;
     });
-    res.send(temp);
+    //res.send(temp);
+    return res.json({
+      workList : temp,
+      workTimeSum
+    });
   });
 });
 
@@ -330,6 +349,24 @@ app.get('/api/mypage', (req, res) => {
     if (error) throw error;
     //console.log('User info is \n', user);
     res.send(user);
+  });
+});
+//mypage확인
+app.post('/api/mypagecheck', (req, res) => {
+  //console.log('1:',req.body.Password);
+  //console.log('2:',req.session.userId);
+  db.query('SELECT * from employee where id =?',[req.session.userId], (error, user) => {
+    if (error) throw error;
+    //console.log('User info is \n', user[0].password);
+    if(user[0].password === req.body.Password){
+      return res.json({
+        success : true
+      });
+    }else{
+      return res.json({
+        success : false
+      });
+    }
   });
 });
 

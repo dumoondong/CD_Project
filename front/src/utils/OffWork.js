@@ -1,15 +1,27 @@
-import React from 'react'
-import { Modal } from 'antd';
+import React,{useState} from 'react'
+import { Modal,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { offWorkUser } from '../_actions/user_action';
 
 function OffWork(props) {
     const dispatch = useDispatch(); //redux
-    //체크 시 출근
+    const [WorkContent, setWorkContent] = useState(''); //근무시간
+    const [OverWorkContent, setOverWorkContent] = useState('');//초과근무시간
+    //근무시간
+    const handleChangeWorkContent = (e) => {
+        setWorkContent(e.currentTarget.value);
+      }
+     //초과근무시간
+    const handleChangeOverWorkContent = (e) => {
+        setOverWorkContent(e.currentTarget.value);
+      }
+    //체크 시 퇴근
     const handleCheck = () =>{
         let body ={ //보낼 값
             date:props.Date,
-            time:props.Time
+            time:props.Time,
+            WorkContent,
+            OverWorkContent
         }
         dispatch(offWorkUser(body))
                 .then(response => { 
@@ -35,7 +47,24 @@ function OffWork(props) {
           width={250}
           style={{textAlign:'center'}}
         >
-          퇴근되었습니다
+          <div>
+            <p style={{backgroundColor:'orange'}}>퇴근시간</p>
+                <p>{props.Time}</p>
+            <p style={{backgroundColor:'orange'}}>근무내용
+                <Input 
+                    placeholder="근무내용 작성"
+                    value={WorkContent}
+                    onChange={handleChangeWorkContent}
+                />
+            </p>
+            <p style={{backgroundColor:'orange'}}>초과근무내용
+                <Input 
+                    placeholder="초과근무내용 작성"
+                    value={OverWorkContent}
+                    onChange={handleChangeOverWorkContent}
+                />
+            </p>
+          </div>
         </Modal>
         </>
     )

@@ -7,3 +7,4 @@ export const LARGECODE_INFO = "LargeCode_info";
 export const ONWORK_USER = "onwork_user";
 export const OFFWORK_USER = "offwork_user";
 export const LEAVE_USER = "leave_user";
+export const MYPAGE_USER = "mypage_user";

@@ -74,18 +74,22 @@ select * from worklist;
 drop table worklist;
 
 create table employeeWork(
+		id VARCHAR(50),
         Date VARCHAR(12) NOT NULL ,
         OnWork VARCHAR(6),
         OffWork VARCHAR(6),
-        id VARCHAR(50)
+        WorkContent VARCHAR(50),
+        OverWorkContent VARCHAR(50)
     );
 
 DROP TABLE employeeWork;
     
-INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1111');
-INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-19','22:00','1111');
-INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1113');
-INSERT INTO employeeWork (DATE,OnWork,id) VALUES('2020-11-18','22:00','1113');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1114');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1114');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1114');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-28','10:00','18:00','1114');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-29','10:00','18:00','1114');
+INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-30','10:00','18:00','1114');
 
 delete from employeeWork;
 
@@ -93,7 +97,7 @@ select * from employeeWork where id='1117' and Date='2020-11-22';
 
 select * from employeeWork;
 
-update employeeWork SET OffWork = "11:00" where id="1113";
+update employeeWork SET OffWork ='23:01',WorkContent='근무',OverWorkContent='초과근무' where id='1113' AND Date='2020/11/25';
 
 #스몰 코드 테이블
 alter table smallcode add SmallContent varchar(100);
@@ -123,3 +127,5 @@ INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','20
 INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
 
 select * from LeaveUser;
+
+SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
