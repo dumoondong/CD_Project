@@ -31,10 +31,6 @@ function Manage(props) {
       setCheckTarget(selectedRows);
     }
   };
-  //확인용
-  const handleSave = () => {
-    console.log('CheckTarget : ',CheckTarget);
-  }
   ///ManageAdd 분리//////////////////////////
   //팝업 창 ON
   const showModal = () => {
@@ -51,7 +47,7 @@ function Manage(props) {
   ///////////////////////////////////////////
   //직원 데이터 삭제
   const handleDelete = () => {
-    axios.post('/api/delete', CheckTarget).then(res =>{
+    axios.post('/api/deleteUser', CheckTarget).then(res =>{
       if(res.data.success){
         alert('삭제되었습니다.');
         window.location.reload();
@@ -126,7 +122,6 @@ function Manage(props) {
                 <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
                 <Button>수정</Button>
-                <Button onClick={handleSave}>확인(개발)</Button>
               </div>
             <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>

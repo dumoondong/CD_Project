@@ -108,3 +108,20 @@ create table MasterCode(
 INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
 
 select * from smallCode where SmallInfo = '회사창립일';
+#연가 테이블(임시)
+create table LeaveUser(
+		id varchar(5),
+        StartDate VARCHAR(15) NOT NULL,
+        EndDate varchar(15) NOT NULL,
+        SelectedLeave varchar(15),
+        Des varchar(30)
+    );
+
+DROP TABLE LeaveUser;
+delete from LeaveUser;
+
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+
+select * from LeaveUser;
