@@ -3,7 +3,7 @@ import { Layout, Button, Table, Calendar, Modal, Descriptions, Input, Select, Da
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import LoginedUser from '../../../../utils/LoginedUser';///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
-import SideBar from '../../../../utils/SideBar';///여기까지
+import SideBar from '../../../../utils/SideBarPresident';///여기까지
 
 const columns = [
   {
