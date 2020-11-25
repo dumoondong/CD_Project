@@ -32,7 +32,7 @@ function PrezMyPage(props) {
     return(
       <div>
         <Layout style={{ minHeight: '100vh' }}>
-        <SideBar DefaultKey={'4'}/>
+        <SideBar DefaultKey={'5'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
             <LoginedUser />
