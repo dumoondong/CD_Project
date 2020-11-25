@@ -57,23 +57,23 @@ function SideBarPresident(props) {
               <Menu theme="dark" defaultSelectedKeys={props.DefaultKey} mode="inline">
                 <Menu.Item key="1" >
                   <span>홈 바로가기</span>
-                  {/* <Link to="/" /> */}
+                  <Link to="/prezmain" />
                 </Menu.Item>
                 <Menu.Item key="2" >
                   <span>연가</span>
-                  {/* <Link to="/" /> */}
+                  <Link to="/prezholi" />
                 </Menu.Item>
                 <Menu.Item key="3" >
                   <span>직원근무조회</span>
-                  {/* <Link to="/" /> */}
+                  <Link to="/employeemanage" />
                 </Menu.Item>
                 <Menu.Item key="4" >
                   <span>업무지시 및 조회</span>
-                  {/* <Link to="/" /> */}
+                  <Link to="/prezworkmanage" />
                 </Menu.Item>
                 <Menu.Item key="5" >
                   <span>마이 페이지</span>
-                  {/* <Link to="/" /> */}
+                  <Link to="/prezckmypage" />
                 </Menu.Item>
               </Menu>
           </Sider>
