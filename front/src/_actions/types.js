@@ -6,3 +6,4 @@ export const SMALLCODE_INFO = "SmallCode_info";
 export const LARGECODE_INFO = "LargeCode_info";
 export const ONWORK_USER = "onwork_user";
 export const OFFWORK_USER = "offwork_user";
+export const LEAVE_USER = "leave_user";

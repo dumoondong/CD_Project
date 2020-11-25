@@ -2,13 +2,13 @@ import React from "react";
 import {Layout, Menu, Breadcrumb, PageHeader,Button, Row, Col} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import { Link } from 'react-router-dom';
-import SideBar from '../../../../utils/SideBarEmployee';
+import SideBar from '../../../../utils/SideBar';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 
 const { Header, Content, Sider, Footer } = Layout;
 
-function CheckMyPage(props) {
+function PrezCheckMyPage(props) {
    
     return (
         <div>
@@ -54,4 +54,4 @@ function CheckMyPage(props) {
     );
 }
 
-export default CheckMyPage
+export default PrezCheckMyPage

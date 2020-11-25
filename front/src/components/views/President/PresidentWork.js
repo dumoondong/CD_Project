@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LoginedUser from '../../../utils/LoginedUser';
 import LogoutUser from '../../../utils/LogoutUser';
-import SideBar from '../../../utils/SideBar';
+import SideBar from '../../../utils/SideBarEmployee';
 
 const { Option } = Select;
 const { Header, Content, Sider, Footer } = Layout;

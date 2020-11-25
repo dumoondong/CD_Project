@@ -3,17 +3,17 @@ use mydb; #자신이 쓸 디비
 
 # 테이블 추가
 create table employee(
-        id varchar(50) unique,
-        name varchar(50),
-        password varchar(50),
-        email varchar(50) unique,
-        phone varchar(50) unique,
-        zim varchar(50),
-        address varchar(50),
-        des varchar(50),
-        dept varchar(50),
-        rank varchar(50)
-    );
+	id varchar(50),
+	name varchar(50),
+	password varchar(50),
+	email varchar(50),
+	phone varchar(50),
+	zim varchar(50),
+	address varchar(50),
+	des varchar(50),
+	dept varchar(50),
+	rank varchar(50)
+);
 
 # 테이블 삭제
 DROP TABLE holiday;
@@ -39,7 +39,6 @@ select * from SmallCode;
 select * from Holiday;
 
 # 정식이 꺼 임시 테이블 및 데이터들
-#소코드 테이블
 create table SmallCode(
         SmallCode VARCHAR(6) NOT NULL,
         SmallInfo varchar(45)
@@ -48,18 +47,18 @@ create table SmallCode(
 INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
 INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
 
-select * from SmallCode;
-#휴일 관리 테이블
 create table Holiday(
         Date VARCHAR(12) NOT NULL,
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
-
+    
+# 안됨
 INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
 INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
 
 select * from holiday;
+select * from SmallCode;
 
 SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
 
@@ -74,7 +73,6 @@ insert into worklist(Date, day) values('2020-11-20', '화요일');
 select * from worklist;
 drop table worklist;
 
-#직원근무관리 테이블 임시
 create table employeeWork(
         Date VARCHAR(12) NOT NULL ,
         OnWork VARCHAR(6),
@@ -108,3 +106,20 @@ create table MasterCode(
 INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
 
 select * from smallCode where SmallInfo = '회사창립일';
+#연가 테이블(임시)
+create table LeaveUser(
+		id varchar(5),
+        StartDate VARCHAR(15) NOT NULL,
+        EndDate varchar(15) NOT NULL,
+        SelectedLeave varchar(15),
+        Des varchar(30)
+    );
+
+DROP TABLE LeaveUser;
+delete from LeaveUser;
+
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
+INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+
+select * from LeaveUser;

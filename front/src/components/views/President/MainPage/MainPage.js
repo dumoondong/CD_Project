@@ -3,12 +3,12 @@ import { Layout } from 'antd'; //antd디자인
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import LoginedUser from '../../../../utils/LoginedUser'; ///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
-import SideBar from '../../../../utils/SideBarEmployee';///여기까지
+import SideBar from '../../../../utils/SideBar2';///여기까지
 import MainWork from './MainWork'; //근무조회
 
 const { Header, Content } = Layout;
 
-function MainPage(props) {
+function PrezMainPage(props) {
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -27,4 +27,4 @@ function MainPage(props) {
   );
 };
 
-export default MainPage
+export default PrezMainPage

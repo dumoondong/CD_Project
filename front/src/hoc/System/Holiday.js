@@ -15,7 +15,7 @@ function Holiday(props) {
   const [ListData, setListData] = useState([]);
 
   useEffect(() => {         
-    axios.get('/api/listdata').then(response => {
+    axios.get('/api/holidaydata').then(response => {
       // response.data.map(listData => (
       //   console.log(listData)
       // ));

@@ -7,6 +7,11 @@ import {
 } from "react-router-dom"; //react-router-dom을 가져옴
 //페이지 import
 import PrezWork from './components/views/President/PresidentWork';
+import PrezOutWork from './components/views/President/Holiday/PrezHoliday';
+import PrezWorkManage from './components/views/President/WorkManage/workManage2';
+import PrezMainPage from './components/views/President/MainPage/MainPage';
+import PrezMyPage from './components/views/President/MyPage/MyPage';
+import PrezCheckMyPage from './components/views/President/MyPage/CheckMyPage';
 import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MyPage from './components/views/Employee/MyPage/MyPage';
 import MainPage from './components/views/Employee/MainPage/MainPage';
@@ -30,6 +35,11 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/prezwork" component={PrezWork} />
+          <Route exact path="/prezholiday" component={PrezOutWork} />
+          <Route exact path="/prezmainpage" component={PrezMainPage} />
+          <Route exact path="/prezmypage" component={PrezMyPage} />
+          <Route exact path="/prezckmypage" component={PrezCheckMyPage} />
+          <Route exact path="/prezworkmanage" component={PrezWorkManage} />
           <Route exact path="/ckmypage" component={CheckMyPage} />
           <Route exact path="/mypage" component={MyPage} />
           {/* <Route exact path="/middle" component={MiddlePage} /> */}
