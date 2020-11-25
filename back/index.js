@@ -45,7 +45,7 @@ app.get('/api/hello',(req,res)=>{
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', UserRouter);
 //직원 관리 데이터 삭제 부분 분리 예정
-app.post('/api/delete',(req,res)=>{
+app.post('/api/deleteUser',(req,res)=>{
   req.body.forEach(user => {
     //console.log(user.id);
     db.query(`DELETE FROM employee WHERE id = ?`,[user.id],function(error,result){
@@ -205,10 +205,10 @@ app.get('/api/codetable', (req, res) => {
   });
 });
 
-app.get('/api/listdata', (req, res) => {
+app.get('/api/holidaydata', (req, res) => {
   db.query('SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;', (error, lists) => {
     if (error) throw error;
-    console.log('holiday date\n', lists);
+    //console.log('holiday date\n', lists);
     let temp = [];
     let data = {};
     lists.forEach(list => {
@@ -253,6 +253,49 @@ app.get('/api/mypage', (req, res) => {
     res.send(user);
   });
 });
+
+//연가 데이터 넣기
+app.post('/api/leaveinsert',(req,res) => {
+  console.log(req.body);
+  db.query('INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES(?,?,?,?,?)',
+  [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des], (error, user) => {
+    if (error) throw error;
+    return res.json({
+      success : true
+    });
+  });
+});
+//연가 데이터 조회
+app.get('/api/leavelist', (req, res) => {
+  db.query('SELECT * from LeaveUser where id=?',[req.session.userId], (error, lists) => {
+    if (error) throw error;
+    let temp = [];
+    let data = {};
+    lists.forEach(list => {
+      console.log(list);
+      data = {
+        startDate: list.StartDate,
+        endDate: list.EndDate,
+        type: list.SelectedLeave,
+        content: list.Des
+      }
+      temp.push(data);
+    });
+    res.send(temp);
+  });
+});
+
+//비밀번호 예시
+// const crypto = require('crypto');
+// const password = '123q';
+// const pass = crypto.createHash('sha512').update(password).digest('base64');
+// const pass2 = crypto.createHash('sha512').update(password).digest('base64');
+
+// if(pass === pass2){
+//   console.log('같다');
+// }else{
+//   console.log('다르다');
+// }
 
 //port number를 콘솔에 출력
 app.listen(port, () => {
