@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"; //라우터
 
 const { Sider } = Layout;
 
-function SideBar(props) {
+function SideBarPresident(props) {
   //변수
   const [Date, setDate] = useState(''); //날짜 변수
   const [Time, setTime] = useState(''); //시간 변수
@@ -17,7 +17,7 @@ function SideBar(props) {
   useEffect(() => {
     //메인 페이지 들어오면 우선 그 시간으로 시간 초기화(오류방지)
     setDate(moment().format('YYYY/MM/DD')); //현재 날짜
-    setTime(moment().format('hh:mm'));//현재 시각
+    setTime(moment().format('HH:mm'));//현재 시각
   }, []);
 ////////////////////////////////////////////////////////출근 버튼 연동
   const [OnVisible, setOnVisible] = useState(false);
@@ -25,7 +25,7 @@ function SideBar(props) {
   const handleOnWork = () => {
     setOnVisible(true);
     setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
+    setTime(moment().format('HH:mm'));
   };
   //팝업 창 OFF
   const handleOnOk = () => {
@@ -37,7 +37,7 @@ function SideBar(props) {
   const handleOffWork = () => {
     setOffVisible(true);
     setDate(moment().format('YYYY/MM/DD'));
-    setTime(moment().format('hh:mm'));
+    setTime(moment().format('HH:mm'));
   }
   const handleOffOk = () => {
     setOffVisible(false);
@@ -57,19 +57,23 @@ function SideBar(props) {
               <Menu theme="dark" defaultSelectedKeys={props.DefaultKey} mode="inline">
                 <Menu.Item key="1" >
                   <span>홈 바로가기</span>
-                  <Link to="/main" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="2" >
                   <span>연가</span>
-                  <Link to="/holidayuser" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="3" >
-                  <span>업무지시 및 조회</span>
-                  <Link to="/workmanage" />
+                  <span>직원근무조회</span>
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
                 <Menu.Item key="4" >
+                  <span>업무지시 및 조회</span>
+                  {/* <Link to="/" /> */}
+                </Menu.Item>
+                <Menu.Item key="5" >
                   <span>마이 페이지</span>
-                  <Link to="/ckmypage" />
+                  {/* <Link to="/" /> */}
                 </Menu.Item>
               </Menu>
           </Sider>
@@ -77,4 +81,4 @@ function SideBar(props) {
     )
 }
 
-export default SideBar
+export default SideBarPresident

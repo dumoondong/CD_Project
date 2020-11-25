@@ -1,9 +1,15 @@
 export const HolidayColums = [
     {
-      title: '날짜',
-      dataIndex: 'date',
-      key: 'date',
+      title: '시작 날짜',
+      dataIndex: 'startDate',
+      key: 'startDate',
     },
+    {
+      title: '종료 날짜',
+      dataIndex: 'endDate',
+      key: 'endDate',
+    }
+    ,
     {
       title: '일수',
       dataIndex: 'day',
