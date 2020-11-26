@@ -15,13 +15,23 @@ function Manage(props) {
   const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];//근무 부서
   const [Visible, setVisible] = useState(false); //modal 관리
 
+  //dispatch로 가져오도록 바꿀 예정====================================
   //직원 데이터 조회
   useEffect(() => {
-    axios.get('/api/manage').then(response => {
+    axios.get('/api//users/read').then(response => {
       setData(response.data);
     });
 }, []);
-
+  //직원 데이터 삭제
+  const handleDelete = () => {
+    axios.post('/api/users/delete', CheckTarget).then(res =>{
+      if(res.data.success){
+        alert('삭제되었습니다.');
+        window.location.reload();
+      }
+    })
+  }
+  //=================================================================
   //체크박스
   const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
 
@@ -45,15 +55,7 @@ function Manage(props) {
     setVisible(false);
   }
   ///////////////////////////////////////////
-  //직원 데이터 삭제
-  const handleDelete = () => {
-    axios.post('/api/users/deleteUser', CheckTarget).then(res =>{
-      if(res.data.success){
-        alert('삭제되었습니다.');
-        window.location.reload();
-      }
-    })
-  }
+  
   //근무부서 선택
   const tagRender = (props) => {
     const { label, value, closable, onClose } = props;

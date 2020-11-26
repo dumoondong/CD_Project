@@ -48,38 +48,5 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
     }
     
   });
-// });
-//직원 관리 데이터 추가
-router.post('/register',(req, res) =>{
-    //console.log(req.body);
-   db.query(`INSERT INTO employee(id, name, password, email, phone, zim, address, des, dept, rank) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [req.body.id, req.body.name, req.body.password, req.body.email, req.body.phone, req.body.zim, req.body.address, req.body.des, req.body.dept, req.body.rank],(err,result) => {
-        if(err) {
-            return  res.json({
-                registerSuccess: false,
-                message: "등록 실패..."
-                });  
-        }
-        return res.json({
-            registerSuccess: true,
-            message: "등록 성공!"
-            });  
-    });
-  });
 
-//직원 관리 데이터 삭제
-router.post('/deleteUser',(req,res)=>{
-  req.body.forEach(user => {
-    //console.log(user.id);
-    db.query(`DELETE FROM employee WHERE id = ?`,[user.id],function(error,result){
-      if(error){
-        throw error;
-      }
-    });
-  });
-  return res.json({
-    success : true
-  });
-});
-  
 module.exports = router;

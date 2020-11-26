@@ -1,6 +1,6 @@
 import {
     LOGIN_USER,
-    REGISTER_USER,
+    CREATE_USER,
     HOLIDAY_INFO,
     SMALLCODE_INFO,
     LARGECODE_INFO,
@@ -15,8 +15,8 @@ export default function(state= {}, action) {
         case LOGIN_USER:
                 return { ...state, loginSuccess: action.payload }
             break;
-        case REGISTER_USER:
-                return { ...state, registerSuccess: action.payload }
+        case CREATE_USER:
+                return { ...state, CreateSuccess: action.payload }
             break;
             case HOLIDAY_INFO:
                 return { ...state, holidaySaveSuccess: action.payload }

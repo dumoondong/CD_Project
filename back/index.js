@@ -4,7 +4,8 @@ const app = express(); //funtion을 이용하여 새로운 express app을 만듬
 const port = 5000 //port number
 const bodyParser = require('body-parser');
 //router
-const LoginRouter = require('./lib/LoginSystem'); //User 모듈을 가져옴
+const LoginRouter = require('./lib/LoginSystem'); //로그인, 로그아웃
+const CrudRouter = require('./lib/SystemServer/UserCrud'); //직원 추가,삭제,수정,GET
 //웹에서 application/x-www-form-urlencoded에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
@@ -43,8 +44,9 @@ app.get('/api/hello',(req,res)=>{
 //=========================================================================================
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', LoginRouter);
-
-//대코드 테이블 삭제
+app.use('/api/users', CrudRouter);
+//SystemServer로 옮길 예정================================================================================================
+//대코드 테이블 삭제(주소는 다 소문자로 변경해주면 좋을 거 같음)
 app.post('/api/MasterCodedelete',(req,res)=>{
   req.body.forEach(user => {
     //console.log(user.id);
@@ -85,87 +87,6 @@ app.post('/api/SmallCodedelete',(req,res)=>{
 //     success : true
 //   });
 // });
-
-//출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
-app.post('/api/onWork',(req, res) => {
-      db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
-        if(userDate[0] === undefined){ //다른 날짜 유무
-          db.query(`INSERT INTO employeeWork(DATE,OnWork,id) VALUES(?,?,?)`,
-          [req.body.date, req.body.time, req.session.userId],(error,result) => {
-            if(error) throw error;
-            return res.json({
-              success : true,
-              message:'ok'
-            });
-          });
-        } else {
-            return res.json({
-              success : false,
-              message:'no'
-            });
-        }
-      });
-    });
-//퇴근 버튼
-app.post('/api/offWork',(req, res) => {
-  //console.log(req.body);
-  db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
-    //console.log(userDate);
-    if(userDate[0] != undefined){
-      db.query(`update employeeWork SET OffWork =?,WorkContent=?,OverWorkContent=? where id=? AND Date=?`,
-      [req.body.time,req.body.WorkContent,req.body.OverWorkContent,req.session.userId,req.body.date],(error,result) => {
-        if(error) throw error;
-        return res.json({
-          success : true,
-          message:'ok'
-        });
-      });
-    } else {
-        return res.json({
-          success : false,
-          message:'no'
-        });
-    }
-  });
-});
-//직원 관리 데이터 표시 부분 분리 예정
-app.get('/api/manage', (req, res) => {
-  db.query('SELECT * from employee', (error, users) => {
-    if (error) throw error;
-    let temp = [];
-    let data = {};
-    let i = 0;
-    users.forEach(user => {
-      data = {
-        key: String(i+1),
-        id: user.id,
-        dept: user.dept,
-        rank: user.rank,
-        name: user.name,
-        password: user.password,
-        email: user.email,
-        phone: user.phone,
-        zim: user.zim,
-        address: user.address,
-        des: user.des
-      }
-      i++;
-      temp.push(data);
-    });
-    res.send(temp);
-  });
-});
-//로그인한 유저 정보
-app.get('/api/userInfo',(req, res) => {
-  //console.log(req.session.userId);
-  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
-    if (error) throw error;
-    return res.json({
-      userID : rows[0].id,
-      userName : rows[0].name
-    });
-  });
-});
 //공통코드 관련
 app.get('/api/SmallCode', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
@@ -260,7 +181,6 @@ app.post('/api/mastercodesave', (req, res) => {
 });
 });
 
-
 // //공통코드 테이블 대코드 까지 뜨게하는건데 보류
 // app.get('/api/codetable', (req, res) => {
 //   //db.query('SELECT LargeCode,smallcode,SmallInfo,SmallContent FROM mastercode RIGHT JOIN smallcode ON LEFT(SmallCode, 2) = LargeCode;', (error, rows) => {
@@ -287,9 +207,62 @@ app.get('/api/holidaydata', (req, res) => {
     res.send(temp);
   });
 });
+//==============================================================================================================================
 
-
-//console.log(Number(response.data[0].OnWork.split(':')[0])-7);
+//UserServer로 옮길 예정=========================================================================================================
+//출근 버튼(메인페이지 출근 버튼 누르고 또 누르면 출근을 이미 하였다고 뜨기)
+app.post('/api/onWork',(req, res) => {
+      db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
+        if(userDate[0] === undefined){ //다른 날짜 유무
+          db.query(`INSERT INTO employeeWork(DATE,OnWork,id) VALUES(?,?,?)`,
+          [req.body.date, req.body.time, req.session.userId],(error,result) => {
+            if(error) throw error;
+            return res.json({
+              success : true,
+              message:'ok'
+            });
+          });
+        } else {
+            return res.json({
+              success : false,
+              message:'no'
+            });
+        }
+      });
+    });
+//퇴근 버튼
+app.post('/api/offWork',(req, res) => {
+  //console.log(req.body);
+  db.query('SELECT * from employeeWork where id=? AND Date=?',[req.session.userId,req.body.date],(error, userDate) => {
+    //console.log(userDate);
+    if(userDate[0] != undefined){
+      db.query(`update employeeWork SET OffWork =?,WorkContent=?,OverWorkContent=? where id=? AND Date=?`,
+      [req.body.time,req.body.WorkContent,req.body.OverWorkContent,req.session.userId,req.body.date],(error,result) => {
+        if(error) throw error;
+        return res.json({
+          success : true,
+          message:'ok'
+        });
+      });
+    } else {
+        return res.json({
+          success : false,
+          message:'no'
+        });
+    }
+  });
+});
+//로그인한 유저 정보
+app.get('/api/userInfo',(req, res) => {
+  //console.log(req.session.userId);
+  db.query('SELECT * from employee where id = ?',[req.session.userId],(error, rows) => {
+    if (error) throw error;
+    return res.json({
+      userID : rows[0].id,
+      userName : rows[0].name
+    });
+  });
+});
 //근무조회
 app.get('/api/worklist', (req, res) => {
   db.query('SELECT * from employeeWork where id=?',[req.session.userId], (error, works) => {
@@ -386,8 +359,7 @@ app.get('/api/leavelist', (req, res) => {
     res.send(temp);
   });
 });
-
-//비밀번호 예시
+//비밀번호 예시============================================================================================
 // const crypto = require('crypto');
 // const password = '123q';
 // const pass = crypto.createHash('sha512').update(password).digest('base64');
@@ -398,7 +370,7 @@ app.get('/api/leavelist', (req, res) => {
 // }else{
 //   console.log('다르다');
 // }
-
+//========================================================================================================
 //port number를 콘솔에 출력
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
