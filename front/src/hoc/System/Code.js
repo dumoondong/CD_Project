@@ -48,8 +48,20 @@ function Code(props) {
   }
   //대코드 종류선택
   function onChange(value) {
-    console.log(value);
-    
+    if(value == 'All'){
+      axios.get('/api/smallcode').then(response => {  
+        setData(response.data);
+      });
+    }
+     else{
+      let body = {
+      LargeCode : value
+       }
+     axios.post('/api/mastercodelist',body).then(response => {
+     console.log(response.data);
+     setData(response.data);
+      });
+     }
   }
   //선택창 off
   function onBlur() {
@@ -60,9 +72,10 @@ function Code(props) {
     console.log('focus');
   }
   
-  function onSearch(val) {
-    console.log('search:', val);
-  }
+  // function onSearch(val) {
+  //   console.log('search:', val);
+
+  // }
   //공통 코드 데이터 조회
   useEffect(() => {
     axios.get('/api/smallcode').then(response => {  
@@ -131,11 +144,12 @@ function Code(props) {
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          onSearch={onSearch}
+          // onSearch={onSearch}
           filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
+          <Option key={'All'}>All</Option>
          {Masterdata.map(code => (
           <Option key={code.LargeCode}>{code.LargeInfo}</Option>
         ))}

@@ -73,20 +73,36 @@ app.post('/api/SmallCodedelete',(req,res)=>{
     success : true
   });
 });
+//대코드 리스트 검색
+app.post('/api/mastercodelist', (req,res) => {
+  console.log(req.body.LargeCode);
+  db.query('SELECT * from MasterCode where LargeCode like ?',[`%${req.body.LargeCode}%`],(error,data)=>{
+    if(error) res.send(['']);
+    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,codes)=>{
+      if(error2) res.send(['']);
+      res.send(codes);
+    });
+  });
+});
 
-// //대코드 수정
-// app.post('/api/MasterCodeupdate',(req,res)=>{
-//   req.body.forEach(user => {
-//     db.query(`update from mastercode WHERE LargeCode = ?`,[user.LargeCode],function(error,result){
-//       if(error){
-//         throw error;
-//       }
-//     });
-//   });
-//   return res.json({
-//     success : true
-//   });
-// });
+
+//대코드 수정
+app.post('/api/mastercodeupdate',(req,res)=>{
+  console.log(req.body);
+  db.query(`UPDATE mastercode SET LargeCode = ? , LargeInfo = ?) VALUES(?,?)`,
+  [req.body.LargeCode, req.body.LargeInfo],(error,result) => {
+        if(error) {
+          return  res.json({
+            holidaySaveSuccess: false,
+              message: "실패"
+              });  
+      }
+      return res.json({
+        holidaySaveSuccess: true,
+          message: "성공"
+          });  
+    });
+});
 //공통코드 관련
 app.get('/api/SmallCode', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
