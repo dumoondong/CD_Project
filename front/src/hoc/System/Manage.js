@@ -47,7 +47,7 @@ function Manage(props) {
   ///////////////////////////////////////////
   //직원 데이터 삭제
   const handleDelete = () => {
-    axios.post('/api/deleteUser', CheckTarget).then(res =>{
+    axios.post('/api/users/deleteUser', CheckTarget).then(res =>{
       if(res.data.success){
         alert('삭제되었습니다.');
         window.location.reload();

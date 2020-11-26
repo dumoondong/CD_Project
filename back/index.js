@@ -4,12 +4,11 @@ const app = express(); //funtion을 이용하여 새로운 express app을 만듬
 const port = 5000 //port number
 const bodyParser = require('body-parser');
 //router
-  const UserRouter = require('./lib/user'); //User 모듈을 가져옴
+const LoginRouter = require('./lib/LoginSystem'); //User 모듈을 가져옴
 //웹에서 application/x-www-form-urlencoded에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.urlencoded({extended : true}));
 //웹에서 application/json에 있는 데이터를 분석해서 가져옴
   app.use(bodyParser.json());
-
 //session 사용 모듈
 const session = require('express-session');
 const mysqlStore = require('express-mysql-session')(session);
@@ -43,21 +42,8 @@ app.get('/api/hello',(req,res)=>{
 });
 //=========================================================================================
 //페이지의 복잡성을 해소하기 위한 라우터
-app.use('/api/users', UserRouter);
-//직원 관리 데이터 삭제 부분 분리 예정
-app.post('/api/deleteUser',(req,res)=>{
-  req.body.forEach(user => {
-    //console.log(user.id);
-    db.query(`DELETE FROM employee WHERE id = ?`,[user.id],function(error,result){
-      if(error){
-        throw error;
-      }
-    });
-  });
-  return res.json({
-    success : true
-  });
-});
+app.use('/api/users', LoginRouter);
+
 //대코드 테이블 삭제
 app.post('/api/MasterCodedelete',(req,res)=>{
   req.body.forEach(user => {

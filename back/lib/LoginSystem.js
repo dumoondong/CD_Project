@@ -49,7 +49,7 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
     
   });
 // });
-//회원가입(register router)
+//직원 관리 데이터 추가
 router.post('/register',(req, res) =>{
     //console.log(req.body);
    db.query(`INSERT INTO employee(id, name, password, email, phone, zim, address, des, dept, rank) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -67,6 +67,19 @@ router.post('/register',(req, res) =>{
     });
   });
 
-
+//직원 관리 데이터 삭제
+router.post('/deleteUser',(req,res)=>{
+  req.body.forEach(user => {
+    //console.log(user.id);
+    db.query(`DELETE FROM employee WHERE id = ?`,[user.id],function(error,result){
+      if(error){
+        throw error;
+      }
+    });
+  });
+  return res.json({
+    success : true
+  });
+});
   
 module.exports = router;
