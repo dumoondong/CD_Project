@@ -36,7 +36,7 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
       console.log(e);
       setSendShow(false);
     }
-    //업무요구
+    //업무지시
     const handleSendShow = (e) => {
       console.log(e);
       setSendShow(true);
