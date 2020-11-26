@@ -1,7 +1,10 @@
-create database mydb; #디비 만듬
-use mydb; #자신이 쓸 디비
+# DB 추가
+	create database mydb;
+# DB 사용
+	use mydb;
 
-# 테이블 추가
+# 테이블 추가(임시)=========================================================
+# 유저테이블
 create table employee(
 	id varchar(50),
 	name varchar(50),
@@ -14,65 +17,24 @@ create table employee(
 	dept varchar(50),
 	rank varchar(50)
 );
-
-# 테이블 삭제
-DROP TABLE holiday;
-
-# 데이터 넣기(임시 데이터)
-INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1113','홍길삼','123','test3@test.com','010-0000-0003','11111','춘천시','-','영업부','과장');
-INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1114','홍길사','123','test4@test.com','010-0000-0004','11111','홍천군','-','총리부','사원');
-INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1115','홍길오','123','test5@test.com','010-0000-0005','11111','서울시','-','인사부','대리');
-
-# 데이터 삭제
-delete from employee where id = '1113';
-delete from employee;
-
-# 데이터 수정
-update employee SET name = "test" where email="test@test.com";
-
-# 세이프 모드를 품(삭제 및 수정 가능(임시))
-set sql_safe_updates=0;
-
-# 데이터 조회
-select * from employee;
-select * from SmallCode;
-select * from Holiday;
-
-# 정식이 꺼 임시 테이블 및 데이터들
+# 마스터코드테이블
+create table MasterCode(
+        LargeCode VARCHAR(3) NOT NULL,
+        LargeInfo varchar(45)
+    );
+# 스몰코드테이블
 create table SmallCode(
         SmallCode VARCHAR(6) NOT NULL,
-        SmallInfo varchar(45)
+        SmallInfo varchar(45),
+        SmallContent varchar(45)
     );
-
-INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
-INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
-
+# 휴일설정테이블
 create table Holiday(
         Date VARCHAR(12) NOT NULL,
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
-    
-# 안됨
-INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
-INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
-
-select * from holiday;
-select * from SmallCode;
-
-SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
-
-# 직원근무조회 연습용 create, insert, select, drop
-create table worklist(
-		Date VARCHAR(12),
-        day VARCHAR(10)
-    );
-    
-insert into worklist(Date, day) values('2020-11-20', '월요일');
-insert into worklist(Date, day) values('2020-11-20', '화요일');
-select * from worklist;
-drop table worklist;
-
+# 근무조회
 create table employeeWork(
 		id VARCHAR(50),
         Date VARCHAR(12) NOT NULL ,
@@ -81,35 +43,6 @@ create table employeeWork(
         WorkContent VARCHAR(50),
         OverWorkContent VARCHAR(50)
     );
-
-DROP TABLE employeeWork;
-    
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1114');
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1114');
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1114');
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-28','10:00','18:00','1114');
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-29','10:00','18:00','1114');
-INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-30','10:00','18:00','1114');
-
-delete from employeeWork;
-
-select * from employeeWork where id='1117' and Date='2020-11-22';
-
-select * from employeeWork;
-
-update employeeWork SET OffWork ='23:01',WorkContent='근무',OverWorkContent='초과근무' where id='1113' AND Date='2020/11/25';
-
-#스몰 코드 테이블
-alter table smallcode add SmallContent varchar(100);
-
-create table MasterCode(
-        LargeCode VARCHAR(3) NOT NULL,
-        LargeInfo varchar(45)
-    );
-
-INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
-
-select * from smallCode where SmallInfo = '회사창립일';
 #연가 테이블(임시)
 create table LeaveUser(
 		id varchar(5),
@@ -118,14 +51,82 @@ create table LeaveUser(
         SelectedLeave varchar(15),
         Des varchar(30)
     );
+#==============================================================================
 
-DROP TABLE LeaveUser;
-delete from LeaveUser;
+# 세이프 모드를 품(삭제 및 수정 가능(임시))
+set sql_safe_updates=0;
 
-INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
-INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
-INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+# 테이블 삭제=====================================================================
+	DROP TABLE holiday; #휴일
+	DROP TABLE SmallCode; #스몰코드
+	DROP TABLE employeeWork; #근무조회
+	DROP TABLE LeaveUser; #연가
+#==============================================================================
 
-select * from LeaveUser;
+# 테이블 수정=====================================================================
+#스몰 코드 테이블
+	alter table smallcode add SmallContent varchar(100);
+#==============================================================================
 
-SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
+# 데이터 넣기(임시 데이터)===================================================================================================
+# 유저
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1113','대표임','123','test@test.com','010-0000-0001','11111','춘천시','-','영업부','대표');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1114','직원일','123','test1@test.com','010-0000-0002','11111','홍천군','-','총리부','직원');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1115','직원이','123','test2@test.com','010-0000-0003','11111','서울시','-','인사부','직원');
+# 마스터코드
+	INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
+# 스몰코드 (수정 필요)
+	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
+	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
+# 휴일설정
+	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
+	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
+# 근무조회
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-28','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-29','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-30','10:00','18:00','1114');
+# 연가
+	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
+	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
+	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+#=======================================================================================================================
+
+# 데이터 삭제========================================================================
+# 유저
+	delete from employee where id = '1113';
+	delete from employee;
+# 근무조회
+	delete from employeeWork;
+# 연가
+	delete from LeaveUser;
+#=================================================================================
+
+# 데이터 수정========================================================================
+# 유저
+	update employee SET name = "test" where email="test@test.com";
+# 근무조회
+	update employeeWork SET OffWork ='23:01',WorkContent='근무',OverWorkContent='초과근무' where id='1113' AND Date='2020/11/25';
+#==================================================================================
+
+# 데이터 조회=========================================================================
+# 유저
+	SELECT * from employee;
+# 마스터코드
+	SELECT * from MasterCode;
+# 스몰코드
+	SELECT * from SmallCode;
+    SELECT * from smallCode where SmallInfo = '회사창립일';
+# 휴일설정
+	SELECT * from Holiday;
+# 근무조회
+	SELECT * from employeeWork where id='1117' and Date='2020-11-22';
+    SELECT * from employeeWork;
+    SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
+# 연가
+	SELECT * from LeaveUser;
+# 안먹는 코드
+	SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
+#======================================================================================

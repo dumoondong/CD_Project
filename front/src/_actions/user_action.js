@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
     LOGIN_USER,
-    REGISTER_USER,
+    CREATE_USER,
     ONWORK_USER,
     OFFWORK_USER,
     LEAVE_USER,
@@ -19,11 +19,11 @@ export function loginUser(dataToSubmit){
 }
 //회원가입 액션
 export function registerUser(dataToSubmit){
-    const request = axios.post('/api/users/register', dataToSubmit)
+    const request = axios.post('/api/users/create', dataToSubmit)
         .then(response => response.data)
     
     return {
-        type: REGISTER_USER,
+        type: CREATE_USER,
         payload: request //true,false를 받는 부분
     }
 }

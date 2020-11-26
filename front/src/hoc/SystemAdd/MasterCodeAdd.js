@@ -49,7 +49,7 @@ function MasterCodeAdd(props){
             .then(response => { 
                 if(response.payload.largecodeSaveSuccess){ 
                   window.location.reload();//전체 페이지를 리로드(실제 배포할 때는 리로드할 구역을 살정해야함)
-                  alert('Success!',);
+                  //alert('Success!',);
                   console.log(response.payload.largecodeSaveSuccess);
                 }
                 else {
