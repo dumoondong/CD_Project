@@ -23,7 +23,10 @@ function Code(props) {
      setCheckTarget(selectedRows);
    }
  };
- 
+ //수정
+ const handleSave = () =>{
+
+ }
   //delete
  const handleDelete = () => {
    axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
