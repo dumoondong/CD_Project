@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {MainColumns} from './MainTable'; //칼럼
+import {MainColumn} from './MainColumns'; //칼럼
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -21,7 +21,7 @@ const printDiv = () => {
   window.print();
 }
 
-function MainTable(){
+function MainWork(){
   const [data, setData] = useState([]); //근무 데이터
   const [WorkTimeSum, setWorkTimeSum] = useState(0);
   //나중엔 서버에서 작업해서 넘겨주는 방식으로 구현
@@ -77,7 +77,7 @@ function MainTable(){
             </div>
           </div>
 
-          <Table columns={MainColumns} dataSource={data} pagination={false} />
+          <Table columns={MainColumn} dataSource={data} pagination={false} />
 
           <div style = {{ textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
@@ -100,4 +100,4 @@ function MainTable(){
   );
 }
 
-export default MainTable
+export default MainWork

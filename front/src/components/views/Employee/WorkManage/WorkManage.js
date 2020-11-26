@@ -15,6 +15,9 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
      {
        key: '1',
        Date: 'YYYY/MM/DD',
+       EndDate: 'YYYY/MM/DD',
+       Dept: '영업부',
+       Rank : '대표',
        User: '홍길오',
        Title: '업무지시',
        Dsc: 'Content',
@@ -22,6 +25,9 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
      {
       key: '2',
       Date: 'YYYY/MM/DD',
+      EndDate: 'YYYY/MM/DD',
+      Dept: '영업부',
+      Rank : '직원',
       User: '홍길삼',
       Title: '업무지시',
       Dsc: 'Content',
@@ -33,7 +39,7 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
 
     //업무조회
     const handleListShow = (e) => {
-      console.log(e);
+      //console.log(e);
       setSendShow(false);
     }
     //업무지시
@@ -68,7 +74,7 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 auto', width: '1200px'}}>
+              <Content style={{ margin: '0 auto', width: '100%'}}>
                 <Button onClick={handleListShow}>업무조회</Button>  
                 <Button onClick={handleSendShow}>업무지시</Button> 
                 {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={data} pagination={false} 

@@ -29,20 +29,36 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
               message: "해당 이메일이 없습니다."
               });
           } else {
-              if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password){
-                req.session.userId = userInfo[0].id;
-                return res.json({
+            console.log(userInfo[0].rank);
+              if(req.body.email === userInfo[0].email && 
+                req.body.password === userInfo[0].password && 
+                userInfo[0].rank === '대표')
+                {
+                  req.session.userId = userInfo[0].id;
+                  return res.json({
+                  loginSuccess: true,
+                  message: "로그인 성공!",
+                  userID : userInfo[0].id,
+                  grant: 'president'
+                  });
+                } 
+              else if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password)
+                {
+                  req.session.userId = userInfo[0].id;
+                  return res.json({
                   loginSuccess: true,
                   message: "로그인 성공!",
                   userID : userInfo[0].id,
                   grant: 'employee'
                   });
-            } else { 
-                return res.json({
-                loginSuccess: false,
-                message: "이메일 또는 패스워드가 올바르지 않습니다."
-                });
-            }
+                } 
+              else 
+                { 
+                  return res.json({
+                  loginSuccess: false,
+                  message: "이메일 또는 패스워드가 올바르지 않습니다."
+                  });
+                }
         } 
       });
     }

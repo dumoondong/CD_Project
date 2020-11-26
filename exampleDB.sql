@@ -61,6 +61,7 @@ set sql_safe_updates=0;
 	DROP TABLE SmallCode; #스몰코드
 	DROP TABLE employeeWork; #근무조회
 	DROP TABLE LeaveUser; #연가
+    DROP TABLE MasterCode; #마스터코드
 #==============================================================================
 
 # 테이블 수정=====================================================================
@@ -82,9 +83,9 @@ set sql_safe_updates=0;
 	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
 	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
 # 근무조회
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1114');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1114');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1112');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1112');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1112');
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-28','10:00','18:00','1114');
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-29','10:00','18:00','1114');
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-30','10:00','18:00','1114');
@@ -102,6 +103,10 @@ set sql_safe_updates=0;
 	delete from employeeWork;
 # 연가
 	delete from LeaveUser;
+# 스몰코드
+	delete from smallcode;
+# 휴일
+	delete from holiday;
 #=================================================================================
 
 # 데이터 수정========================================================================
@@ -123,7 +128,7 @@ set sql_safe_updates=0;
 # 스몰코드
 	SELECT * from SmallCode;
     SELECT * from smallCode where SmallInfo = '회사창립일';
-    SELECT * from SmallCode where SmallCode like '%DC%';
+    SELECT * from SmallCode where SmallCode like '%RC%';
     
     SELECT SC.SmallCode,SC.SmallInfo from SmallCode AS SC 
     join employee AS EMP
