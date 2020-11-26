@@ -1,7 +1,8 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Modal, Select,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../_actions/user_action';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -79,7 +80,19 @@ function ManageAdd(props){
                   alert('Failed to sign up...');
                 }
             }) 
-          }
+    }
+  //부서코드(임시) - 스몰코드로 가져와야함
+  //const depts = ['영업부','인사부','기획부'];
+  //직급코드(임시) - 스몰코드로 가져와야함
+  const ranks = ['대표','직원'];
+  
+  const [DeptList, setDeptList] = useState(['']);
+
+  useEffect(() => {
+    axios.get('/api/deptlist').then(response => {
+      setDeptList(response.data);
+    });
+}, []);
 
   return (
     <>
@@ -91,15 +104,15 @@ function ManageAdd(props){
       >
       <div>부서</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleDept}>
-        <Option value="영업부">영업부</Option>
-        <Option value="총리부">총리부</Option>
-        <Option value="관리부">관리부</Option>
+        {DeptList.map(dept => (
+          <Option key={dept}>{dept}</Option>
+        ))}
       </Select>
       <div>직급</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleRank}>
-        <Option value="과장">과장</Option>
-        <Option value="사원">사원</Option>
-        <Option value="사장">사장</Option>
+        {ranks.map(rank => (
+          <Option key={rank}>{rank}</Option>
+        ))}
       </Select>
 
       <div>사원번호</div>

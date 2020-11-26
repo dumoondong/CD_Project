@@ -119,6 +119,7 @@ set sql_safe_updates=0;
 # 스몰코드
 	SELECT * from SmallCode;
     SELECT * from smallCode where SmallInfo = '회사창립일';
+    SELECT * from SmallCode where SmallCode like 'RC%';
 # 휴일설정
 	SELECT * from Holiday;
 # 근무조회
