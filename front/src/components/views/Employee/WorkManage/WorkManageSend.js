@@ -63,7 +63,7 @@ function WorkManageSend() {
             <Content style={{ margin: '0 auto', width: '1200px'}}>
                 <div id = "wrap">
                     <div id = "left" style = {{float: "left", width: "25%"}}>
-                        <div style = {{height: "32px"}}>
+                        <div>
                             <div style = {{display: "inline-block"}}>
                                 <Button disabled style = {{backgroundColor: "orange", color: "black"}}>부서선택</Button> 
                             </div>
