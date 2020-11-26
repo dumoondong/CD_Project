@@ -127,9 +127,6 @@ function Manage(props) {
               </div>
             <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-              Ant Design ©2018 Created by Ant UED
-            </Footer>
       </Layout>
     </Layout>
     </div>

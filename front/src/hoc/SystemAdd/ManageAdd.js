@@ -81,16 +81,16 @@ function ManageAdd(props){
                 }
             }) 
     }
-  //부서코드(임시) - 스몰코드로 가져와야함
-  //const depts = ['영업부','인사부','기획부'];
-  //직급코드(임시) - 스몰코드로 가져와야함
-  const ranks = ['대표','직원'];
-  
+  //부서코드
   const [DeptList, setDeptList] = useState(['']);
+  const [RankList, setRankList] = useState(['']);
 
   useEffect(() => {
     axios.get('/api/deptlist').then(response => {
       setDeptList(response.data);
+    });
+    axios.get('/api/ranklist').then(response => {
+      setRankList(response.data);
     });
 }, []);
 
@@ -105,13 +105,13 @@ function ManageAdd(props){
       <div>부서</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleDept}>
         {DeptList.map(dept => (
-          <Option key={dept}>{dept}</Option>
+          <Option key={dept.SmallCode}>{dept.SmallInfo}</Option>
         ))}
       </Select>
       <div>직급</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleRank}>
-        {ranks.map(rank => (
-          <Option key={rank}>{rank}</Option>
+        {RankList.map(rank => (
+          <Option key={rank.SmallCode}>{rank.SmallInfo}</Option>
         ))}
       </Select>
 
