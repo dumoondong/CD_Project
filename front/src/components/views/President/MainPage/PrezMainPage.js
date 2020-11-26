@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import LoginedUser from '../../../../utils/LoginedUser'; ///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarPresident';///여기까지
-import MainWork from './PrezMainWork'; //근무조회
+import MainWork from '../../Employee/MainPage/MainWork'; //근무조회
 
 const { Header, Content } = Layout;
 

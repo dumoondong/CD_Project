@@ -73,7 +73,7 @@ function SideBarPresident(props) {
                 </Menu.Item>
                 <Menu.Item key="5" >
                   <span>마이 페이지</span>
-                  <Link to="/prezckmypage" />
+                  <Link to="/prezmypage" />
                 </Menu.Item>
               </Menu>
           </Sider>
