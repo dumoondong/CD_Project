@@ -20,11 +20,11 @@ export const ManageColumns = [
         dataIndex: 'name',
         key: 'name',
       },
-      {
-        title: '비밀번호',
-        dataIndex: 'password',
-        key: 'password',
-      },
+      // {
+      //   title: '비밀번호',
+      //   dataIndex: 'password',
+      //   key: 'password',
+      // },
       {
         title: 'Email',
         dataIndex: 'email',

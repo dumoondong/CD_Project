@@ -105,13 +105,13 @@ function ManageAdd(props){
       <div>부서</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleDept}>
         {DeptList.map(dept => (
-          <Option key={dept.SmallCode}>{dept.SmallInfo}</Option>
+          <Option key={dept.SmallInfo}>{dept.SmallInfo}</Option>
         ))}
       </Select>
       <div>직급</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleRank}>
         {RankList.map(rank => (
-          <Option key={rank.SmallCode}>{rank.SmallInfo}</Option>
+          <Option key={rank.SmallInfo}>{rank.SmallInfo}</Option>
         ))}
       </Select>
 
@@ -129,7 +129,7 @@ function ManageAdd(props){
       />
 
       <div>비밀번호</div>
-      <Input 
+      <Input.Password
         placeholder=""
         value={Password}
         onChange={handleChangePassword}

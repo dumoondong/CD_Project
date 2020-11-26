@@ -114,12 +114,20 @@ set sql_safe_updates=0;
 # 데이터 조회=========================================================================
 # 유저
 	SELECT * from employee;
+    SELECT * from employee AS EMP 
+    join SmallCode AS SC 
+	ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode;
 # 마스터코드
 	SELECT * from MasterCode;
+    SELECT * from MasterCode where LargeInfo like '%부서%';
 # 스몰코드
 	SELECT * from SmallCode;
     SELECT * from smallCode where SmallInfo = '회사창립일';
-    SELECT * from SmallCode where SmallCode like 'RC%';
+    SELECT * from SmallCode where SmallCode like '%DC%';
+    
+    SELECT SC.SmallCode,SC.SmallInfo from SmallCode AS SC 
+    join employee AS EMP
+    ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode where EMP.id = '1111';
 # 휴일설정
 	SELECT * from Holiday;
 # 근무조회

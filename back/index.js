@@ -214,7 +214,7 @@ app.get('/api/holidaydata', (req, res) => {
       //console.log(data[0].LargeCode);
       db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
         if(error2) res.send(['']);
-        console.log(depts);
+        //console.log(depts);
         res.send(depts);
       });
     });
@@ -226,7 +226,7 @@ app.get('/api/ranklist', (req,res) => {
     //console.log(data[0].LargeCode);
     db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,ranks)=>{
       if(error2) res.send(['']);
-      console.log(ranks);
+      //console.log(ranks);
       res.send(ranks);
     });
   });
