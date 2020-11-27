@@ -138,6 +138,7 @@ set sql_safe_updates=0;
     join SmallCode AS SC 
 	ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode;
 	# SELECT * from employee join WorkManage on WorkManage.getId = '1113';
+    SELECT * from employee where not id = '1114';
 # 마스터코드
 	SELECT * from MasterCode;
     SELECT * from MasterCode where LargeInfo like '%부서%';

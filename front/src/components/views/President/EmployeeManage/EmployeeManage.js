@@ -4,8 +4,8 @@ import 'antd/dist/antd.css';
 import SideBar from '../../../../utils/SideBarPresident';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
-import MainPage from '../../Employee/MainPage/MainPage';
 import EmployeeManageInfo from "./EmployeeManageInfo";
+import moment from 'moment';
 
 const data = [
   {
@@ -81,7 +81,15 @@ function EmployeeManage(props){
     const handleCancel = () => {
       setVisible(false);
     }
-    
+    //현재 날짜
+    const CurrentTime = useState(moment().format('YYYY/MM/DD')); //현재 날짜
+    const [ChangeDate,setChangeDate] = useState(CurrentTime[0]);
+    //날짜 변경
+    const handleChangeDate = (e) => {
+      //console.log(e.format('YYYY/MM/DD'));
+      setChangeDate(e.format('YYYY/MM/DD'));
+      console.log(ChangeDate);
+    }
     return(
         <div>
         <Layout style={{ minHeight: '100vh' }}>
@@ -91,7 +99,7 @@ function EmployeeManage(props){
               <LoginedUser />
               <LogoutUser pageChange={props}/>
             </Header>
-            <Content style={{ margin: '0 auto', width: '1200px'}}>
+            <Content style={{ margin: '0 auto', width: '100%'}}>
               <div>
                   <div>
                       <div style = {{display: "inline-block"}}>
@@ -103,7 +111,11 @@ function EmployeeManage(props){
                           </Select>
                       </div>
                       <div style = {{display: "inline-block", marginLeft: "20%"}}>
-                        <DatePicker  onChange={onChange} style = {{width: "300px"}}/>
+                        <DatePicker 
+                          onChange={handleChangeDate} 
+                          defaultValue={moment(CurrentTime[0],'YYYY/MM/DD')}
+                          format="YYYY/MM/DD"
+                          style = {{width: "300px"}}/>
                       </div>
                   </div>
                   <div>

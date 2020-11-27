@@ -411,7 +411,7 @@ app.post('/api/workmanagesave',(req,res)=>{
     //console.log(checkUser.id);
     //console.log(saveData);
     db.query('INSERT INTO WorkManage (sendId,getId,startDate,endDate,title,workDes) VALUES(?,?,?,?,?,?)',
-      [req.session.userId,checkUser.id,saveData.StartDate,saveData.EndDate,saveData.Title,saveData.Des], (error, result) => {
+      [req.session.userId,checkUser.id,saveData.CurrentTime,saveData.EndDate,saveData.Title,saveData.Des], (error, result) => {
       if (error) throw error;
     });
   },res.send('success'));
@@ -443,7 +443,29 @@ app.get('/api/workmanageread',(req,res)=>{
     res.send(sendData);
   });
 });
-
+//업무 지시 직원 리스트 출력
+app.get('/api/workmanageuserlist',(req,res)=>{
+  let listData = [];
+  let data = {};
+  let i = 0;
+  //console.log(req.session.userId);
+  db.query('SELECT * from employee where not id = ?',[req.session.userId],(error,userlist)=>{
+    if(error)throw error;    
+    //console.log(userlist);
+    userlist.forEach(user => {
+      //console.log(user.id);
+      //console.log(user.name);
+      data = {
+        key : String(i+1),
+        id : user.id,
+        name : user.name
+      }
+      listData.push(data);
+      i++;
+    });
+    res.send(listData);
+  });
+});
 
 //비밀번호 예시============================================================================================
 // const crypto = require('crypto');
