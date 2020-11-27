@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import { Layout, Button, Table } from 'antd';
 import LoginedUser from '../../../../utils/LoginedUser';////utils
@@ -7,43 +7,42 @@ import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import { workManageColumn } from './WorkManageColumns'; //업무 칼럼
 import WorkManageSend from './WorkManageSend'; //업무지시 페이지
 import WorkManageInfo from './WorkManageInfo';
-import axios from "axios";
 
 //칼럼
 const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
-
-  // const data = [
-  //    {
-  //      key: '1',
-  //      Date: 'YYYY/MM/DD',
-  //      EndDate: 'YYYY/MM/DD',
-  //      Dept: '영업부',
-  //      Rank : '대표',
-  //      User: '홍길오',
-  //      Title: '업무지시',
-  //      Dsc: 'Content',
-  //    },
-  //    {
-  //     key: '2',
-  //     Date: 'YYYY/MM/DD',
-  //     EndDate: 'YYYY/MM/DD',
-  //     Dept: '영업부',
-  //     Rank : '직원',
-  //     User: '홍길삼',
-  //     Title: '업무지시',
-  //     Dsc: 'Content',
-  //   }
-  // ];
   
+    const data = [
+     {
+       key: '1',
+       Date: 'YYYY/MM/DD',
+       EndDate: 'YYYY/MM/DD',
+       Dept: '영업부',
+       Rank : '대표',
+       User: '홍길오',
+       Title: '업무지시',
+       Dsc: 'Content',
+     },
+     {
+      key: '2',
+      Date: 'YYYY/MM/DD',
+      EndDate: 'YYYY/MM/DD',
+      Dept: '영업부',
+      Rank : '직원',
+      User: '홍길삼',
+      Title: '업무지시',
+      Dsc: 'Content',
+    }
+  ];
+
   function WorkManage(props) {
     const [SendShow, setSendShow] = useState(false); //스위치버튼
 
-    //업무조회 페이지로
+    //업무조회
     const handleListShow = (e) => {
-      //console.log(e);
+      console.log(e);
       setSendShow(false);
     }
-    //업무지시 페이지로
+    //업무지시
     const handleSendShow = (e) => {
       console.log(e);
       setSendShow(true);
@@ -65,16 +64,7 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
     const handleCancel = () => {
       setVisible(false);
     }
-    //업무 조회 데이터 가져오기
-    const [Data, setData] = useState(['']);
-
-    useEffect(() => {
-      axios.get('/api/workmanageread').then(response => {
-        console.log(response.data);
-        setData(response.data);
-      }); 
-    }, []);
-
+    
       return (
         <div>
           <Layout style={{ minHeight: '100vh' }}>
@@ -84,10 +74,10 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 auto', width: '100%'}}>
+              <Content style={{ margin: '0 auto', width: '1200px'}}>
                 <Button onClick={handleListShow}>업무조회</Button>  
                 <Button onClick={handleSendShow}>업무지시</Button> 
-                {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={Data} pagination={false} 
+                {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={data} pagination={false} 
                 onRow={(record) => ({onClick: () => { handleInformation(record); }})} />}
                 <WorkManageInfo Visible={Visible} UserData={UserData} handleOk={handleOk} handleCancel={handleCancel} />
               </Content>

@@ -1,0 +1,50 @@
+.layout{
+    min-height: 100vh;
+}
+.content{
+    margin: 0 16px;
+}
+.mainheader{
+    background-color: white;
+    text-align: end;
+}
+.wrap{
+    margin: 0 auto;
+    width: 1000px;
+}
+.header{
+    margin-bottom: 20px;
+}
+.dateheader{
+    display: inline-block;
+    margin-left: 44%;
+}
+.selecty{
+    width: 80;
+}
+.selectm{
+    width: 60;
+}
+
+.printheader{
+    display: inline-block;
+    float: right;
+}
+.printtitle{
+    display: inline-block;
+    margin-left: 40%;
+    text-align: center;
+}
+.worktimeleft{
+    display: inline-block;
+    width: 40%;
+    text-align:center;
+    background-color: orange;
+}
+.worktimeright{
+    display: inline-block;
+    width: 10%;
+    text-align:center;
+    background-color: white;
+}
+

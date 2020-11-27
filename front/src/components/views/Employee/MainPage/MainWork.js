@@ -3,6 +3,7 @@ import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {MainColumn} from './MainColumns'; //칼럼
+import './MainPage.css';
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -51,47 +52,43 @@ function MainWork(){
   
   return(
   <>
-    <Content style={{ margin: '0' }}>
-      <div style = {{margin: '0 auto', width: '1000px'}}>
-        <div style = {{marginBottom: '20px'}}>{/* 년 월 인쇄 통합 div */}
-          <div style = {{display: 'inline-block', marginLeft: '44%'}}>
-            <Select name = 'year' defaultValue="년도" style={{ width: 80 }} onChange={ChangeYear} >
+    <Content className = "content">
+      <div className = "wrap">
+        <div className = "header">{/* 년 월 인쇄 통합 div */}
+          <div className = "dateheader">
+            <Select name = 'year' defaultValue="년도" onChange={ChangeYear} className = "selecty">
               {years.map(year => (
                 <Option key={year}>{year}</Option>
               ))}
             </Select>
-            <Select name = 'month' defaultValue="월" style={{ width: 60 }} onChange={ChangeMonth} >
+            <Select name = 'month' defaultValue="월" onChange={ChangeMonth} className = "selectm">
               {months.map(month => (
                 <Option key={month}>{month}</Option>
               ))}
             </Select>
           </div>
-          <div style = {{display: 'inline-block', float: 'right'}}>
+          <div className = "printheader">
             <Button onClick = {printDiv}>인쇄</Button>
           </div>
         </div>
-        <div id = "printArea">
-          <div style = {{width:'1000px', margin: '0 auto'}}>
-            <div style = {{display: 'inline-block', marginLeft: '40%', textAlign: 'center'}}>
-                <h2>{selectedYear}년 {selectedMonth}월 근무현황</h2>
-            </div>
+        <div id = "printArea" className = "print">
+          <div className = "printtitle">
+            <h2>{selectedYear}년 {selectedMonth}월 근무현황</h2>
           </div>
 
           <Table columns={MainColumn} dataSource={data} pagination={false} />
 
-          <div style = {{ textAlign: 'center'}}>
-            <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
-              근무시간합계
-            </div>
-            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'white'}}>
-              {WorkTimeSum}
-            </div>
-            <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
-              초과근무시간합계
-            </div>
-            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'white'}}>
-              초과합
-            </div>
+          <div className = "worktimeleft">
+            근무시간합계
+          </div>
+          <div className = "worktimeright">
+            {WorkTimeSum}
+          </div>
+          <div className = "worktimeleft">
+            초과근무시간합계
+          </div>
+          <div className = "worktimeright">
+            초과합
           </div>
         </div>
       </div>
