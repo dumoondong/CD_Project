@@ -32,6 +32,14 @@ function Holiday(props) {
     setDate(value.dateStr);
     setVisible(true);
   }
+  const handleDelete = () => {
+    axios.post('/api/holidaydelete', ListData).then(res =>{
+     if(res.data.success){
+     alert('삭제되었습니다.');
+     window.location.reload();
+      }
+    })
+  }
   //팝업 OFF
   const handleCancel = () => {
     setVisible(false);
@@ -90,6 +98,7 @@ function Holiday(props) {
               dateClick = {handleDateSelect}
               height = '90%'
               events={ListData}
+              eventClick ={handleDelete}
             />
             <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>

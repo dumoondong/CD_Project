@@ -56,70 +56,18 @@ function MasterCode(props) {
       console.log(response.data);
     });
 }, []);
-
     //main
   return (
     <div>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        {/* grid */}
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
-          <Link  to="/">
-            <Button style={{marginRight:'1%'}}>로그아웃</Button>
-            </Link>
-          </Header>
-          <Content>
-          <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
-              <Breadcrumb.Item>
-                <PageHeader
-                  className="site-page-header"
-                  onBack={() => null}
-                  title="공통코드"
-                  subTitle="공통코드 페이지">   
-                </PageHeader>
-                <Link  to="/mastercode">
-            <Button style={{marginRight:'1%'}}>대코드</Button>
-            </Link>
-            <Link  to="/code">
-            <Button style={{marginRight:'1%'}}>소코드</Button>
-            </Link>
-              </Breadcrumb.Item>
-            </Breadcrumb>       
-              <div style = {{background: '#fff',minHeight: 36}}></div> 
-              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >     
-                <Button onClick={showModal}>추가</Button>   
-                <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-                <Button onClick={handleDelete}>삭제</Button>
-                <Button onClick={handleSave}>수정</Button>   
-                <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  />
-              </div>
-            <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
-            </Content>
-      </Layout>
-    </Layout>
+      <div style = {{background: '#fff',minHeight: 32}}></div> 
+      <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >     
+        <Button onClick={showModal}>추가</Button>   
+        <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
+        <Button onClick={handleDelete}>삭제</Button>
+        <Button onClick={handleSave}>수정</Button>   
+        <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  />
+      </div>
+        <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
     </div>
   );
 };

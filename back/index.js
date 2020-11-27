@@ -73,6 +73,20 @@ app.post('/api/SmallCodedelete',(req,res)=>{
     success : true
   });
 });
+//holiday 테이블 삭제
+app.post('/api/holidaydelete',(req,res)=>{
+  console.log(req.body);
+  // req.body.forEach(user => {
+  //   db.query(`DELETE FROM holiday WHERE date = ?`,[user.date],function(error,result){
+  //     if(error){
+  //       throw error;
+  //     }
+  //   });
+  // });
+  // return res.json({
+  //   success : true
+  // });
+});
 //대코드 리스트 검색
 app.post('/api/mastercodelist', (req,res) => {
   console.log(req.body.LargeCode);
@@ -83,6 +97,16 @@ app.post('/api/mastercodelist', (req,res) => {
       res.send(codes);
     });
   });
+});
+
+//근무부서 리스트 검색
+app.post('/api/deptcodelist', (req,res) => {
+  console.log(req.body.SmallInfo);
+    db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error2,depts)=>{
+      if(error2) res.send(['']);
+      //console.log(depts);
+      res.send(depts);
+    });
 });
 
 
@@ -221,6 +245,18 @@ app.get('/api/holidaydata', (req, res) => {
       temp.push(data);
     });
     res.send(temp);
+  });
+});
+//휴일종류코드리스트
+app.get('/api/holylist', (req,res) => {
+  db.query('SELECT * from MasterCode where LargeInfo like ?',['%휴일%'],(error,data)=>{
+    if(error) res.send(['']);
+    //console.log(data[0].LargeCode);
+    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
+      if(error2) res.send(['']);
+      //console.log(depts);
+      res.send(depts);
+    });
   });
 });
 //부서코드리스트

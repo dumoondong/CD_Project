@@ -12,7 +12,8 @@ const { Header, Content, Sider, Footer } = Layout;
 
 function Manage(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
-  const options = [{ value: '영업부' }, { value: '총무부' },{value: '관리부'}];//근무 부서
+  const [DeptList, setDeptList] = useState(['']);
+  const { Option } = Select;
   const [Visible, setVisible] = useState(false); //modal 관리
 
   //dispatch로 가져오도록 바꿀 예정====================================
@@ -20,6 +21,9 @@ function Manage(props) {
   useEffect(() => {
     axios.get('/api//users/read').then(response => {
       setData(response.data);
+    });
+    axios.get('/api/deptlist').then(response => {
+      setDeptList(response.data);
     });
 }, []);
   //직원 데이터 삭제
@@ -57,14 +61,18 @@ function Manage(props) {
   ///////////////////////////////////////////
   
   //근무부서 선택
-  const tagRender = (props) => {
-    const { label, value, closable, onClose } = props;
-    return (
-      <Tag color={value} closable={closable} onClose={onClose} style={{ marginRight: 3 }}>
-        {label}
-      </Tag>
-    );
+  function onChange(value) {
+    console.log(value);
+    let body = {
+     SmallInfo : value
+       }
+    axios.post('/api/deptCodelist',body).then(response => {  
+      console.log(response.data);
+     setData(response.data);
+      });
   }
+  
+
 
     //main
   return (
@@ -112,13 +120,14 @@ function Manage(props) {
               </Breadcrumb.Item>
             </Breadcrumb>
             {/* 부서선택 */}
-              <div style = {{fontSize: 20,background: '#fff', minHeight: 150}}>근무부서
-                <Select mode="multiple"
-                  showArrowtagRender={tagRender}
-                  defaultValue={['영업부']}style={{ width: '30%' }}
-                options={options}
-                />
-              </div>
+            <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>
+              <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
+                  onChange={onChange}
+              >
+                {DeptList.map(code => (
+               <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
+              ))}
+                </Select>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
                 <Button type="primary" onClick={showModal}>추가</Button>
                 <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
@@ -126,6 +135,7 @@ function Manage(props) {
                 <Button>수정</Button>
               </div>
             <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
+            </div>
             </Content>
       </Layout>
     </Layout>
