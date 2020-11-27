@@ -1,4 +1,4 @@
-export const MainColumns = [
+export const MainColumn = [
     {
       title: '날짜',
       dataIndex: 'date',

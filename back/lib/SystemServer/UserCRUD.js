@@ -40,21 +40,29 @@ router.get('/read', (req, res) => {
       let data = {};
       let i = 0;
       users.forEach(user => {
-        data = {
-          key: String(i+1),
-          id: user.id,
-          dept: user.dept,
-          rank: user.rank,
-          name: user.name,
-          password: user.password,
-          email: user.email,
-          phone: user.phone,
-          zim: user.zim,
-          address: user.address,
-          des: user.des
-        }
-        i++;
-        temp.push(data);
+        //console.log(user);
+        // db.query(`SELECT * from SmallCode where SmallCode=?`,[user.dept],(error,userDept)=>{
+        //   if (error) throw error;
+        //   console.log(userDept[0].SmallInfo);
+        //   dept = userDept[0].SmallInfo;
+        //   console.log('in : ',dept);
+        // });
+        // console.log('out : ',dept);
+          data = {
+            key: String(i+1),
+            id: user.id,
+            dept: user.dept,
+            rank: user.rank,
+            name: user.name,
+            // password: user.password,
+            email: user.email,
+            phone: user.phone,
+            zim: user.zim,
+            address: user.address,
+            des: user.des
+          }
+          i++;
+          temp.push(data);
       });
       res.send(temp);
     });

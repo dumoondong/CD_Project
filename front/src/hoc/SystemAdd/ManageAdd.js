@@ -1,7 +1,8 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Modal, Select,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../_actions/user_action';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -79,7 +80,19 @@ function ManageAdd(props){
                   alert('Failed to sign up...');
                 }
             }) 
-          }
+    }
+  //부서코드
+  const [DeptList, setDeptList] = useState(['']);
+  const [RankList, setRankList] = useState(['']);
+
+  useEffect(() => {
+    axios.get('/api/deptlist').then(response => {
+      setDeptList(response.data);
+    });
+    axios.get('/api/ranklist').then(response => {
+      setRankList(response.data);
+    });
+}, []);
 
   return (
     <>
@@ -91,15 +104,15 @@ function ManageAdd(props){
       >
       <div>부서</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleDept}>
-        <Option value="영업부">영업부</Option>
-        <Option value="총리부">총리부</Option>
-        <Option value="관리부">관리부</Option>
+        {DeptList.map(dept => (
+          <Option key={dept.SmallInfo}>{dept.SmallInfo}</Option>
+        ))}
       </Select>
       <div>직급</div>
       <Select defaultValue="(선택)" style={{ width: 160 }} onChange={handleRank}>
-        <Option value="과장">과장</Option>
-        <Option value="사원">사원</Option>
-        <Option value="사장">사장</Option>
+        {RankList.map(rank => (
+          <Option key={rank.SmallInfo}>{rank.SmallInfo}</Option>
+        ))}
       </Select>
 
       <div>사원번호</div>
@@ -116,7 +129,7 @@ function ManageAdd(props){
       />
 
       <div>비밀번호</div>
-      <Input 
+      <Input.Password
         placeholder=""
         value={Password}
         onChange={handleChangePassword}

@@ -10,11 +10,11 @@ export const HolidayColums = [
       key: 'endDate',
     }
     ,
-    {
-      title: '일수',
-      dataIndex: 'day',
-      key: 'day',
-    },
+    // {
+    //   title: '일수',
+    //   dataIndex: 'day',
+    //   key: 'day',
+    // },
     {
       title: '연가종류',
       dataIndex: 'type',

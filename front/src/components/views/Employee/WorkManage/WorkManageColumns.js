@@ -5,18 +5,46 @@ export const workManageColumn = [
       key: 'Date',
     },
     {
-        title: '보낸 이',
-        dataIndex: 'User',
-        key: 'User',
-      },
-      {
-        title: '제목',
-        dataIndex: 'Title',
-        key: 'Title',
-      },
-      {
-        title: '내용',
-        dataIndex: 'Dsc',
-        key: 'Dsc',
-      } 
-    ];
+      title: '종료날짜',
+      dataIndex: 'EndDate',
+      key: 'EndDate',
+    },
+    {
+      title: '부서',
+      dataIndex: 'Dept',
+      key: 'Dept',
+    },
+    {
+      title: '직급',
+      dataIndex: 'Rank',
+      key: 'Rank',
+    },
+    {
+      title: '보낸 이',
+      dataIndex: 'User',
+      key: 'User',
+    },
+    {
+      title: '제목',
+      dataIndex: 'Title',
+      key: 'Title',
+    },
+    {
+      title: '내용',
+      dataIndex: 'Dsc',
+      key: 'Dsc',
+    } 
+  ];
+
+export const deptColums = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+    },
+    {
+        title: '직원',
+        dataIndex: 'name',
+        key: 'name',
+    }
+  ];
