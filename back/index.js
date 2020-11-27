@@ -355,7 +355,7 @@ app.post('/api/mypagecheck', (req, res) => {
   });
 });
 
-//연가 데이터 넣기
+//연가 데이터 넣기 *테이블 이름과 주소 바꿀 예정
 app.post('/api/leaveinsert',(req,res) => {
   console.log(req.body);
   db.query('INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES(?,?,?,?,?)',
@@ -385,6 +385,50 @@ app.get('/api/leavelist', (req, res) => {
     res.send(temp);
   });
 });
+//업무 지시 데이터 저장
+app.post('/api/workmanagesave',(req,res)=>{
+  //console.log(req.body.checkUsers);
+  //console.log(req.session.userId);
+  //console.log(req.session.userName);
+  const saveData = req.body;
+  saveData.checkUsers.forEach(checkUser => {
+    //console.log(checkUser.id);
+    //console.log(saveData);
+    db.query('INSERT INTO WorkManage (sendId,getId,startDate,endDate,title,workDes) VALUES(?,?,?,?,?,?)',
+      [req.session.userId,checkUser.id,saveData.StartDate,saveData.EndDate,saveData.Title,saveData.Des], (error, result) => {
+      if (error) throw error;
+    });
+  },res.send('success'));
+});
+//업무조회 데이터 가져오기
+app.get('/api/workmanageread',(req,res)=>{
+  //console.log(req.session.userId);
+  let sendData = [];
+  let data = {};
+  let i = 0;
+  db.query('SELECT * from WorkManage Join employee ON employee.id = WorkManage.sendId where WorkManage.getId = ?',[req.session.userId],(error,reads)=>{
+    if (error) throw error;
+    //console.log(reads);
+    reads.forEach(read => {
+      //console.log(i,' : ',read);
+      data = {
+       key: String(i+1),
+       Date: read.startDate,
+       EndDate: read.endDate,
+       Dept: read.dept,
+       Rank : read.rank,
+       User: read.name,
+       Title: read.title,
+       Dsc: read.workDes
+      }
+      sendData.push(data);
+      i++;
+    });
+    res.send(sendData);
+  });
+});
+
+
 //비밀번호 예시============================================================================================
 // const crypto = require('crypto');
 // const password = '123q';

@@ -51,6 +51,15 @@ create table LeaveUser(
         SelectedLeave varchar(15),
         Des varchar(30)
     );
+# 업무조회 테이블(임시)
+create table WorkManage(
+		sendId varchar(5),
+        getId varchar(5),
+        startDate VARCHAR(15),
+        endDate varchar(15),
+        title varchar(50),
+        workDes varchar(250)
+    );
 #==============================================================================
 
 # 세이프 모드를 품(삭제 및 수정 가능(임시))
@@ -62,6 +71,7 @@ set sql_safe_updates=0;
 	DROP TABLE employeeWork; #근무조회
 	DROP TABLE LeaveUser; #연가
     DROP TABLE MasterCode; #마스터코드
+    DROP TABLE WorkManage; #업무조회
 #==============================================================================
 
 # 테이블 수정=====================================================================
@@ -93,6 +103,8 @@ set sql_safe_updates=0;
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+# 업무조회
+	INSERT INTO WorkManage(sendId,getId,startDate,endDate,title,workDes) VALUES('1112','1113','2020/11/18','2020/11/20','Test','TestDes');
 #=======================================================================================================================
 
 # 데이터 삭제========================================================================
@@ -107,6 +119,8 @@ set sql_safe_updates=0;
 	delete from smallcode;
 # 휴일
 	delete from holiday;
+# 업무조회
+	delete from WorkManage;
 #=================================================================================
 
 # 데이터 수정========================================================================
@@ -119,9 +133,11 @@ set sql_safe_updates=0;
 # 데이터 조회=========================================================================
 # 유저
 	SELECT * from employee;
+    SELECT * from employee where id='1112';
     SELECT * from employee AS EMP 
     join SmallCode AS SC 
 	ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode;
+	# SELECT * from employee join WorkManage on WorkManage.getId = '1113';
 # 마스터코드
 	SELECT * from MasterCode;
     SELECT * from MasterCode where LargeInfo like '%부서%';
@@ -141,6 +157,9 @@ set sql_safe_updates=0;
     SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
 # 연가
 	SELECT * from LeaveUser;
+# 업무조회
+	SELECT * from WorkManage;
+    SELECT * from WorkManage Join employee ON employee.id = WorkManage.sendId where WorkManage.getId = '1113';
 # 안먹는 코드
 	SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
 #======================================================================================

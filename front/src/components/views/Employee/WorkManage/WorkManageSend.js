@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Button, Table, Select, Input, Modal,DatePicker } from 'antd';
 import { deptColums } from './WorkManageColumns';
+import axios from 'axios';
 
 const { Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { Option } = Select;
@@ -12,11 +13,15 @@ const data = [
         key: '1',
         id: '1111',
         name: '대표임'
-    },
+    },{
+        key: '2',
+        id: '1113',
+        name: '직원삼'
+    }
 ];
 
 function WorkManageSend() {
-    const [CheckTarget, setCheckTarget] = useState([]); //선택한 유저 값
+    const [CheckTarget, setCheckTarget] = useState(['']); //선택한 유저 값
     //선택 박스
 
     const rowSelection = {
@@ -44,20 +49,27 @@ function WorkManageSend() {
     //팝업 OFF, 데이터 보내기
     const handleOk = () => {
       setVisible(false);
-      console.log('선택한 유저 :',CheckTarget[0].id);
+      console.log('선택한 유저 :',CheckTarget);
       console.log('날짜 :',StartDate,EndDate);
       console.log('제목 :',Title);
       console.log('내용 :',Des);
       let body = {
-          checkUser : CheckTarget[0].id,
+          checkUsers : CheckTarget,
           StartDate,
           EndDate,
           Title,
           Des
       }
-
       //이제 보내서 저장하고 해당 유저는 있으면 보여줌.
-      
+      axios.post('/api/workmanagesave',body).then(response => {
+          console.log(response.data);
+          if(response.data === 'success'){
+            alert('성공적으로 보냈습니다.');
+            window.location.reload();
+          } else {
+            alert('Error');
+          }
+      });
     }
     //날짜 데이터 가져오기
     const [StartDate, setStartDate] = useState(''); //시작 날짜

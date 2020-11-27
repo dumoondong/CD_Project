@@ -6,6 +6,7 @@ const db = require('../config/db');
 //로그아웃
 router.get('/logout', (req, res) => {
     delete req.session.userId;
+    //delete req.session.userName;
     return res.json({
         logoutSuccess : true
     });
@@ -29,12 +30,13 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
               message: "해당 이메일이 없습니다."
               });
           } else {
-            console.log(userInfo[0].rank);
+            //console.log(userInfo[0].rank);
               if(req.body.email === userInfo[0].email && 
                 req.body.password === userInfo[0].password && 
                 userInfo[0].rank === '대표')
                 {
                   req.session.userId = userInfo[0].id;
+                  //req.session.userName = userInfo[0].name;
                   return res.json({
                   loginSuccess: true,
                   message: "로그인 성공!",
@@ -45,6 +47,7 @@ router.post('/login', (req, res) => { //request부분에 front에서 넘어온 �
               else if(req.body.email === userInfo[0].email && req.body.password === userInfo[0].password)
                 {
                   req.session.userId = userInfo[0].id;
+                  //req.session.userName = userInfo[0].name;
                   return res.json({
                   loginSuccess: true,
                   message: "로그인 성공!",
