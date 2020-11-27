@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {MainColumns} from '../../Employee/MainPage/MainTable'; //칼럼
+import {MainColumn} from '../../Employee/MainPage/MainColumns'; //칼럼
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -77,7 +77,7 @@ function EmployeeManageList(){
             </div>
           </div>
 
-          <Table columns={MainColumns} dataSource={data} pagination={false} />
+          <Table columns={MainColumn} dataSource={data} pagination={false} />
 
           <div style = {{ textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>

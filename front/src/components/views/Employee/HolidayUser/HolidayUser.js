@@ -49,13 +49,14 @@ function HolidayUser(props) {
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 16px' }}>
+              <Content style={{ margin: '0 16px'}}>
                 {/* 캘린더 */}
                 <FullCalendar 
                   initialView="dayGridMonth"
                   plugins={[ dayGridPlugin, interactionPlugin]}
                   height = '90%'
                   events={ListData}
+                  eventColor = "indigo"
                 />
                 <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />

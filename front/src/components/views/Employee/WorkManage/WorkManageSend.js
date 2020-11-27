@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Button, Table, Select, Input, Modal,DatePicker } from 'antd';
+import { Layout, Button, Table, Select, Input, Modal, DatePicker } from 'antd';
 import { deptColums } from './WorkManageColumns';
 import axios from 'axios';
+import moment from 'moment';
 
 const { Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { Option } = Select;
 const { TextArea } = Input;
-const { RangePicker } = DatePicker;
 
 const data = [
     {
@@ -21,6 +21,8 @@ const data = [
 ];
 
 function WorkManageSend() {
+    const CurrentTime = useState(moment().format('YYYY/MM/DD'));
+
     const [CheckTarget, setCheckTarget] = useState(['']); //선택한 유저 값
     //선택 박스
 
@@ -50,12 +52,13 @@ function WorkManageSend() {
     const handleOk = () => {
       setVisible(false);
       console.log('선택한 유저 :',CheckTarget);
-      console.log('날짜 :',StartDate,EndDate);
+      //console.log('날짜 :',StartDate,EndDate);
+      console.log('종료날짜 :', EndDate);
       console.log('제목 :',Title);
       console.log('내용 :',Des);
       let body = {
           checkUsers : CheckTarget,
-          StartDate,
+          //StartDate,
           EndDate,
           Title,
           Des
@@ -72,13 +75,13 @@ function WorkManageSend() {
       });
     }
     //날짜 데이터 가져오기
-    const [StartDate, setStartDate] = useState(''); //시작 날짜
+    //const [StartDate, setStartDate] = useState(''); //시작 날짜
     const [EndDate, setEndDate] = useState(''); //종료 날짜
 
     const handleDateChange = (value) => {
         //console.log(value[0].format('YYYY/MM/DD'));
         //console.log(value[1].format('YYYY/MM/DD'));
-        setStartDate(value[0].format('YYYY/MM/DD'));
+        //setStartDate(value[0].format('YYYY/MM/DD'));
         setEndDate(value[1].format('YYYY/MM/DD'));
     }
     //제목 데이터 가져오기
@@ -118,11 +121,17 @@ function WorkManageSend() {
                     <div id = "right" style = {{float: "left", width: "64%", marginLeft: "12px"}}>
                         <div style = {{ display: "inline-block", width: "100%", height: "50%", marginTop: "7%"}}>
                             <div>
-                                <div style = {{display: "inline-block", width: "10%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                    날짜
+                                <div style = {{display: "inline-block", width: "15%", height: "35px", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                                    보낸날짜
                                 </div>
-                                <div style = {{display: "inline-block", width: "90%", textAlignLast:'center'}}>
-                                    <RangePicker 
+                                <div style = {{display: "inline-block", width: "35%", height: "35px", textAlignLast:'center', backgroundColor: 'white', verticalAlign: 'top', paddingTop: "6px"}}>
+                                    {CurrentTime}
+                                </div>
+                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                                    종료날짜
+                                </div>
+                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center'}}>
+                                    <DatePicker
                                     size={'large'}
                                     style = {{width:'100%'}}
                                     onChange={handleDateChange}
@@ -130,15 +139,15 @@ function WorkManageSend() {
                                 </div>
                             </div>
                             <div>
-                                <div style = {{display: "inline-block", width: "10%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                     제목
                                 </div>
-                                <div style = {{display: "inline-block", width: "90%" }}>
+                                <div style = {{display: "inline-block", width: "85%" }}>
                                     <Input style = {{fontSize: "140%"}} onChange={handleChangeTitle} />
                                 </div>
                             </div>
                             <div>
-                                <div style = {{display: "inline-block", width: "10%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                     내용
                                 </div>
                                 <div>

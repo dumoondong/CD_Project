@@ -30,7 +30,7 @@ function MyPage() {
     return(
       <div>
         <Content style={{ margin: '0', backgroundColor: 'white'}}>
-          <div style = {{width: '700px', margin: '0px auto', backgroundColor: 'orange'}}>
+          <div style = {{width: '700px', margin: '0px auto'}}>
               <div>
                   <h2 style = {{textAlign: "center"}}>개인정보</h2>
               </div>
