@@ -6,7 +6,7 @@ import LoginedUser from '../../../../utils/LoginedUser';///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import {HolidayColums} from './HolidayUserColums'; //연가조회칼럼
-import FullCalendar, { DayCellContent } from '@fullcalendar/react'; //////////fullCalender 기능
+import FullCalendar from '@fullcalendar/react'; //////////fullCalender 기능
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';/////////////여기까지
 import HolidayUserAdd from './HolidayUserAdd';//연가신청 버튼의 기능
@@ -50,16 +50,12 @@ function HolidayUser(props) {
                 <LogoutUser pageChange={props}/>
               </Header>
               <Content style={{ margin: '0 16px'}}>
-                {/* 캘린더 */}
+                {/* 캘린더 */}    
                 <FullCalendar 
                   initialView="dayGridMonth"
                   plugins={[ dayGridPlugin, interactionPlugin]}
                   height = '90%'
                   events={ListData}
-                  //dayCellContent = {(cell) => ({ : () => {cell.css("background-color", "red")}})}
-                  //bootstrapFontAwesome= {false}
-                  //dayCellContent={(cell) => ({dayRender : () => { cell.css("background-color", "red")}})}
-                  //dayCellContent={(cell) => ({dayRender : () => { cell.css("background-color", "red")}})}
                 />
                 <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
