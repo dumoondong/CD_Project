@@ -10,8 +10,8 @@ import PrezHoliConfirm from './components/views/President/Holiday/PrezHoliConfim
 import PrezHoli from './components/views/President/Holiday/PrezHoliday';
 import PrezWorkManage from './components/views/President/WorkManage/PrezWorkManage';
 import PrezMainPage from './components/views/President/MainPage/PrezMainPage';
-import PrezMyPage from './components/views/President/MyPage/MyPage';
-import PrezCheckMyPage from './components/views/President/MyPage/CheckMyPage';
+import PrezMyPage from './components/views/President/MyPage/PrezMyPageCheck';
+//import CheckMyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MyPage from './components/views/Employee/MyPage/MyPageCheck';
 import MainPage from './components/views/Employee/MainPage/MainPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
@@ -32,7 +32,6 @@ function App() {
           <Route exact path="/prezholi" component={PrezHoli} />
           <Route exact path="/prezmain" component={PrezMainPage} />
           <Route exact path="/prezmypage" component={PrezMyPage} />
-          <Route exact path="/prezckmypage" component={PrezCheckMyPage} />
           <Route exact path="/prezworkmanage" component={PrezWorkManage} />
           <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/main" component={MainPage} />

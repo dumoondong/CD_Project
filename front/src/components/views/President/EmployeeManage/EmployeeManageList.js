@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {MainColumns} from './PrezMainTable'; //칼럼
+import {MainColumns} from '../../Employee/MainPage/MainTable'; //칼럼
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -21,7 +21,7 @@ const printDiv = () => {
   window.print();
 }
 
-function PrezMainWork(){
+function EmployeeManageList(){
   const [data, setData] = useState([]); //근무 데이터
   const [WorkTimeSum, setWorkTimeSum] = useState(0);
   //나중엔 서버에서 작업해서 넘겨주는 방식으로 구현
@@ -79,11 +79,11 @@ function PrezMainWork(){
 
           <Table columns={MainColumns} dataSource={data} pagination={false} />
 
-          <div style = {{textAlign: 'center'}}>
+          <div style = {{ textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
               근무시간합계
             </div>
-            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'white' }}>
+            <div style = {{display: 'inline-block', width: '10%', backgroundColor: 'white'}}>
               {WorkTimeSum}
             </div>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
@@ -100,4 +100,4 @@ function PrezMainWork(){
   );
 }
 
-export default PrezMainWork
+export default EmployeeManageList
