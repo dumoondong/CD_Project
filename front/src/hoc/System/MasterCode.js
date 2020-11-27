@@ -110,10 +110,10 @@ function MasterCode(props) {
             </Breadcrumb>       
               <div style = {{background: '#fff',minHeight: 36}}></div> 
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >     
-                <Button type="primary" onClick={showModal}>추가</Button>   
+                <Button onClick={showModal}>추가</Button>   
                 <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <Button type="primary" onClick={handleSave}>수정</Button>   
+                <Button onClick={handleSave}>수정</Button>   
                 <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  />
               </div>
             <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
