@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Table, Select, Layout} from 'antd';
+import { Button, Table, Layout} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LoginedUser from '../../../../utils/LoginedUser';
@@ -11,40 +11,45 @@ import WorkManageInfo from '../../Employee/WorkManage/WorkManageInfo';
 
 const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 
-const data = [
-    {
-      key: '1',
-      Date: 'YYYY/MM/DD',
-      User: '홍길오',
-      Title: '업무지시',
-      Dsc: 'Content',
-    },
-    {
-    key: '2',
-    Date: 'YYYY/MM/DD',
-    User: '홍길삼',
-    Title: '업무지시',
-    Dsc: 'Content',
-  }
-];
-
 function PrezWorkManage(props){
   const [SendShow, setSendShow] = useState(false); //스위치버튼
 
-  //업무조회
-  const handleListShow = (e) => {
-    console.log(e);
-    setSendShow(false);
-  }
-  //업무요구
-  const handleSendShow = (e) => {
-    console.log(e);
-    setSendShow(true);
-  }
-  //업무 상세보기
-  const handleInformation = (value) => {
-    console.log(value);
-  }
+    //업무조회 페이지로
+    const handleListShow = (e) => {
+      //console.log(e);
+      setSendShow(false);
+    }
+    //업무지시 페이지로
+    const handleSendShow = (e) => {
+      console.log(e);
+      setSendShow(true);
+    }
+    //업무 상세보기
+    const [Visible, setVisible] = useState(false);
+    const [UserData, setUserData] = useState(['']);
+
+    const handleInformation = (value) => {
+      //console.log(value);
+      setUserData(value);
+      setVisible(true);
+    }
+
+    const handleOk = () => {
+      setVisible(false);
+    }
+
+    const handleCancel = () => {
+      setVisible(false);
+    }
+    //업무 조회 데이터 가져오기
+    const [Data, setData] = useState(['']);
+
+    useEffect(() => {
+      axios.get('/api/workmanageread').then(response => {
+        console.log(response.data);
+        setData(response.data);
+      }); 
+    }, []);
 
     return(
       <div>
@@ -55,11 +60,12 @@ function PrezWorkManage(props){
               <LoginedUser />
               <LogoutUser pageChange={props}/>
             </Header>
-            <Content style={{ margin: '0 auto', width: '1200px'}}>
-              <Button onClick={handleListShow}>업무조회</Button>  
-              <Button onClick={handleSendShow}>업무요구</Button> 
-              {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={data} pagination={false} 
-              onRow={(record) => ({onClick: () => { handleInformation(record); }})} />}
+            <Content style={{ margin: '0 auto', width: '100%'}}>
+                <Button onClick={handleListShow}>업무조회</Button>  
+                <Button onClick={handleSendShow}>업무지시</Button> 
+                {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={Data} pagination={false} 
+                onRow={(record) => ({onClick: () => { handleInformation(record); }})} />}
+                <WorkManageInfo Visible={Visible} UserData={UserData} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
           </Layout>
         </Layout>
