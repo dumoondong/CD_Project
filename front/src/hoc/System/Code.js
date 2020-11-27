@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
+import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,Tabs,
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
@@ -23,7 +23,10 @@ function Code(props) {
      setCheckTarget(selectedRows);
    }
  };
- 
+ //수정
+ const handleSave = () =>{
+
+ }
   //delete
  const handleDelete = () => {
    axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
@@ -48,8 +51,20 @@ function Code(props) {
   }
   //대코드 종류선택
   function onChange(value) {
-    console.log(value);
-    
+    if(value == 'All'){
+      axios.get('/api/smallcode').then(response => {  
+        setData(response.data);
+      });
+    }
+     else{
+      let body = {
+      LargeCode : value
+       }
+     axios.post('/api/mastercodelist',body).then(response => {
+     console.log(response.data);
+     setData(response.data);
+      });
+     }
   }
   //선택창 off
   function onBlur() {
@@ -60,9 +75,10 @@ function Code(props) {
     console.log('focus');
   }
   
-  function onSearch(val) {
-    console.log('search:', val);
-  }
+  // function onSearch(val) {
+  //   console.log('search:', val);
+
+  // }
   //공통 코드 데이터 조회
   useEffect(() => {
     axios.get('/api/smallcode').then(response => {  
@@ -72,7 +88,10 @@ function Code(props) {
       setMasterData(response.data);
     });
 }, []);
-
+const { TabPane } = Tabs;
+  function callback(key) {
+   console.log(key);
+  }
     //main
   return (
     <div>
@@ -122,6 +141,18 @@ function Code(props) {
             <Link  to="/code">
             <Button style={{marginRight:'1%'}}>소코드</Button>
             </Link>
+
+            <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="대코드" key="1">
+              Content of Tab Pane 1
+              <Link  to="/mastercode" />
+            </TabPane>
+            <TabPane tab="소코드" key="2">
+              Content of Tab Pane 2
+              <Link  to="/code" />
+           </TabPane>
+          </Tabs>
+
               </Breadcrumb.Item>
             </Breadcrumb>
             {/* 선택창 */}
@@ -131,20 +162,21 @@ function Code(props) {
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          onSearch={onSearch}
+          // onSearch={onSearch}
           filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
            }
            >
+          <Option key={'All'}>All</Option>
          {Masterdata.map(code => (
           <Option key={code.LargeCode}>{code.LargeInfo}</Option>
         ))}
          </Select>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >  
-                <Button type="primary" onClick={showModal}>추가</Button>         
+                <Button onClick={showModal}>추가</Button>         
                 <CodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <Button type="primary" onClick={showModal}>수정</Button>         
+                <Button onClick={showModal}>수정</Button>         
                 <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
               </div>
             <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} rowSelection={rowSelection} />

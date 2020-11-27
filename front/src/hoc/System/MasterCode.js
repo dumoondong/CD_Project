@@ -13,7 +13,6 @@ const { Header, Content, Sider, Footer } = Layout;
 function MasterCode(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
   const [Visible, setVisible] = useState(false); //modal 관리
-  const options = [{ value: 'CP' }, { value: 'SP' },{value: 'DP'}];
   const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
   //체크박스
   const rowSelection = {
@@ -22,7 +21,12 @@ function MasterCode(props) {
       setCheckTarget(selectedRows);
     }
   };
-  
+   //수정
+ const handleSave = () =>{
+   axios.post('/api/mastercodeupdate', CheckTarget).then(response => {
+   
+   });
+}
   //delete
   const handleDelete = () => {
     axios.post('/api/MasterCodedelete', CheckTarget).then(res =>{
@@ -106,11 +110,11 @@ function MasterCode(props) {
             </Breadcrumb>       
               <div style = {{background: '#fff',minHeight: 36}}></div> 
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >     
-                <Button type="primary" onClick={showModal}>추가</Button>   
+                <Button onClick={showModal}>추가</Button>   
                 <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <Button type="primary" onClick={showModal}>수정</Button>   
-                <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
+                <Button onClick={handleSave}>수정</Button>   
+                <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  />
               </div>
             <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
             </Content>
