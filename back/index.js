@@ -476,6 +476,35 @@ app.get('/api/workmanageuserlist',(req,res)=>{
     res.send(listData);
   });
 });
+//직원근무조회 유저 데이터 GET
+app.post('/api/employeemanageuserlist',(req,res)=>{
+    //console.log(req.body[0]);
+    let DateData = req.body[0];
+    let sendData = []; //보낼 값
+    let data = {}; //보낼 곳에 넣을 값
+    let key = 0; //테이블을 사용하기 위한 키값
+    db.query('SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = ?',
+      [DateData],(error,userList)=>{
+        if(error) throw error;
+        userList.forEach(user => {
+          //console.log(user.id);
+          data = {
+            key : String(key+1),
+            dept : user.dept,
+            rank : user.rank,
+            id : user.id,
+            name : user.name,
+            start : user.OnWork,
+            end : user.OffWork,
+            workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
+          }
+          sendData.push(data);
+          key++;
+        });
+        res.send(sendData);
+    });
+});
+
 
 //비밀번호 예시============================================================================================
 // const crypto = require('crypto');
