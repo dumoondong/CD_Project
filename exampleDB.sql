@@ -30,7 +30,7 @@ create table SmallCode(
     );
 # 휴일설정테이블
 create table Holiday(
-        Date VARCHAR(12) NOT NULL,
+        StartDate VARCHAR(25) NOT NULL,
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
@@ -66,7 +66,7 @@ create table WorkManage(
 set sql_safe_updates=0;
 
 # 테이블 삭제=====================================================================
-	DROP TABLE holiday; #휴일
+	DROP TABLE Holiday; #휴일
 	DROP TABLE SmallCode; #스몰코드
 	DROP TABLE employeeWork; #근무조회
 	DROP TABLE LeaveUser; #연가
@@ -90,7 +90,7 @@ set sql_safe_updates=0;
 	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
 	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
 # 휴일설정
-	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
+	INSERT INTO Holiday (StartDate,holimanage,holicontent) VALUES('2020-11-11T15:00:00.000Z','HC001','test');
 	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
 # 근무조회
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1112');

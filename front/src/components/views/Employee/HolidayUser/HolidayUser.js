@@ -6,12 +6,15 @@ import LoginedUser from '../../../../utils/LoginedUser';///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import {HolidayColums} from './HolidayUserColums'; //연가조회칼럼
-import FullCalendar from '@fullcalendar/react'; //////////fullCalender 기능
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';/////////////여기까지
 import HolidayUserAdd from './HolidayUserAdd';//연가신청 버튼의 기능
+import { Calendar, momentLocalizer } from 'react-big-calendar' //캘린더============
+import moment from 'moment'
+import 'react-big-calendar/lib/sass/styles.scss';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import './Calendar.scss' //scss 재정의=============================================
 
 const { Header, Content } = Layout;
+const localizer = momentLocalizer(moment)
 
 function HolidayUser(props) {
   const [LeaveData, setLeaveData] = useState(''); //날짜 정보
@@ -19,14 +22,15 @@ function HolidayUser(props) {
 
   useEffect(() => {         
     //휴일 데이터를 가져옴
-    axios.get('/api/holidaydata').then(response => {
+    axios.get('/api/holidaydataread').then(response => {
+      //console.log(response.data);
       setListData(response.data);
     });
     axios.get('/api/leavelist').then(response => {
       setLeaveData(response.data);
     });
 }, []);
-  
+  //캘린더====================================================================================
   const [Visible, setVisible] = useState(false);
   //팝업 ON
   const showModal = () => {
@@ -40,6 +44,46 @@ function HolidayUser(props) {
   const handleOk = () => {
     setVisible(false);
   }
+  //커스텀 툴바
+  const CustomToolbar = (toolbar) => {
+    //이전 달 버튼 이벤트
+    const goToBack = () => {
+      toolbar.date.setMonth(toolbar.date.getMonth() - 1);
+      toolbar.onNavigate('prev');
+    };
+    //다음 달 버튼 이벤트
+    const goToNext = () => {
+      toolbar.date.setMonth(toolbar.date.getMonth() + 1);
+      toolbar.onNavigate('next');
+    };
+    // Today버튼 이벤트
+    const goToCurrent = () => {
+      const now = new Date();
+      toolbar.date.setMonth(now.getMonth());
+      toolbar.date.setYear(now.getFullYear());
+      toolbar.onNavigate('current');
+    };
+    //label ex)11 2020
+    const label = () => {
+      const date = moment(toolbar.date);
+      return (
+        <span><b>{date.format('MM')}</b><span style={{fontSize:'20px'}}> {date.format('YYYY')}</span></span>
+      );
+    };
+  
+    return (
+      <div className={Calendar['toolbar-container']}>
+        <label className={Calendar['label-date']} style={{fontSize:'30px'}}>{label()}</label>
+  
+        <div className={Calendar['back-next-buttons']}>
+          <Button className={Calendar['btn-back']} onClick={goToBack}>&#8249;</Button>
+          <Button className={Calendar['btn-current']} onClick={goToCurrent}>Today</Button>
+          <Button className={Calendar['btn-next']} onClick={goToNext}>&#8250;</Button>
+        </div>
+      </div >
+    );
+  };
+  //===========================================================================================================
     return(
         <div>
           <Layout style={{ minHeight: '100vh'}}>
@@ -51,11 +95,16 @@ function HolidayUser(props) {
               </Header>
               <Content style={{ margin: '0 16px'}}>
                 {/* 캘린더 */}    
-                <FullCalendar 
-                  initialView="dayGridMonth"
-                  plugins={[ dayGridPlugin, interactionPlugin]}
-                  height = '90%'
+                <Calendar
+                  localizer={localizer}
                   events={ListData}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: 800,fontSize:'20px'}}
+                  views={{month: true}}
+                  components={{
+                    toolbar: CustomToolbar,
+                  }}
                 />
                 <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
