@@ -403,6 +403,7 @@ app.get('/api/leavelist', (req, res) => {
 });
 //업무 지시 데이터 저장
 app.post('/api/workmanagesave',(req,res)=>{
+  let success = true; //성공여부
   //console.log(req.body.checkUsers);
   //console.log(req.session.userId);
   //console.log(req.session.userName);
@@ -412,9 +413,9 @@ app.post('/api/workmanagesave',(req,res)=>{
     //console.log(saveData);
     db.query('INSERT INTO WorkManage (sendId,getId,startDate,endDate,title,workDes) VALUES(?,?,?,?,?,?)',
       [req.session.userId,checkUser.id,saveData.CurrentTime,saveData.EndDate,saveData.Title,saveData.Des], (error, result) => {
-      if (error) throw error;
+      if (error) success = false;
     });
-  },res.send('success'));
+  },res.send(success));
 });
 //업무조회 데이터 가져오기
 app.get('/api/workmanageread',(req,res)=>{

@@ -58,7 +58,7 @@ create table WorkManage(
         startDate VARCHAR(15),
         endDate varchar(15),
         title varchar(50),
-        workDes varchar(250)
+        workDes varchar(1000)
     );
 #==============================================================================
 

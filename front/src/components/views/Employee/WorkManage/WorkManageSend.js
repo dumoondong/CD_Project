@@ -51,7 +51,7 @@ function WorkManageSend() {
       //이제 보내서 저장하고 해당 유저는 있으면 보여줌.
       axios.post('/api/workmanagesave',body).then(response => {
           console.log(response.data);
-          if(response.data === 'success'){
+          if(response.data){
             alert('성공적으로 보냈습니다.');
             window.location.reload();
           } else {
@@ -105,7 +105,7 @@ function WorkManageSend() {
                                 </Select>
                             </div>
                         </div>
-                        <div style = {{marginTop: "11%"}}>
+                        <div style = {{marginTop: "7.3%"}}>
                             <div style = {{fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                 직원리스트
                             </div>
@@ -124,7 +124,7 @@ function WorkManageSend() {
                                 <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                     종료날짜
                                 </div>
-                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center'}}>
+                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center',height:'10px'}}>
                                     <DatePicker
                                     size={'large'}
                                     style = {{width:'100%'}}
