@@ -75,17 +75,15 @@ app.post('/api/SmallCodedelete',(req,res)=>{
 });
 //holiday 테이블 삭제
 app.post('/api/holidaydelete',(req,res)=>{
-  console.log(req.body);
-  // req.body.forEach(user => {
-  //   db.query(`DELETE FROM holiday WHERE date = ?`,[user.date],function(error,result){
-  //     if(error){
-  //       throw error;
-  //     }
-  //   });
-  // });
-  // return res.json({
-  //   success : true
-  // });
+  console.log(req.body.start);
+    db.query(`DELETE FROM Holiday WHERE StartDate = ?`,[req.body.start],function(error,result){
+      if(error){
+        throw error;
+      }
+      return res.json({
+        success : true
+      });
+    });
 });
 //대코드 리스트 검색
 app.post('/api/mastercodelist', (req,res) => {

@@ -20,11 +20,21 @@ function Holiday(props) {
   useEffect(() => {         
     axios.get('/api/holidaydataread').then(response => {
       // response.data.map(listData => (
-      console.log(response.data);
+      // console.log(response.data);
       // ));
       setListData(response.data);
     });
 }, []);
+  //delete
+  const handleDelete = (value) => {
+    console.log(value);
+    axios.post('/api/holidaydelete', value).then(res =>{
+     if(res.data.success){
+     alert('삭제되었습니다.');
+     window.location.reload();
+      }
+    })
+  }
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
@@ -45,6 +55,7 @@ function Holiday(props) {
     setStartDate(e.start);
     setVisible(true);
   }
+
   //툴바 커스텀
   const CustomToolbar = (toolbar) => {
     //이전 달 버튼 이벤트
@@ -131,6 +142,7 @@ function Holiday(props) {
             <Calendar
                   localizer={localizer}
                   events={ListData}
+                  onSelectEvent={handleDelete}
                   startAccessor="start"
                   endAccessor="end"
                   style={{ height: 800,fontSize:'20px'}}
