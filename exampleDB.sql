@@ -164,7 +164,7 @@ set sql_safe_updates=0;
 # 휴일설정
 	SELECT * from Holiday;
 # 근무조회
-	SELECT * from employeeWork where id='1117' and Date='2020-11-22';
+	SELECT * from employeeWork where id='1111' and Date like '2020/11%';
     SELECT * from employeeWork;
     SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
     SELECT * from employeeWork where Date = '2020/11/29';
