@@ -19,7 +19,7 @@ function WorkManageInfo(props) {
                             보낸 날짜
                         </div>
                         <div className = "right" style = {{display: "inline-block", width: "75%", height: "35px", textAlign: "center", borderBottom: "solid 1px lightgray", fontSize: "18px"}}>
-                            보낸시간가져오기
+                            {props.UserData.Date}
                         </div>
                     </div>
                     <div>
@@ -27,7 +27,7 @@ function WorkManageInfo(props) {
                             종료 날짜
                         </div>
                         <div className = "right" style = {{display: "inline-block", width: "75%", height: "35px", textAlign: "center", borderBottom: "solid 1px lightgray", fontSize: "18px"}}>
-                            dsaf{props.UserData.EndDate}
+                            {props.UserData.EndDate}
                         </div>
                     </div>
                     <div>
@@ -35,7 +35,7 @@ function WorkManageInfo(props) {
                             부서
                         </div>
                         <div className = "right" style = {{display: "inline-block", width: "75%", height: "35px", textAlign: "center", borderBottom: "solid 1px lightgray", fontSize: "18px"}}>
-                            fasddasf{props.UserData.Dept}
+                            {props.UserData.Dept}
                         </div>
                     </div>
                     <div>
@@ -43,7 +43,7 @@ function WorkManageInfo(props) {
                             직급
                         </div>
                         <div className = "right" style = {{display: "inline-block", width: "75%", height: "35px", textAlign: "center", borderBottom: "solid 1px lightgray", fontSize: "18px"}}>
-                            dasfasdf{props.UserData.Rank}
+                            {props.UserData.Rank}
                         </div>
                     </div>
                     <div>
