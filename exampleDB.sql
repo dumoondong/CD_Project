@@ -110,6 +110,8 @@ set sql_safe_updates=0;
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1114');
 	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1115');
     INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1115'); #차이를 두기 위해 활용
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/30','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/30','10:00','18:00','1112');
 # 연가
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
@@ -124,6 +126,7 @@ set sql_safe_updates=0;
 	delete from employee;
 # 근무조회
 	delete from employeeWork;
+    delete from employeeWork where id='1110' AND Date='2020/11/30';
 # 연가
 	delete from LeaveUser;
 # 스몰코드
@@ -152,11 +155,12 @@ set sql_safe_updates=0;
     SELECT * from employee where not id = '1114';
 # 마스터코드
 	SELECT * from MasterCode;
-    SELECT * from MasterCode where LargeInfo like '%부서%';
+    SELECT * from MasterCode where LargeInfo like '%휴일%';
 # 스몰코드
 	SELECT * from SmallCode;
     SELECT * from smallCode where SmallInfo = '회사창립일';
     SELECT * from SmallCode where SmallCode like '%RC%';
+    SELECT * from SmallCode where SmallCode like '%HC%';
     
     SELECT SC.SmallCode,SC.SmallInfo from SmallCode AS SC 
     join employee AS EMP
@@ -166,7 +170,7 @@ set sql_safe_updates=0;
 # 근무조회
 	SELECT * from employeeWork where id='1111' and Date like '2020/11%';
     SELECT * from employeeWork;
-    SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
+    SELECT * from employeeWork where id='1110' AND Date='2020/11/30';
     SELECT * from employeeWork where Date = '2020/11/29';
     SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = '2020/11/29';
 # 연가
