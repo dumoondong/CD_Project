@@ -1,5 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css'; //antd디자인 CSS
+import axios from 'axios';
 import { Layout, Table, Tabs } from 'antd';
 import LoginedUser from '../../../../utils/LoginedUser';////utils
 import LogoutUser from '../../../../utils/LogoutUser';
@@ -7,7 +8,6 @@ import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import { workManageColumn } from './WorkManageColumns'; //업무 칼럼
 import WorkManageSend from './WorkManageSend'; //업무지시 페이지
 import WorkManageInfo from './WorkManageInfo';
-import axios from "axios";
 
 //칼럼
 const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.

@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import { Modal, Descriptions, Input, Select, DatePicker} from 'antd';
 import { useDispatch } from 'react-redux';
 import {leaveUser} from '../../../../_actions/user_action';
+import './HolidayUser.css';
 
 const { Option } = Select; //선택한 옵션 기능
 const { RangePicker } = DatePicker; //날짜 시작 - 날짜 종료 기능
@@ -62,11 +63,11 @@ function HolidayUserAdd(props) {
             width={750}
             >
                 <div>
-                    <Descriptions bordered style = {{width: 700}}>
-                        <Descriptions.Item label="날짜" span={3} style = {{textAlign: "center"}}>
+                    <Descriptions bordered className = "descript">
+                        <Descriptions.Item label="날짜" span={3} className = "desc_item">
                             <RangePicker onChange={handleDate}/>
                         </Descriptions.Item>
-                        <Descriptions.Item label="연가종류" span={3} style = {{textAlign: "center"}}>
+                        <Descriptions.Item label="연가종류" span={3} className = "desc_item">
                             <Select defaultValue="연가선택" style={{ width: 450 }} onChange={handleChange}>
                             <Option value="연가">연가</Option>
                             <Option value="병가">병가</Option>
@@ -74,7 +75,7 @@ function HolidayUserAdd(props) {
                             <Option value="특별휴가">특별휴가</Option>
                             </Select>
                         </Descriptions.Item>
-                        <Descriptions.Item label="연가내용" span={3} style = {{textAlign: "center"}}>
+                        <Descriptions.Item label="연가내용" span={3} className = "desc_item">
                             <Input style={{ width: 450 }} value={Des} onChange={handleChangeDes}/>
                         </Descriptions.Item>
                     </Descriptions>
