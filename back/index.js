@@ -128,26 +128,25 @@ app.post('/api/mastercodeupdate',(req,res)=>{
     });
 });
 //공통코드 관련
-app.get('/api/SmallCode', (req, res) => {
+app.get('/api/smallcoderead', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
     if (error) throw error;
-    let temp = [];
+    let sendData = [];
     let data = {};
-    let i = 0;
+    let key = 0;
    rows.forEach(row => {
    data = {
-          key: String(i+1),
+          key: String(key+1),
           SmallCode: row.SmallCode,
           SmallInfo: row.SmallInfo,
-          SmallContent: row.SmallContent,
-  }
-      i++;
-      temp.push(data);
+          SmallContent: row.SmallContent
+        }
+      key++;
+      sendData.push(data);
     });
-    res.send(temp);
-
-});
+    res.send(sendData);
   });
+});
 //대코드 테이블
 app.get('/api/MasterCode', (req, res) => {
   db.query('SELECT * from MasterCode', (error, rows) => {
@@ -259,13 +258,17 @@ app.get('/api/holidaydataread', (req, res) => {
 //휴일종류코드리스트
 app.get('/api/holylist', (req,res) => {
   db.query('SELECT * from MasterCode where LargeInfo like ?',['%휴일%'],(error,data)=>{
-    if(error) res.send(['']);
-    //console.log(data[0].LargeCode);
-    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
-      if(error2) res.send(['']);
-      //console.log(depts);
-      res.send(depts);
-    });
+    if(error) throw error;
+    //console.log(data[0]);
+    if(data[0] != undefined){
+      db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
+        if(error2) throw error2;
+        //console.log(depts);
+        res.send(depts);
+      });
+    } else {
+      res.send(['']);
+    }
   });
 });
 //부서코드리스트
@@ -542,14 +545,16 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
 });
 //직원 월별 근무 조회 GET
 app.post('/api/employeemanageusermonthlylist',(req,res)=>{
+  //console.log(req.body);
   //console.log(req.body.CurrentDate.split('/')[0]);
   //console.log(req.body.CurrentDate.split('/')[1]);
-  const splitDate = req.body.CurrentDate.split('/')[0] + '/' + req.body.CurrentDate.split('/')[1];
+  const splitDate = req.body.SaveDate.split('/')[0] + '/' + req.body.SaveDate.split('/')[1];
   //console.log(splitDate);
-  let sendData = [];
-  let data = {};
-  let key = 0;
-  db.query('SELECT * from employeeWork where id=? and Date like ?',[req.body.UserData,`${splitDate}%`], (error, userlist) => {
+  let sendData = []; //보낼 데이터
+  let data = {};  //보낼 데이터에 넣을 데이터
+  let key = 0; //키값
+  let workTimeSum = 0; //근무시간 총합
+  db.query('SELECT * from employeeWork where id=? and Date like ?',[req.body.UserID,`${splitDate}%`], (error, userlist) => {
     if (error) throw error;
     //console.log(userlist);
     userlist.forEach(user => {
@@ -562,10 +567,15 @@ app.post('/api/employeemanageusermonthlylist',(req,res)=>{
         overWorkContent : user.OverWorkContent,
         workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
       }
+      workTimeSum += data.workTime;
       sendData.push(data);
       key++;
     });
-    res.send(sendData);
+    //res.send(sendData);
+    return res.json({
+      userList : sendData,
+      userWorkTimeSum : workTimeSum
+    });
   });
 });
 

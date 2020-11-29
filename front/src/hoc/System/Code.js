@@ -1,22 +1,22 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,Tabs,
+import { Select,Layout, Menu,PageHeader,Table, Button, Row, Col,Tabs,
   Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CodeAdd from '../SystemAdd/CodeAdd';
 import MasterCode from './MasterCode';
 import CodeUpdate from '../SystemUpdate/CodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
 
-function Code(props) {
-  const [data, setData] = useState([]);//칼럼 안 데이터
-  const [Masterdata, setMasterData] = useState([]);//칼럼 안 데이터
+function Code() {
+  const [data, setData] = useState(['']);//칼럼 안 데이터
+  const [Masterdata, setMasterData] = useState(['']);//칼럼 안 데이터
   const { Option } = Select;
   const [Visible, setVisible] = useState(false); //modal 관리
-  const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
+  const [CheckTarget, setCheckTarget] = useState(['']); //체크 박스 한 대상
   //체크박스
  const rowSelection = {
    onChange: (selectedRowKeys, selectedRows) => {
@@ -53,7 +53,7 @@ function Code(props) {
   //대코드 종류선택
   function onChange(value) {
     if(value == 'All'){
-      axios.get('/api/smallcode').then(response => {  
+      axios.get('/api/smallcoderead').then(response => {  
         setData(response.data);
       });
     }
@@ -69,7 +69,7 @@ function Code(props) {
   }
   //공통 코드 데이터 조회
   useEffect(() => {
-    axios.get('/api/smallcode').then(response => {  
+    axios.get('/api/smallcoderead').then(response => {  
       setData(response.data);
     });
     axios.get('/api/mastercode').then(response => {

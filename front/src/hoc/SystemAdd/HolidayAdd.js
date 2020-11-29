@@ -13,30 +13,17 @@ function HolidayAdd(props) {
   const dispatch = useDispatch(); //redux
   //휴일종류 선택
   const [SaveCode,setSaveCode] = useState(''); //소코드
-  //주석 필요
+  //선택 휴일의 코드 값
   const onChange = (value) => {
-        for(var i=0; i< data.length; i++) {
-          if(data[i].SmallInfo === value)  {  
-            setSaveCode(data[i].SmallCode);       
-          }
-        }
+    setSaveCode(value);
   }
     //휴일 종류 설정
-  const [data, setData] = useState([]);//스몰코드,스몰코드 정보 리스트
-
+  //const [data, setData] = useState(['']);//스몰코드,스몰코드 정보 리스트
   const [HolyList, setHolyList] = useState(['']);
-  useEffect(() => {         
-    axios.get('/api/smallcode').then(response => {
-      var temp = {};
-      for(var i=0; i< response.data.length; i++) {
-        temp = {
-          SmallCode: response.data[i].SmallCode,
-          SmallInfo: response.data[i].SmallInfo
-        };
-        setData(data => [...data, temp]);// 이전값에 temp값 합쳐서 저장
-      }
-    });
+
+  useEffect(() => {   
     axios.get('/api/holylist').then(response => {
+      console.log(response.data);
       setHolyList(response.data);
     });
   }, []);
@@ -52,8 +39,8 @@ function HolidayAdd(props) {
   
       let body = {
         StartDate:props.StartDate, //날짜
-        SaveCode:SaveCode, //소코드
-        HoliContent:HoliContent, //비고
+        SaveCode, //소코드
+        HoliContent, //비고
       }
       dispatch(holidayInfo(body))
               .then(response => { 
@@ -82,7 +69,7 @@ function HolidayAdd(props) {
          
           <Select showSearch style={{ width: 472 }} placeholder="휴일 지정" onChange={onChange}>
          {HolyList.map(holy => (
-          <Option key={holy.SmallInfo}>{holy.SmallInfo}</Option>
+          <Option key={holy.SmallCode}>{holy.SmallInfo}</Option>
         ))}
          </Select>
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>
