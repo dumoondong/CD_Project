@@ -4,6 +4,8 @@ import EmployeeManageList from './EmployeeManageList';
 
 function EmployeeManageInfo(props) {
     //console.log(props.UserData);
+    //console.log(props.CurrentDate[0]); //ex)2020/11/28
+
     return (
         <Modal
             visible={props.Visible}
@@ -12,7 +14,7 @@ function EmployeeManageInfo(props) {
             width={1112}
             >
             <div>
-                <EmployeeManageList />
+                <EmployeeManageList UserData={props.UserData} CurrentDate={props.CurrentDate[0]} />
             </div>
         </Modal>
     )

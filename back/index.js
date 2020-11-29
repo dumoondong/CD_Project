@@ -418,7 +418,7 @@ app.post('/api/mypagecheck', (req, res) => {
 
 //연가 데이터 넣기 *테이블 이름과 주소 바꿀 예정
 app.post('/api/leaveinsert',(req,res) => {
-  console.log(req.body);
+  //console.log(req.body);
   db.query('INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES(?,?,?,?,?)',
   [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des], (error, user) => {
     if (error) throw error;
@@ -539,6 +539,34 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
         });
         res.send(sendData);
     });
+});
+//직원 월별 근무 조회 GET
+app.post('/api/employeemanageusermonthlylist',(req,res)=>{
+  //console.log(req.body.CurrentDate.split('/')[0]);
+  //console.log(req.body.CurrentDate.split('/')[1]);
+  const splitDate = req.body.CurrentDate.split('/')[0] + '/' + req.body.CurrentDate.split('/')[1];
+  //console.log(splitDate);
+  let sendData = [];
+  let data = {};
+  let key = 0;
+  db.query('SELECT * from employeeWork where id=? and Date like ?',[req.body.UserData,`${splitDate}%`], (error, userlist) => {
+    if (error) throw error;
+    //console.log(userlist);
+    userlist.forEach(user => {
+      data = {
+        key : String(key+1),
+        date : user.Date,
+        onWork : user.OnWork,
+        offWork : user.OffWork,
+        workContent : user.WorkContent,
+        overWorkContent : user.OverWorkContent,
+        workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
+      }
+      sendData.push(data);
+      key++;
+    });
+    res.send(sendData);
+  });
 });
 
 

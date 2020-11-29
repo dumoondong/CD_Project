@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {MainColumn} from '../../Employee/MainPage/MainColumns'; //칼럼
+import {EmployeeManageListColum} from './EmployeeManageColums'; //칼럼
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -21,18 +21,24 @@ const printDiv = () => {
   window.print();
 }
 
-function EmployeeManageList(){
+function EmployeeManageList(props){
+  //console.log(props.UserData);
+  //console.log(props.CurrentDate); //ex)2020/11/28
+
   const [data, setData] = useState([]); //근무 데이터
-  const [WorkTimeSum, setWorkTimeSum] = useState(0);
+  const [WorkTimeSum, setWorkTimeSum] = useState(0); //근무시간 데이터
+  const UserData = props.UserData.id; //유저 id
+  const CurrentDate = props.CurrentDate; //날짜
+  const sendData = {UserData,CurrentDate}; //보낼 데이터
   //나중엔 서버에서 작업해서 넘겨주는 방식으로 구현
   const years = ['2020','2019','2018','2017','2016'];
   const months = ['1','2','3','4','5','6','7','8','9','10','11','12']
-  //근무 조회
+  //직원 월별 근무 조회 GET
   useEffect(() => {
-    axios.get('/api/worklist').then(response => {
+    axios.post('/api/employeemanageusermonthlylist',sendData).then(response => {
       //console.log(response.data);
-      setData(response.data.workList);
-      setWorkTimeSum(response.data.workTimeSum);
+      setData(response.data);
+      //setWorkTimeSum(response.data.workTimeSum);
     });
   }, []);
   //선택한 년도,월로 데이터 바꾸기
@@ -77,7 +83,7 @@ function EmployeeManageList(){
             </div>
           </div>
 
-          <Table columns={MainColumn} dataSource={data} pagination={false} />
+          <Table columns={EmployeeManageListColum} dataSource={data} pagination={false} />
 
           <div style = {{ textAlign: 'center'}}>
             <div style = {{display: 'inline-block', width: '40%', backgroundColor: 'orange'}}>
