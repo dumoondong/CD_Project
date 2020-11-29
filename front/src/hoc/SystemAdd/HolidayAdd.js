@@ -4,6 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { holidayInfo } from '../../_actions/holiday_action';
+import moment from 'moment'
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -50,7 +51,7 @@ function HolidayAdd(props) {
       props.handleOk();
   
       let body = {
-        Date:props.Date, //날짜
+        StartDate:props.StartDate, //날짜
         SaveCode:SaveCode, //소코드
         HoliContent:HoliContent, //비고
       }
@@ -75,7 +76,7 @@ function HolidayAdd(props) {
           onCancel={props.handleCancel}
         >
           <div style = {{fontSize: 15,background: '#fff'}}>날짜
-          <Alert style={{ background: '#fff'}} message={props.Date}/>
+          <Alert style={{ background: '#fff'}} message={moment(props.StartDate).format('YYYY/MM/DD')}/>
           </div>
           <div style = {{fontSize: 15,background: '#fff'}}>휴일종류</div>
          
