@@ -360,7 +360,7 @@ app.get('/api/worklist', (req, res) => {
     let temp = [];
     let data = {};
     let i = 0;
-    let workTime = null;
+    let workTime = 0;
     let workTimeSum = 0;
     works.forEach(work => {
       //console.log('OnWork: ',work.OnWork);
@@ -371,6 +371,8 @@ app.get('/api/worklist', (req, res) => {
       if(work.OffWork != null){
         workTime = Number(work.OffWork.split(':')[0]) - Number(work.OnWork.split(':')[0]);
         workTimeSum += workTime;
+      }else{
+        workTime=0;
       }
       data = {
         key : String(i+1),
@@ -522,11 +524,19 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
     let sendData = []; //보낼 값
     let data = {}; //보낼 곳에 넣을 값
     let key = 0; //테이블을 사용하기 위한 키값
+    let workTime = 0;
+    let workTimeSum = 0;
     db.query('SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = ?',
       [DateData],(error,userList)=>{
         if(error) throw error;
         userList.forEach(user => {
           //console.log(user.id);
+          if(user.OffWork != null){
+            workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+            workTimeSum += workTime;
+          }else{
+            workTime = 0;
+          }
           data = {
             key : String(key+1),
             dept : user.dept,
@@ -535,7 +545,7 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
             name : user.name,
             start : user.OnWork,
             end : user.OffWork,
-            workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
+            workTime : workTime
           }
           sendData.push(data);
           key++;
@@ -548,16 +558,24 @@ app.post('/api/employeemanageusermonthlylist',(req,res)=>{
   //console.log(req.body);
   //console.log(req.body.CurrentDate.split('/')[0]);
   //console.log(req.body.CurrentDate.split('/')[1]);
-  const splitDate = req.body.SaveDate.split('/')[0] + '/' + req.body.SaveDate.split('/')[1];
   //console.log(splitDate);
   let sendData = []; //보낼 데이터
   let data = {};  //보낼 데이터에 넣을 데이터
   let key = 0; //키값
+  let workTime = 0;
   let workTimeSum = 0; //근무시간 총합
+  const splitDate = req.body.SaveDate.split('/')[0] + '/' + req.body.SaveDate.split('/')[1];
+
   db.query('SELECT * from employeeWork where id=? and Date like ?',[req.body.UserID,`${splitDate}%`], (error, userlist) => {
     if (error) throw error;
     //console.log(userlist);
     userlist.forEach(user => {
+      if(user.OffWork != null){
+        workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+        workTimeSum += workTime;
+      }else{
+        workTime = 0;
+      }
       data = {
         key : String(key+1),
         date : user.Date,
@@ -565,9 +583,8 @@ app.post('/api/employeemanageusermonthlylist',(req,res)=>{
         offWork : user.OffWork,
         workContent : user.WorkContent,
         overWorkContent : user.OverWorkContent,
-        workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
+        workTime : workTime
       }
-      workTimeSum += data.workTime;
       sendData.push(data);
       key++;
     });
