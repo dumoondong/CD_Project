@@ -1,0 +1,57 @@
+/* 페이지 전체의 Layout부분 크기 */
+.ant-layout{
+    min-height: 100vh;
+}
+/* MyPageCheck Layout의 Header부분 배경색, 오른쪽정렬*/
+.mainheader{
+    background-color: white;
+    text-align: end;
+}
+/* Layout의 Content부분 배경색 */
+.content{
+    margin: 0;
+    background-color: white;
+}
+/* 개인정보변경 부분 최소 높이 지정 */
+#breadcrumb{
+    min-height: 100px;
+}
+/* MyPageCheck 내용물 틀 너비, 높이, 가운데정렬 */
+#mymain{
+    width: 50%;
+    height: 400px;
+    margin: 0 auto;
+}
+/* MyPageCheck 내용물 제목 */
+#mymaintitle{
+    margin-bottom: '20px';
+    margin-top: '10%';
+    text-align: center;
+}
+/* MyPageCheck 비밀번호 입력 레이블 */
+#inputlabel{
+    display: inline-block;
+    width: 20%;
+}
+/* MyPageCheck 비밀번호 입력 부분 */
+#inputpw{
+    display: inline-block;
+    width: 60%;
+    margin: 0 10px;
+}
+/* MyPage 전체 틀 너비, 가운데정렬(글씨도) */
+#wrap{
+    width: 700px;
+    margin: 0px auto;
+    text-align: center;
+}
+/* MyPage 항목 레이블 부분 가운데정렬 */
+.ant-descriptions-item-label{
+    text-align: center;
+}
+/* MyPage 확인, 취소 위치 */
+#btn{
+    float: right;
+}
+
+/* */

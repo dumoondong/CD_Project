@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd';
+import './WorkManage.css';
 
 function WorkManageInfo(props) {
     //console.log(props.UserData);

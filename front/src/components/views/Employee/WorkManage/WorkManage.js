@@ -42,14 +42,14 @@ const { TabPane } = Tabs;
     }, []);
       return (
         <div>
-          <Layout style={{ minHeight: '100vh' }}>
+          <Layout>
             <SideBar DefaultKey={'3'}/>
             <Layout>
-              <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+              <Header>
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 auto', width: '100%'}}>
+              <Content className = "content">
                 <Tabs defaultActiveKey="1" type={'card'} tabBarStyle={{backgroundColor:'white'}}>
                   <TabPane tab="업무조회" key="1">  
                     <Table columns={workManageColumn} dataSource={Data} pagination={false} 

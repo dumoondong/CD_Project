@@ -1,0 +1,50 @@
+/* WorkManage Layout의 Content부분 가운데정렬 */
+.content{
+    margin: 0;
+    width: 100%;
+}
+
+#leftside{
+    float: left;
+    width: 25%;
+}
+#deptbtn{
+    background-color: orange;
+    color: black;
+}
+#emplist{
+    margin-top: 7.3%;
+}
+
+#emplist_title{
+    font-size: 160%;
+    text-align: center;
+    background-color: orange;
+}
+
+#rightside{
+    float: left;
+    width: 64%;
+    margin-left: 12px;
+}
+
+#rightwrap{
+    height: 50%;
+    margin-top: 7%;
+}
+.rightlabel{
+    display: inline-block;
+    width: 15%;
+    font-size: 160%;
+    text-align: center;
+    background-color: orange;
+}
+.rightitema{
+    display: inline-block;
+    width: 35%;
+    height: 35px;
+    text-align: center;
+    background-color: white;
+    vertical-align: top;
+    padding-top: 6px;
+}

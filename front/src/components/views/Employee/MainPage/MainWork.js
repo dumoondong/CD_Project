@@ -52,7 +52,7 @@ function MainWork(){
   
   return(
   <>
-    <Content className = "content">
+    <Content>
       <div className = "wrap">
         <div className = "header">{/* 년 월 인쇄 통합 div */}
           <div className = "dateheader">

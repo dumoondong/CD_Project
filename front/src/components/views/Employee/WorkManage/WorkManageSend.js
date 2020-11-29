@@ -4,7 +4,6 @@ import { deptColums } from './WorkManageColumns';
 import axios from 'axios';
 import moment from 'moment';
 
-const { Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -92,74 +91,66 @@ function WorkManageSend() {
 
     return (
         <div>
-            <Content style={{ margin: '0 auto', width: '1200px'}}>
-                <div id = "wrap">
-                    <div id = "left" style = {{float: "left", width: "25%"}}>
-                        <div>
-                            <div style = {{display: "inline-block"}}>
-                                <Button disabled style = {{backgroundColor: "orange", color: "black"}}>부서선택</Button> 
-                            </div>
-                            <div style = {{display: "inline-block"}}>
-                                <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
-                                    {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
-                                </Select>
-                            </div>
-                        </div>
-                        <div style = {{marginTop: "7.3%"}}>
-                            <div style = {{fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                직원리스트
-                            </div>
-                            <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
-                        </div>
+            <div className = "wrap">
+                <div id = "leftside">
+                    <div>
+                        <Button disabled id = "deptbtn">부서선택</Button>
+                        <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
+                            {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
+                        </Select>
                     </div>
-                    <div id = "right" style = {{float: "left", width: "64%", marginLeft: "12px"}}>
-                        <div style = {{ display: "inline-block", width: "100%", height: "50%", marginTop: "7%"}}>
-                            <div>
-                                <div style = {{display: "inline-block", width: "15%", height: "35px", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                    보낸날짜
-                                </div>
-                                <div style = {{display: "inline-block", width: "35%", height: "35px", textAlignLast:'center', backgroundColor: 'white', verticalAlign: 'top', paddingTop: "6px"}}>
-                                    {CurrentTime}
-                                </div>
-                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                    종료날짜
-                                </div>
-                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center',height:'10px'}}>
-                                    <DatePicker
-                                    size={'large'}
-                                    style = {{width:'100%'}}
-                                    onChange={handleDateChange}
-                                    />
-                                </div>
+                    <div id = "emplist">
+                        <div id = "emplist_title">
+                            직원리스트
+                        </div>
+                        <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
+                    </div>
+                </div>
+                <div id = "rightside">
+                    <div id = "rightwrap">
+                        <div className = "rightlabel">
+                            보낸날짜
+                        </div>
+                        <div style = {{display: "inline-block", width: "35%", height: "35px", textAlign:'center', backgroundColor: 'white', verticalAlign: 'top', paddingTop: "6px"}}>
+                            {CurrentTime}
+                        </div>
+                        <div className = "rightlabel">
+                            종료날짜
+                        </div>
+                        <div style = {{display: "inline-block", width: "35%", textAlignLast:'center',height:'10px'}}>
+                            <DatePicker
+                            size={'large'}
+                            style = {{width:'100%'}}
+                            onChange={handleDateChange}
+                            />
+                        </div>
+                        <div>
+                            <div className = "rightlabel">
+                                제목
+                            </div>
+                            <div style = {{display: "inline-block", width: "85%" }}>
+                                <Input style = {{fontSize: "140%"}} onChange={handleChangeTitle} />
+                            </div>
+                        </div>
+                        <div>
+                            <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                                내용
                             </div>
                             <div>
-                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                    제목
-                                </div>
-                                <div style = {{display: "inline-block", width: "85%" }}>
-                                    <Input style = {{fontSize: "140%"}} onChange={handleChangeTitle} />
-                                </div>
-                            </div>
-                            <div>
-                                <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
-                                    내용
-                                </div>
-                                <div>
-                                    <TextArea rows={10}  onChange={handleChangeDes}/>
-                                    <Button style = {{float: "right"}} onClick = {showModal}>보내기</Button>
-                                    <Modal
-                                        visible={Visible}
-                                        onOk={handleOk}
-                                        onCancel={handleCancel}
-                                    >
-                                        보내시겠습니까?
-                                    </Modal>
-                                </div>
+                                <TextArea rows={10}  onChange={handleChangeDes}/>
+                                <Button style = {{float: "right"}} onClick = {showModal}>보내기</Button>
+                                <Modal
+                                    visible={Visible}
+                                    onOk={handleOk}
+                                    onCancel={handleCancel}
+                                >
+                                    보내시겠습니까?
+                                </Modal>
                             </div>
                         </div>
                     </div>
                 </div>
-            </Content>
+            </div>
         </div>
     )
 }

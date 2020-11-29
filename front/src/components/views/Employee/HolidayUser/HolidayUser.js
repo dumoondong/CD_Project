@@ -86,27 +86,27 @@ function HolidayUser(props) {
   //===========================================================================================================
     return(
         <div>
-          <Layout style={{ minHeight: '100vh'}}>
+          <Layout>
             <SideBar DefaultKey={'2'}/>
             <Layout>
-              <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+              <Header>
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 16px'}}>
+              <Content>
                 {/* 캘린더 */}    
                 <Calendar
+                  className = "cal"
                   localizer={localizer}
                   events={ListData}
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 800,fontSize:'20px'}}
                   views={{month: true}}
                   components={{
                     toolbar: CustomToolbar,
                   }}
                 />
-                <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
+                <Button onClick = {showModal} className = "btn">연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <div>
                   <Table columns={HolidayColums} dataSource={LeaveData} pagination={false} />

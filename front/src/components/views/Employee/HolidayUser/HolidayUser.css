@@ -1,8 +1,34 @@
+/* 페이지 전체의 Layout부분 크기 */
+.ant-layout{
+    min-height: 100vh;
+}
+/* Layout의 Header부분 배경색, 오른쪽정렬*/
+.ant-layout-header{
+    background-color: white;
+    text-align: end;
+}
+/* Layout의 Content부분 가운데정렬 */
+.ant-layout-content{
+    margin: 0 16px;
+}
+/* 연가신청 버튼 오른쪽정렬 */
+.btn{
+    float: right;
+}
+/* 연가신청 표 크기 */
 .descript{
-    width: 700;
+    width: 700px;
+}
+/* Calendar 높이, 글씨크기 */
+.cal{
+    height: 800px;
+    font-size: 20px;
 }
 /* 연가신청탭 가운데 정렬 */
-.desc_item {
+.desc_item{
     text-align: center;
 }
-
+/* 연가신청탭 input, select 크기 */
+.input{
+    width: 450px;
+}
