@@ -5,33 +5,29 @@ import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction'; //fullCalender 데이터 선택할려면 필요함
+import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar' ////캘린더====
+import 'react-big-calendar/lib/sass/styles.scss';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import './Calendar.scss' //scss 재정의=======================================
 
+const localizer = momentLocalizer(moment)
 const { Header, Content, Sider } = Layout;
 
 function Holiday(props) {
   const [ListData, setListData] = useState([]);
 
   useEffect(() => {         
-    axios.get('/api/holidaydata').then(response => {
+    axios.get('/api/holidaydataread').then(response => {
       // response.data.map(listData => (
-      //   console.log(listData)
+      console.log(response.data);
       // ));
       setListData(response.data);
     });
 }, []);
-  //캘린더
-  const [Date, setDate] = useState('');
-  /////////////////////////////////////////////////HolidayAdd.js와 연결하는 부분
+  //캘린더================================================================================
+  //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
-  //팝업 ON(빅캘린더에서 날짜정보를 가져오고 모달창을 띄움)
-  const handleDateSelect = (value) => {
-    console.log(value.dateStr);
-    setDate(value.dateStr);
-    setVisible(true);
-  }
   //팝업 OFF
   const handleCancel = () => {
     setVisible(false);
@@ -40,7 +36,54 @@ function Holiday(props) {
   const handleOk = () => {
     setVisible(false);
   }
-  //분리 작업 테스트 성공...휴일 설정/////////////////////////////////////////////
+  //팝업 ON
+  const [StartDate, setStartDate] = useState(null); //휴일 날짜 데이터
+  //휴일 날짜 데이터 SET
+  const handleDateSelect = (e) => {
+    //console.log(e.start);
+    //console.log(moment(e.start).format('YYYY/MM/DD'));
+    setStartDate(e.start);
+    setVisible(true);
+  }
+  //툴바 커스텀
+  const CustomToolbar = (toolbar) => {
+    //이전 달 버튼 이벤트
+    const goToBack = () => {
+      toolbar.date.setMonth(toolbar.date.getMonth() - 1);
+      toolbar.onNavigate('prev');
+    };
+    //다음 달 버튼 이벤트
+    const goToNext = () => {
+      toolbar.date.setMonth(toolbar.date.getMonth() + 1);
+      toolbar.onNavigate('next');
+    };
+    // Today버튼 이벤트
+    const goToCurrent = () => {
+      const now = new Date();
+      toolbar.date.setMonth(now.getMonth());
+      toolbar.date.setYear(now.getFullYear());
+      toolbar.onNavigate('current');
+    };
+    //label ex)11 2020
+    const label = () => {
+      const date = moment(toolbar.date);
+      return (
+        <span><b>{date.format('MM')}</b><span style={{fontSize:'20px'}}> {date.format('YYYY')}</span></span>
+      );
+    };
+    return (
+      <div className={Calendar['toolbar-container']}>
+        <label className={Calendar['label-date']} style={{fontSize:'30px'}}>{label()}</label>
+  
+        <div className={Calendar['back-next-buttons']}>
+          <Button className={Calendar['btn-back']} onClick={goToBack}>&#8249;</Button>
+          <Button className={Calendar['btn-current']} onClick={goToCurrent}>Today</Button>
+          <Button className={Calendar['btn-next']} onClick={goToNext}>&#8250;</Button>
+        </div>
+      </div >
+    );
+  };
+  //===========================================================================================
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -74,7 +117,7 @@ function Holiday(props) {
             </Link>
           </Header>
           <Content>
-          <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
+          <Breadcrumb style = {{background: '#fff', minHeight: 10}}>
               <Breadcrumb.Item>
                 <PageHeader
                   className="site-page-header"
@@ -83,15 +126,22 @@ function Holiday(props) {
                   subTitle="휴일설정 페이지">   
                 </PageHeader>
               </Breadcrumb.Item>
-            </Breadcrumb>     
-            <FullCalendar 
-              initialView="dayGridMonth"
-              plugins={[ dayGridPlugin, interactionPlugin]}
-              dateClick = {handleDateSelect}
-              height = '90%'
-              events={ListData}
-            />
-            <HolidayAdd Date={Date} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
+            </Breadcrumb> 
+            {/* 캘린더 */}
+            <Calendar
+                  localizer={localizer}
+                  events={ListData}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: 800,fontSize:'20px'}}
+                  views={{month: true}}
+                  selectable ={true}
+                  onSelectSlot = {handleDateSelect}
+                  components={{
+                    toolbar: CustomToolbar,
+                  }}
+                />
+            <HolidayAdd StartDate={StartDate} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>
     </Layout>

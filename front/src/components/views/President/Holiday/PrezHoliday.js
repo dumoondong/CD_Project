@@ -5,9 +5,9 @@ import axios from 'axios';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarPresident';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
+// import FullCalendar from '@fullcalendar/react';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import interactionPlugin from '@fullcalendar/interaction';
 import HolidayUserAdd from '../../Employee/HolidayUser/HolidayUserAdd';
 import { HolidayColums } from '../../Employee/HolidayUser/HolidayUserColums';
 import PrezHoliConfirm from './PrezHoliConfim';
@@ -73,12 +73,12 @@ function PrezHoli(props){
             </Header>
             <Content style={{ margin: '0 16px' }}>
               {/* 캘린더 */}
-              <FullCalendar 
+              {/* <FullCalendar 
                 initialView="dayGridMonth"
                 plugins={[ dayGridPlugin, interactionPlugin]}
                 height = '90%'
                 events={ListData}
-              />
+              /> */}
               <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
               <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
               <Button style = {{float: 'right'}} onClick = {showConfirm}>연가승인</Button>

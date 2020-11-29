@@ -28,11 +28,13 @@ export const workManageColumn = [
       title: '제목',
       dataIndex: 'Title',
       key: 'Title',
+      ellipsis: true
     },
     {
       title: '내용',
       dataIndex: 'Dsc',
       key: 'Dsc',
+      ellipsis: true
     } 
   ];
 
