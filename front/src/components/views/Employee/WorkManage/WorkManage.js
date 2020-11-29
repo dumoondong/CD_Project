@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css'; //antd디자인 CSS
-import { Layout, Button, Table } from 'antd';
+import axios from 'axios';
+import { Layout, Table, Tabs } from 'antd';
 import LoginedUser from '../../../../utils/LoginedUser';////utils
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarEmployee';///여기까지
@@ -10,43 +11,9 @@ import WorkManageInfo from './WorkManageInfo';
 
 //칼럼
 const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
-  
-    const data = [
-     {
-       key: '1',
-       Date: 'YYYY/MM/DD',
-       EndDate: 'YYYY/MM/DD',
-       Dept: '영업부',
-       Rank : '대표',
-       User: '홍길오',
-       Title: '업무지시',
-       Dsc: 'Content',
-     },
-     {
-      key: '2',
-      Date: 'YYYY/MM/DD',
-      EndDate: 'YYYY/MM/DD',
-      Dept: '영업부',
-      Rank : '직원',
-      User: '홍길삼',
-      Title: '업무지시',
-      Dsc: 'Content',
-    }
-  ];
+const { TabPane } = Tabs;
 
   function WorkManage(props) {
-    const [SendShow, setSendShow] = useState(false); //스위치버튼
-
-    //업무조회
-    const handleListShow = (e) => {
-      console.log(e);
-      setSendShow(false);
-    }
-    //업무지시
-    const handleSendShow = (e) => {
-      console.log(e);
-      setSendShow(true);
-    }
     //업무 상세보기
     const [Visible, setVisible] = useState(false);
     const [UserData, setUserData] = useState(['']);
@@ -64,7 +31,15 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
     const handleCancel = () => {
       setVisible(false);
     }
-    
+    //업무 조회 데이터 가져오기
+    const [Data, setData] = useState(['']);
+
+    useEffect(() => {
+      axios.get('/api/workmanageread').then(response => {
+        console.log(response.data);
+        setData(response.data);
+      }); 
+    }, []);
       return (
         <div>
           <Layout style={{ minHeight: '100vh' }}>
@@ -74,12 +49,22 @@ const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, 
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 auto', width: '1200px'}}>
-                <Button onClick={handleListShow}>업무조회</Button>  
-                <Button onClick={handleSendShow}>업무지시</Button> 
-                {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={data} pagination={false} 
-                onRow={(record) => ({onClick: () => { handleInformation(record); }})} />}
-                <WorkManageInfo Visible={Visible} UserData={UserData} handleOk={handleOk} handleCancel={handleCancel} />
+              <Content style={{ margin: '0 auto', width: '100%'}}>
+                <Tabs defaultActiveKey="1" type={'card'} tabBarStyle={{backgroundColor:'white'}}>
+                  <TabPane tab="업무조회" key="1">  
+                    <Table columns={workManageColumn} dataSource={Data} pagination={false} 
+                    onRow={(record) => ({onClick: () => { handleInformation(record); }})} />
+                  </TabPane>
+                  <TabPane tab="업무지시" key="2">
+                    <WorkManageSend />
+                  </TabPane>
+                </Tabs>
+                <WorkManageInfo 
+                  Visible={Visible} 
+                  UserData={UserData} 
+                  handleOk={handleOk} 
+                  handleCancel={handleCancel} 
+                />
               </Content>
             </Layout>
           </Layout>

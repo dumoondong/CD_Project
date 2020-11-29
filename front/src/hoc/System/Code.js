@@ -6,6 +6,7 @@ import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CodeAdd from '../SystemAdd/CodeAdd';
+import MasterCode from './MasterCode';
 import CodeUpdate from '../SystemUpdate/CodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 const { Header, Content, Sider, Footer } = Layout;
@@ -66,19 +67,6 @@ function Code(props) {
       });
      }
   }
-  //선택창 off
-  function onBlur() {
-    console.log('blur');
-  }
-  //선택창 on
-  function onFocus() {
-    console.log('focus');
-  }
-  
-  // function onSearch(val) {
-  //   console.log('search:', val);
-
-  // }
   //공통 코드 데이터 조회
   useEffect(() => {
     axios.get('/api/smallcode').then(response => {  
@@ -92,6 +80,7 @@ const { TabPane } = Tabs;
   function callback(key) {
    console.log(key);
   }
+
     //main
   return (
     <div>
@@ -135,52 +124,36 @@ const { TabPane } = Tabs;
                   title="공통코드"
                   subTitle="공통코드 페이지">   
                 </PageHeader>
-                <Link  to="/mastercode">
-            <Button style={{marginRight:'1%'}}>대코드</Button>
-            </Link>
-            <Link  to="/code">
-            <Button style={{marginRight:'1%'}}>소코드</Button>
-            </Link>
-
-            <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="대코드" key="1">
-              Content of Tab Pane 1
-              <Link  to="/mastercode" />
-            </TabPane>
-            <TabPane tab="소코드" key="2">
-              Content of Tab Pane 2
-              <Link  to="/code" />
-           </TabPane>
-          </Tabs>
-
               </Breadcrumb.Item>
             </Breadcrumb>
             {/* 선택창 */}
             <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>
-            <Select showSearch style={{ width: 200 }} placeholder="대코드 검색"
-          optionFilterProp="children"
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          // onSearch={onSearch}
-          filterOption={(input, option) =>
-          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-           }
-           >
-          <Option key={'All'}>All</Option>
-         {Masterdata.map(code => (
-          <Option key={code.LargeCode}>{code.LargeInfo}</Option>
-        ))}
-         </Select>
-              <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >  
-                <Button onClick={showModal}>추가</Button>         
-                <CodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-                <Button onClick={handleDelete}>삭제</Button>
-                <Button onClick={showModal}>수정</Button>         
-                <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-              </div>
-            <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} rowSelection={rowSelection} />
-            </div>   
+            <Tabs tabBarStyle={{backgroundColor:'white'}}defaultActiveKey="2" onChange={callback} >
+              <TabPane tab="대코드" key="1">
+               <MasterCode></MasterCode>
+              </TabPane>
+              <TabPane tab="소코드" key="2">
+                    <Select 
+                    showSearch 
+                    style={{ width: 200 }}
+                    placeholder="대코드 검색"
+                    onChange={onChange}>
+                      <Option key={'All'}>All</Option>
+                      {Masterdata.map(code => (
+                      <Option key={code.LargeCode}>{code.LargeInfo}</Option>
+                        ))}
+                    </Select>
+                  <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >  
+                    <Button onClick={showModal}>추가</Button>         
+                    <CodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
+                    <Button onClick={handleDelete}>삭제</Button>
+                    <Button onClick={showModal}>수정</Button>         
+                    <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
+                  </div>
+                  <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} rowSelection={rowSelection} />
+              </TabPane>
+            </Tabs>
+            </div>
             </Content>
       </Layout>
     </Layout>

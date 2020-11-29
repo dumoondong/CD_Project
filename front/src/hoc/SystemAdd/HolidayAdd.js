@@ -4,6 +4,7 @@ import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { holidayInfo } from '../../_actions/holiday_action';
+import moment from 'moment'
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -20,22 +21,10 @@ function HolidayAdd(props) {
           }
         }
   }
-  //주석 필요
-  const onBlur = () => {
-    console.log('blur');
-  }
-  //주석 필요
-  const onFocus = () => {
-    console.log('focus');
-  }
-  //주석 필요
-  const onSearch = (val) => {
-    console.log('search:', val);
-  }
     //휴일 종류 설정
   const [data, setData] = useState([]);//스몰코드,스몰코드 정보 리스트
-  const [Opt, setOpt] = useState([]);//스몰코드 정보 리스트
 
+  const [HolyList, setHolyList] = useState(['']);
   useEffect(() => {         
     axios.get('/api/smallcode').then(response => {
       var temp = {};
@@ -45,8 +34,10 @@ function HolidayAdd(props) {
           SmallInfo: response.data[i].SmallInfo
         };
         setData(data => [...data, temp]);// 이전값에 temp값 합쳐서 저장
-        setOpt(Opt => [...Opt,response.data[i].SmallInfo]);//스몰코드 정보 저장
       }
+    });
+    axios.get('/api/holylist').then(response => {
+      setHolyList(response.data);
     });
   }, []);
     //비고 변수 초기화
@@ -60,7 +51,7 @@ function HolidayAdd(props) {
       props.handleOk();
   
       let body = {
-        Date:props.Date, //날짜
+        StartDate:props.StartDate, //날짜
         SaveCode:SaveCode, //소코드
         HoliContent:HoliContent, //비고
       }
@@ -85,22 +76,13 @@ function HolidayAdd(props) {
           onCancel={props.handleCancel}
         >
           <div style = {{fontSize: 15,background: '#fff'}}>날짜
-          <Alert style={{ background: '#fff'}} message={props.Date}/>
+          <Alert style={{ background: '#fff'}} message={moment(props.StartDate).format('YYYY/MM/DD')}/>
           </div>
           <div style = {{fontSize: 15,background: '#fff'}}>휴일종류</div>
          
-          <Select showSearch style={{ width: 472 }} placeholder="휴일 지정"
-          optionFilterProp="children"
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onSearch={onSearch}
-          filterOption={(input, option) =>
-          option.toLowerCase().indexOf(input.toLowerCase()) >= 0
-           }
-           >
-         {Opt.map(SmallInfo => (
-          <Option key={SmallInfo}>{SmallInfo}</Option>
+          <Select showSearch style={{ width: 472 }} placeholder="휴일 지정" onChange={onChange}>
+         {HolyList.map(holy => (
+          <Option key={holy.SmallInfo}>{holy.SmallInfo}</Option>
         ))}
          </Select>
          <div style = {{fontSize: 15,background: '#fff'}}>비고</div>

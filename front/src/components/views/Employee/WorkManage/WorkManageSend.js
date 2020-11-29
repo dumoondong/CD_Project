@@ -8,24 +8,9 @@ const { Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer�
 const { Option } = Select;
 const { TextArea } = Input;
 
-const data = [
-    {
-        key: '1',
-        id: '1111',
-        name: '대표임'
-    },{
-        key: '2',
-        id: '1113',
-        name: '직원삼'
-    }
-];
-
 function WorkManageSend() {
-    const CurrentTime = useState(moment().format('YYYY/MM/DD'));
-
     const [CheckTarget, setCheckTarget] = useState(['']); //선택한 유저 값
     //선택 박스
-
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -52,13 +37,13 @@ function WorkManageSend() {
     const handleOk = () => {
       setVisible(false);
       console.log('선택한 유저 :',CheckTarget);
-      //console.log('날짜 :',StartDate,EndDate);
+      console.log('날짜 :',CurrentTime[0]);
       console.log('종료날짜 :', EndDate);
       console.log('제목 :',Title);
       console.log('내용 :',Des);
       let body = {
           checkUsers : CheckTarget,
-          //StartDate,
+          CurrentTime: CurrentTime[0],
           EndDate,
           Title,
           Des
@@ -66,7 +51,7 @@ function WorkManageSend() {
       //이제 보내서 저장하고 해당 유저는 있으면 보여줌.
       axios.post('/api/workmanagesave',body).then(response => {
           console.log(response.data);
-          if(response.data === 'success'){
+          if(response.data){
             alert('성공적으로 보냈습니다.');
             window.location.reload();
           } else {
@@ -75,27 +60,36 @@ function WorkManageSend() {
       });
     }
     //날짜 데이터 가져오기
-    //const [StartDate, setStartDate] = useState(''); //시작 날짜
+    const CurrentTime = useState(moment().format('YYYY/MM/DD')); //현재 날짜
     const [EndDate, setEndDate] = useState(''); //종료 날짜
-
+    //날짜 데이터 SET
     const handleDateChange = (value) => {
-        //console.log(value[0].format('YYYY/MM/DD'));
-        //console.log(value[1].format('YYYY/MM/DD'));
-        //setStartDate(value[0].format('YYYY/MM/DD'));
-        setEndDate(value[1].format('YYYY/MM/DD'));
+        //console.log(value);
+        //console.log(value.format('YYYY/MM/DD'));
+        setEndDate(value.format('YYYY/MM/DD'));
     }
     //제목 데이터 가져오기
-    const [Title, setTitle] = useState('');
-
+    const [Title, setTitle] = useState(''); //제목
+    //제목 데이터 SET
     const handleChangeTitle = (e) => {
         setTitle(e.currentTarget.value);
       }
     //내용 데이터 가져오기
-    const [Des, setDes] = useState('');
-
+    const [Des, setDes] = useState(''); //내용
+    //내용 데이터 SET
     const handleChangeDes = (e) => {
         setDes(e.currentTarget.value);
     }
+    // 직원 리스트 출력
+    const [UserList, setUserList] = useState(['']); //직원 리스트
+    //데이터 GET
+    useEffect(() => {
+        axios.get('/api/workmanageuserlist').then(response => {
+            //console.log(response.data);
+            setUserList(response.data);
+        });
+    }, [])
+
     return (
         <div>
             <Content style={{ margin: '0 auto', width: '1200px'}}>
@@ -111,11 +105,11 @@ function WorkManageSend() {
                                 </Select>
                             </div>
                         </div>
-                        <div style = {{marginTop: "11%"}}>
+                        <div style = {{marginTop: "7.3%"}}>
                             <div style = {{fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                 직원리스트
                             </div>
-                            <Table columns={deptColums} dataSource={data} rowSelection={rowSelection} pagination={false} />
+                            <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
                         </div>
                     </div>
                     <div id = "right" style = {{float: "left", width: "64%", marginLeft: "12px"}}>
@@ -130,7 +124,7 @@ function WorkManageSend() {
                                 <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                     종료날짜
                                 </div>
-                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center'}}>
+                                <div style = {{display: "inline-block", width: "35%", textAlignLast:'center',height:'10px'}}>
                                     <DatePicker
                                     size={'large'}
                                     style = {{width:'100%'}}

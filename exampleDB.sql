@@ -2,6 +2,7 @@
 	create database mydb;
 # DB 사용
 	use mydb;
+	USE mysql;
 
 # 테이블 추가(임시)=========================================================
 # 유저테이블
@@ -30,7 +31,7 @@ create table SmallCode(
     );
 # 휴일설정테이블
 create table Holiday(
-        Date VARCHAR(12) NOT NULL,
+        StartDate VARCHAR(25) NOT NULL,
         HoliManage VARCHAR(6),
         HoliContent VARCHAR(50)
     );
@@ -58,7 +59,7 @@ create table WorkManage(
         startDate VARCHAR(15),
         endDate varchar(15),
         title varchar(50),
-        workDes varchar(250)
+        workDes varchar(1000)
     );
 #==============================================================================
 
@@ -66,7 +67,7 @@ create table WorkManage(
 set sql_safe_updates=0;
 
 # 테이블 삭제=====================================================================
-	DROP TABLE holiday; #휴일
+	DROP TABLE Holiday; #휴일
 	DROP TABLE SmallCode; #스몰코드
 	DROP TABLE employeeWork; #근무조회
 	DROP TABLE LeaveUser; #연가
@@ -81,24 +82,34 @@ set sql_safe_updates=0;
 
 # 데이터 넣기(임시 데이터)===================================================================================================
 # 유저
-	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1113','대표임','123','test@test.com','010-0000-0001','11111','춘천시','-','영업부','대표');
-	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1114','직원일','123','test1@test.com','010-0000-0002','11111','홍천군','-','총리부','직원');
-	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1115','직원이','123','test2@test.com','010-0000-0003','11111','서울시','-','인사부','직원');
+	# 대표
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1110','대표임','123','test@test.com','010-0000-0000','11111','춘천시','-','영업부','대표');
+    # 직원
+    INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1111','직원일','123','test1@test.com','010-0000-0001','11111','춘천시','-','영업부','직원');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1112','직원이','123','test2@test.com','010-0000-0002','11111','홍천군','-','총리부','직원');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1113','직원삼','123','test3@test.com','010-0000-0003','11111','서울시','-','인사부','직원');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1114','직원사','123','test4@test.com','010-0000-0004','11111','홍천군','-','총리부','직원');
+	INSERT INTO employee(id,name,password,email,phone,zim,address,des,dept,rank) VALUES('1115','직원오','123','test5@test.com','010-0000-0005','11111','서울시','-','인사부','직원');
 # 마스터코드
 	INSERT INTO mastercode (LargeCode,LargeInfo) VALUES('HC','holidayCode');
 # 스몰코드 (수정 필요)
 	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC001','회사창립일');
 	INSERT INTO smallcode (smallCode,smallInfo) VALUES('HC002','법정공휴일');
 # 휴일설정
-	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-18','HC001','test');
+	INSERT INTO Holiday (StartDate,holimanage,holicontent) VALUES('2020-11-11T15:00:00.000Z','HC001','test');
 	INSERT INTO holiday (DATE,holimanage,holicontent) VALUES('2020-11-19','HC002','test2');
 # 근무조회
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-25','10:00','18:00','1112');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-26','10:00','18:00','1112');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-27','10:00','18:00','1112');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-28','10:00','18:00','1114');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-29','10:00','18:00','1114');
-	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020-11-30','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/28','10:00','18:00','1111');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/28','10:00','18:00','1112');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/28','10:00','18:00','1113');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/28','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/28','10:00','18:00','1115');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1111');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1112');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1113');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1114');
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1115');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/29','10:00','18:00','1115'); #차이를 두기 위해 활용
 # 연가
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
 	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
@@ -138,6 +149,7 @@ set sql_safe_updates=0;
     join SmallCode AS SC 
 	ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode;
 	# SELECT * from employee join WorkManage on WorkManage.getId = '1113';
+    SELECT * from employee where not id = '1114';
 # 마스터코드
 	SELECT * from MasterCode;
     SELECT * from MasterCode where LargeInfo like '%부서%';
@@ -155,6 +167,8 @@ set sql_safe_updates=0;
 	SELECT * from employeeWork where id='1117' and Date='2020-11-22';
     SELECT * from employeeWork;
     SELECT * from employeeWork where id='1113' AND Date='2020/11/25';
+    SELECT * from employeeWork where Date = '2020/11/29';
+    SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = '2020/11/29';
 # 연가
 	SELECT * from LeaveUser;
 # 업무조회
