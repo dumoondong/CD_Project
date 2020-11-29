@@ -29,12 +29,16 @@ function Holiday(props) {
   const handleDelete = (value) => {
     console.log(value);
     axios.post('/api/holidaydelete', value).then(res =>{
+
      if(res.data.success){
      alert('삭제되었습니다.');
      window.location.reload();
+      }else{
+
       }
     })
   }
+  
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
