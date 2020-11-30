@@ -64,20 +64,20 @@ function LoginPage(props) {
             <div style = {{display: 'block', margin: 'auto', marginTop: '50%', marginBottom: '10%',width: '380px', height: '75px', borderBottom: 'grey solid 1px', backgroundColor: 'white'}}>
                 <Image src={LogoImage} width={380} height={70} />
             </div>
-                <Form
-                    {...Formlayout}
-                    name="loginUser"
-                    onFinish={onSubmitHandler}
-                    style = {{display: 'flex', flexDirection: 'column'}}
-                    >
-                    <Form.Item label="Email" name="Email">
-                        <Input value={Email} onChange={onEmailHandler} />
-                    </Form.Item>
-                    <Form.Item label="Password" name="Password">
-                        <Input.Password value={Password} onChange={onPasswordHandler} />
-                    </Form.Item>
-                    <Button htmlType="submit">Login </Button>
-                </Form>
+            <Form
+                {...Formlayout}
+                name="loginUser"
+                onFinish={onSubmitHandler}
+                style = {{display: 'flex', flexDirection: 'column'}}
+                >
+                <Form.Item label="Email" name="Email">
+                    <Input value={Email} onChange={onEmailHandler} />
+                </Form.Item>
+                <Form.Item label="Password" name="Password">
+                    <Input.Password value={Password} onChange={onPasswordHandler} />
+                </Form.Item>
+                <Button htmlType="submit">Login </Button>
+            </Form>
         </div>
     )
 }

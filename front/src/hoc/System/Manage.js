@@ -1,13 +1,13 @@
 import React, {useState,useEffect} from 'react'
-import { Select, Layout, Menu,PageHeader,Table, Button, Row, Col, Breadcrumb } from 'antd';
+import { Select, Layout, PageHeader,Table, Button, Breadcrumb } from 'antd';
   import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
 import ManageAdd from '../SystemAdd/ManageAdd';
 import { Link } from "react-router-dom";
 import {ManageColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
+import SideBarSystem from '../../utils/SideBarSystem';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 function Manage(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
@@ -75,29 +75,7 @@ function Manage(props) {
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['2']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/smallcode" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'2'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
             <Link  to="/">
