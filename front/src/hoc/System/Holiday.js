@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, PageHeader, Button, Breadcrumb } from 'antd';
+import { Layout, PageHeader, Button, Breadcrumb, Popconfirm } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { Link } from "react-router-dom";
@@ -20,11 +20,47 @@ function Holiday(props) {
   useEffect(() => {         
     axios.get('/api/holidaydataread').then(response => {
       // response.data.map(listData => (
-      console.log(response.data);
+      // console.log(response.data);
       // ));
       setListData(response.data);
     });
 }, []);
+  // //delete
+  // const handleDelete = (value) => {
+  //   console.log(value);
+  //   axios.post('/api/holidaydelete', value).then(res =>{
+
+  //    if(res.data.success){
+  //    alert('삭제되었습니다.');
+  //    window.location.reload();
+  //     }
+  //   })
+  // }
+  const [Popvisible, setPopVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  
+  const showPopconfirm = (value) => {
+    console.log(value);
+    setPopVisible(value);
+  };
+  //ok눌렀을떄
+  const PophandleOk = () => {
+    setConfirmLoading(true);
+      axios.post('/api/holidaydelete',Popvisible).then(res =>{
+        if(res.data.success){
+        window.location.reload();
+         }
+       })
+    setTimeout(() => {
+      setPopVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  //취소눌렀을떄
+  const PophandleCancel = () => {
+    setPopVisible(false);
+  };
+
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
@@ -45,6 +81,7 @@ function Holiday(props) {
     setStartDate(e.start);
     setVisible(true);
   }
+
   //툴바 커스텀
   const CustomToolbar = (toolbar) => {
     //이전 달 버튼 이벤트
@@ -106,9 +143,18 @@ function Holiday(props) {
               </Breadcrumb.Item>
             </Breadcrumb> 
             {/* 캘린더 */}
+            <Popconfirm
+                    title="삭제하시겠습니까?"
+                    placement="topLeft"
+                    visible={Popvisible}
+                    onConfirm={PophandleOk}
+                    okButtonProps={{ loading: confirmLoading }}
+                    onCancel={PophandleCancel}
+                  ></Popconfirm>
             <Calendar
                   localizer={localizer}
-                  events={ListData}
+                  events={ListData}                
+                  onSelectEvent={showPopconfirm}
                   startAccessor="start"
                   endAccessor="end"
                   style={{ height: 800,fontSize:'20px'}}
@@ -118,7 +164,8 @@ function Holiday(props) {
                   components={{
                     toolbar: CustomToolbar,
                   }}
-                />
+                 />
+                
             <HolidayAdd StartDate={StartDate} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>

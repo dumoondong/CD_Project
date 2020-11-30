@@ -10,6 +10,8 @@ const { TextArea } = Input;
 
 function WorkManageSend() {
     const [CheckTarget, setCheckTarget] = useState(['']); //선택한 유저 값
+    const [data, setData] = useState([]);//직원들 부서검색
+    const [DeptList, setDeptList] = useState(['']); //부서검색
     //선택 박스
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -17,12 +19,21 @@ function WorkManageSend() {
           setCheckTarget(selectedRows);
         }
     };
-    //검색에 들어가는 값
-    const depts = ['영업부','경리부']
-    //선택한 값
-    function handleChange(value) {
-        console.log(`selected ${value}`);
-    }
+    //업무지시 부서선택
+    function onChange(value) {
+        if(value == 'All'){
+          axios.get('/api//users/read').then(response => {  
+            setData(response.data);
+          });
+        }else{
+          let body = {
+            SmallInfo : value
+          }
+          axios.post('/api/deptCodelist',body).then(response => {  
+            setData(response.data);
+          });
+        }
+      }
     //모달창 변수
     const [Visible, setVisible] = useState(false);
     //팝업 ON
@@ -88,6 +99,9 @@ function WorkManageSend() {
             //console.log(response.data);
             setUserList(response.data);
         });
+        axios.get('/api/deptlist').then(response => {
+            setDeptList(response.data);
+          });
     }, [])
 
     return (
@@ -100,16 +114,20 @@ function WorkManageSend() {
                                 <Button disabled style = {{backgroundColor: "orange", color: "black"}}>부서선택</Button> 
                             </div>
                             <div style = {{display: "inline-block"}}>
-                                <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
-                                    {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
-                                </Select>
+                            <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
+                                 onChange={onChange}>
+                                <Option key={'All'}>All</Option>
+                                {DeptList.map(code => (
+                                <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
+                                ))}
+                            </Select>
                             </div>
                         </div>
                         <div style = {{marginTop: "7.3%"}}>
                             <div style = {{fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
                                 직원리스트
                             </div>
-                            <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
+                            <Table columns={deptColums} dataSource={UserList,data} rowSelection={rowSelection} pagination={false} />
                         </div>
                     </div>
                     <div id = "right" style = {{float: "left", width: "64%", marginLeft: "12px"}}>
