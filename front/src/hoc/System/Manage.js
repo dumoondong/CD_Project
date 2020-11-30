@@ -12,7 +12,7 @@ const { Header, Content, Sider, Footer } = Layout;
 
 function Manage(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
-  const [DeptList, setDeptList] = useState(['']);
+  const [DeptList, setDeptList] = useState(['']); //부서검색
   const { Option } = Select;
   const [Visible, setVisible] = useState(false); //modal 관리
 
@@ -62,14 +62,21 @@ function Manage(props) {
   
   //근무부서 선택
   function onChange(value) {
-    console.log(value);
-    let body = {
-     SmallInfo : value
-       }
-    axios.post('/api/deptCodelist',body).then(response => {  
-      console.log(response.data);
-     setData(response.data);
+    if(value == 'All'){
+      axios.get('/api//users/read').then(response => {  
+        setData(response.data);
       });
+      console.log(value);
+    }else{
+      console.log(value);
+      let body = {
+        SmallInfo : value
+      }
+      axios.post('/api/deptCodelist',body).then(response => {  
+        console.log(response.data);
+        setData(response.data);
+      });
+    }
   }
   
 
@@ -124,6 +131,7 @@ function Manage(props) {
               <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
                   onChange={onChange}
               >
+               <Option key={'All'}>All</Option>
                 {DeptList.map(code => (
                <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
               ))}

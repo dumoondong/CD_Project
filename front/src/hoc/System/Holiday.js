@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb} from 'antd';
+import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb,Popconfirm} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
@@ -25,20 +25,42 @@ function Holiday(props) {
       setListData(response.data);
     });
 }, []);
-  //delete
-  const handleDelete = (value) => {
-    console.log(value);
-    axios.post('/api/holidaydelete', value).then(res =>{
+  // //delete
+  // const handleDelete = (value) => {
+  //   console.log(value);
+  //   axios.post('/api/holidaydelete', value).then(res =>{
 
-     if(res.data.success){
-     alert('삭제되었습니다.');
-     window.location.reload();
-      }else{
-
-      }
-    })
-  }
+  //    if(res.data.success){
+  //    alert('삭제되었습니다.');
+  //    window.location.reload();
+  //     }
+  //   })
+  // }
+  const [Popvisible, setPopVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false)
   
+  const showPopconfirm = (value) => {
+    console.log(value);
+    setPopVisible(value);
+  };
+  //ok눌렀을떄
+  const PophandleOk = () => {
+    setConfirmLoading(true);
+      axios.post('/api/holidaydelete',Popvisible).then(res =>{
+        if(res.data.success){
+        window.location.reload();
+         }
+       })
+    setTimeout(() => {
+      setPopVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  //취소눌렀을떄
+  const PophandleCancel = () => {
+    setPopVisible(false);
+  };
+
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
@@ -145,8 +167,8 @@ function Holiday(props) {
             {/* 캘린더 */}
             <Calendar
                   localizer={localizer}
-                  events={ListData}
-                  onSelectEvent={handleDelete}
+                  events={ListData}                
+                  onSelectEvent={showPopconfirm}
                   startAccessor="start"
                   endAccessor="end"
                   style={{ height: 800,fontSize:'20px'}}
@@ -156,7 +178,14 @@ function Holiday(props) {
                   components={{
                     toolbar: CustomToolbar,
                   }}
-                />
+                 />
+                  <Popconfirm
+                    title="삭제하시겠습니까?"
+                    visible={Popvisible}
+                    onConfirm={PophandleOk}
+                    okButtonProps={{ loading: confirmLoading }}
+                    onCancel={PophandleCancel}
+                  ></Popconfirm>
             <HolidayAdd StartDate={StartDate} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>

@@ -87,7 +87,6 @@ app.post('/api/holidaydelete',(req,res)=>{
 });
 //대코드 리스트 검색
 app.post('/api/mastercodelist', (req,res) => {
-  console.log(req.body.LargeCode);
   db.query('SELECT * from MasterCode where LargeCode like ?',[`%${req.body.LargeCode}%`],(error,data)=>{
     if(error) res.send(['']);
     db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,codes)=>{
@@ -99,7 +98,6 @@ app.post('/api/mastercodelist', (req,res) => {
 
 //근무부서 리스트 검색
 app.post('/api/deptcodelist', (req,res) => {
-  console.log(req.body.SmallInfo);
     db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error2,depts)=>{
       if(error2) res.send(['']);
       //console.log(depts);
@@ -107,10 +105,8 @@ app.post('/api/deptcodelist', (req,res) => {
     });
 });
 
-
 //대코드 수정
 app.post('/api/mastercodeupdate',(req,res)=>{
-  console.log(req.body);
   db.query(`UPDATE mastercode SET LargeCode = ? , LargeInfo = ?) VALUES(?,?)`,
   [req.body.LargeCode, req.body.LargeInfo],(error,result) => {
         if(error) {
@@ -165,8 +161,6 @@ app.get('/api/MasterCode', (req, res) => {
 
 });
   });
-
-
 //휴일설정 db에 저장
 app.post('/api/holidaysave', (req, res) => {
   //console.log(req.body);
