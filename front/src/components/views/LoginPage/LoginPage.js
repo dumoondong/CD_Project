@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import LogoImage from '../LoginPage/LoginImage/simile.png'
-import { Image, Button } from 'antd';
+import { Image, Button, Form, Input } from 'antd';
 import 'antd/dist/antd.css';
 //예전버전에서는 state를 가져오기 힘들기에 class를 사용했지만
 //16.8버전 이후로는 funtion에서도 state를 가져올 수 있음 (useState 사용)
@@ -22,8 +22,8 @@ function LoginPage(props) {
         setPassword(event.currentTarget.value);
     }
 
-    const onSubmitHandler = (event) => {
-        event.preventDefault(); //기본 기능 차단
+    const onSubmitHandler = () => {
+        //event.preventDefault(); //기본 기능 차단
         //console.log('Email',Email); //이메일
         //console.log('passwd',Password); //비번
         //console.log('submit'); //버튼을 눌렀을 때
@@ -50,25 +50,34 @@ function LoginPage(props) {
                 }
             })
     }
-
+    //폼 레이아웃
+    const Formlayout = {
+        labelCol: {
+          span: 5,
+        },
+        wrapperCol: {
+          span: 20,
+        },
+      };
     return (
         <div style={{width: '380px', margin: '0 auto'}}>
-            <div style = {{display: 'block', margin: 'auto', marginTop: '50%', width: '380px', height: '75px', borderBottom: 'black solid 1px', backgroundColor: 'white'}}>
+            <div style = {{display: 'block', margin: 'auto', marginTop: '50%', marginBottom: '10%',width: '380px', height: '75px', borderBottom: 'grey solid 1px', backgroundColor: 'white'}}>
                 <Image src={LogoImage} width={380} height={70} />
             </div>
-            <div style = {{display: 'block', margin: '25px auto', width: '250px'}}>
-                <form style={{ display: 'flex', flexDirection: 'column'}}
-                    onSubmit={onSubmitHandler}>
-                    <label>Email</label>
-                        <input type="text" value={Email} onChange={onEmailHandler} />
-                    <label>Password</label>
-                        <input type="password" value={Password} onChange={onPasswordHandler} />
-                    <br />
-                    <Button >
-                        Login
-                    </Button>
-                </form>
-            </div>
+                <Form
+                    {...Formlayout}
+                    name="loginUser"
+                    onFinish={onSubmitHandler}
+                    style = {{display: 'flex', flexDirection: 'column'}}
+                    >
+                    <Form.Item label="Email" name="Email">
+                        <Input value={Email} onChange={onEmailHandler} />
+                    </Form.Item>
+                    <Form.Item label="Password" name="Password">
+                        <Input.Password value={Password} onChange={onPasswordHandler} />
+                    </Form.Item>
+                    <Button htmlType="submit">Login </Button>
+                </Form>
         </div>
     )
 }
