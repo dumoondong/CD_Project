@@ -13,11 +13,31 @@ const { Header, Content } = Layout;
 const { Option } = Select;
 
 function EmployeeManage(props){
-    const depts = ['영업부','경리부'] //검색창 부서선택 임시 값
     //검색창 선택한 부서 값
     function handleChange(value) {
         console.log(`selected ${value}`);
     }
+     //근무부서 선택
+const [data, setData] = useState([]);//칼럼 안 데이터
+const [DeptList, setDeptList] = useState(['']); //부서검색
+function onChange(value) {
+  if(value == 'All'){
+    axios.post('/api/employeemanageuserlist',SaveDate).then(response => {   
+      setData(response.data);
+    });
+    console.log(value);
+  }else{
+    console.log(value);
+    let body = {
+      SmallInfo : value,
+      SaveDate : SaveDate[0]
+    }
+    axios.post('/api/employeeworkdeptcodelist',body).then(response => {  
+      console.log(response.data);
+      setData(response.data);
+    });
+  }
+}
     //직원근무조회
     const CurrentDate = useState(moment().format('YYYY/MM/DD')); //현재 날짜
     const [UserList, setUserList] = useState(['']);//직원근무조회 유저 데이터 변수
@@ -26,6 +46,9 @@ function EmployeeManage(props){
     useEffect(() => {
       axios.post('/api/employeemanageuserlist',CurrentDate).then(response => {
         setUserList(response.data);
+      });
+      axios.get('/api/deptlist').then(response => {
+        setDeptList(response.data);
       });
     }, []);
     //데이터 피커 창에서 날짜 선택 시
@@ -80,8 +103,13 @@ function EmployeeManage(props){
                           <Button disabled style = {{backgroundColor: "orange", color: "black"}}>부서선택</Button> 
                       </div>
                       <div style = {{display: "inline-block"}}>
-                          <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
-                              {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
+                        <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
+                        onChange={onChange}
+                        >
+                          <Option key={'All'}>All</Option>
+                          {DeptList.map(code => (
+                          <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
+                          ))}
                           </Select>
                       </div>
                       <div style = {{display: "inline-block", marginLeft: "20%"}}>
@@ -93,7 +121,7 @@ function EmployeeManage(props){
                       </div>
                   </div>
                   <div>
-                      <Table columns={EmployeeManageColum} dataSource={UserList} pagination={false}
+                      <Table columns={EmployeeManageColum} dataSource={UserList,data} pagination={false}
                         onRow={(record) => ({onClick: () => { handleWorkInformation(record) }})}/>
                       <EmployeeManageInfo Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} UserData={UserData} WorkTimeSum={WorkTimeSum}/>
                   </div>

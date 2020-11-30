@@ -8,11 +8,21 @@ const { Content } = Layout;
 
 function MyPage() {
   const [User, setUser] = useState(['']);
+  const [Password, setPassword] = useState('');//바꿀비밀번호
+  const [CkPassword, setCkPassword] = useState('');//바꿀비밀번호확인
 
+  const handleChangePassword = (e) => {
+    setPassword(e.currentTarget.value);
+  }
+  const handleChangeCkPassword = (e) => {
+    setCkPassword(e.currentTarget.value);
+  }
   useEffect(() => {
+    console.log(Password);
     axios.get('/api/mypage').then(response => {
       setUser(response.data);
     });
+    
   }, []);
     //팝업
     const [Visible, setVisible] = useState(false);
@@ -25,11 +35,24 @@ function MyPage() {
      };
     const handleOk = () => {
       setVisible(false);
+      if(Password == CkPassword){
+        let body = {
+          Password : Password,
+          UserPassword : User[0].password,
+          id : User[0].id
+        }
+        axios.post('/api/mypagepasswordedit',body).then(response => {
+          alert('비밀번호가 변경되었습니다');
+          window.location.reload();
+        });
+      }else{
+        alert('비밀번호가 일치하지 않습니다');
+      }
     }
     const handleUpdateCancel = () => {
       window.location.reload();
     }
-
+    
     return(
       <div>
         <Content style={{ margin: '0', backgroundColor: 'white'}}>
@@ -53,10 +76,10 @@ function MyPage() {
                             {User[0].name}
                           </Descriptions.Item>
                           <Descriptions.Item label="새로운 비밀번호" span={3} style = {{textAlign: "center"}}>
-                            <Input.Password placeholder="새로운 비밀번호 입력"/>
+                            <Input.Password value={Password} onChange={handleChangePassword} placeholder="새로운 비밀번호 입력"/>
                           </Descriptions.Item>
                           <Descriptions.Item label="새로운 비밀번호 확인" span={3} style = {{textAlign: "center"}}>
-                            <Input.Password placeholder="새로운 비밀번호 확인"/>
+                            <Input.Password value={CkPassword} onChange={handleChangeCkPassword} placeholder="새로운 비밀번호 확인"/>
                           </Descriptions.Item>
                           <Descriptions.Item label="이메일" span={3} style = {{textAlign: "center"}}>
                             {User[0].email}
