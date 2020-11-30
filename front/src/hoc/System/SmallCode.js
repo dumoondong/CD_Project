@@ -101,7 +101,7 @@ const { TabPane } = Tabs;
             </Menu.Item>
             <Menu.Item key="3">
               <span>공통 코드</span>
-              <Link to="/code" />
+              <Link to="/smallcode" />
             </Menu.Item>           
           </Menu>
         </Sider>
