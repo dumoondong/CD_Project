@@ -1,4 +1,9 @@
 export const HolidayColums = [
+    // {
+    //  title: '사원 번호',
+    //  dataIndex: 'id',
+    //  key: 'id',
+    // },
     {
       title: '시작 날짜',
       dataIndex: 'startDate',
@@ -27,7 +32,7 @@ export const HolidayColums = [
     },
     {
       title: '승인여부',
-      dataIndex: 'confirm',
-      key: 'confirm',
+      dataIndex: 'confirmYN',
+      key: 'confirmYN',
     },
   ];

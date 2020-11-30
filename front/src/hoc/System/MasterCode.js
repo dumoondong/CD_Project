@@ -3,7 +3,7 @@ import { Table, Button } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import MasterCodeAdd from '../SystemAdd/MasterCodeAdd';
-import MasterCodeUpdate from '../SystemUpdate/MasterCodeUpdate';
+//import MasterCodeUpdate from '../SystemUpdate/MasterCodeUpdate';
 import {DeCodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 
 function MasterCode(props) {
@@ -18,11 +18,11 @@ function MasterCode(props) {
     }
   };
    //수정
- const handleSave = () =>{
-   axios.post('/api/mastercodeupdate', CheckTarget).then(response => {
+//  const handleSave = () =>{
+//    axios.post('/api/mastercodeupdate', CheckTarget).then(response => {
    
-   });
-}
+//    });
+//   }
   //delete
   const handleDelete = () => {
     axios.post('/api/MasterCodedelete', CheckTarget).then(res =>{
@@ -60,8 +60,8 @@ function MasterCode(props) {
         <Button onClick={showModal}>추가</Button>   
         <MasterCodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
         <Button onClick={handleDelete}>삭제</Button>
-        <Button onClick={handleSave}>수정</Button>   
-        <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  />
+        {/* <Button onClick={handleSave}>수정</Button>   
+        <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  /> */}
       </div>
         <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
     </div>

@@ -17,7 +17,7 @@ import { prezHoliColumns }from './PrezHoliColumns';
     ];
 
 function PrezHoliConfirm(props) {
-    const [CheckTarget, setCheckTarget] = useState([]);
+    const [CheckTarget, setCheckTarget] = useState(['']);
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {

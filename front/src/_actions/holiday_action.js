@@ -3,7 +3,7 @@ import {
     HOLIDAY_INFO,
     SMALLCODE_INFO,
     LARGECODE_INFO,
-
+    //SMALLCODEUPDATE_INFO
 } from './types';
 
 export function holidayInfo(dataToSubmit){
@@ -34,3 +34,13 @@ export function LargeCodeInfo(dataToSubmit){
         payload: request //서버의 res.json() 값을 가져온다.
     }
 }
+// //스몰 코드 수정
+// export function SmallCodeUpdateConfirm(dataToSubmit){
+//     const request = axios.post('/api/smallcodeupdate', dataToSubmit)
+//         .then(response => response.data)
+
+//     return {
+//         type: SMALLCODEUPDATE_INFO,
+//         payload: request //서버의 res.json() 값을 가져온다.
+//     }
+// }

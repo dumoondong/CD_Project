@@ -5,7 +5,7 @@ import {
     UPDATE_USER,
     ONWORK_USER,
     OFFWORK_USER,
-    LEAVE_USER,
+    HOLIDAY_USER,
     MYPAGE_USER
 } from './types';
 //dataToSubmit에는 넘어온 body 데이터가 들어가 있다.;로그인 액션
@@ -59,12 +59,12 @@ export function offWorkUser(dataToSubmit){
     }
 }
 //연가 액션
-export function leaveUser(dataToSubmit){
-    const request = axios.post('/api/leaveinsert', dataToSubmit)
+export function HolidayUser(dataToSubmit){
+    const request = axios.post('/api/holidayuserinsert', dataToSubmit)
         .then(response => response.data)
     
     return {
-        type: LEAVE_USER,
+        type: HOLIDAY_USER,
         payload: request //true,false를 받는 부분
     }
 }

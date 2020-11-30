@@ -6,20 +6,20 @@ import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarPresident';
 import HolidayUserAdd from '../../Employee/HolidayUser/HolidayUserAdd';
-import { HolidayColums } from '../../Employee/HolidayUser/HolidayUserColums';
 import PrezHoliConfirm from './PrezHoliConfim';
 import { Calendar, momentLocalizer } from 'react-big-calendar' //캘린더============
 import moment from 'moment'
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import './Calendar.scss' //scss 재정의=============================================
+import { prezHoliColumns } from './PrezHoliColumns';
 
 const { Header, Content } = Layout;
 const localizer = momentLocalizer(moment)
 
 function PrezHoli(props){
 
-  const [LeaveData, setLeaveData] = useState(''); //날짜 정보
+  const [HolidayUserData, setHolidayUserData] = useState(''); //날짜 정보
   const [ListData, setListData] = useState([]); //휴일 정보
 
   useEffect(() => {         
@@ -28,8 +28,8 @@ function PrezHoli(props){
       //console.log(response.data);
       setListData(response.data);
     });
-    axios.get('/api/leavelist').then(response => {
-      setLeaveData(response.data);
+    axios.get('/api/holidayprezuserlist').then(response => {
+      setHolidayUserData(response.data);
     });
 }, []);
   
@@ -52,7 +52,7 @@ function PrezHoli(props){
         setVisible(false);
         ConfirmsetVisible(false);
     }
-    //커스텀 툴바
+    //커스텀 툴바==========================================================================
     const CustomToolbar = (toolbar) => {
       //이전 달 버튼 이벤트
       const goToBack = () => {
@@ -91,7 +91,25 @@ function PrezHoli(props){
         </div >
       );
     };
-  //===========================================================================================================
+  //=========================================================================================================
+  const [CheckTarget, setCheckTarget] = useState(['']);
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+          setCheckTarget(selectedRows);
+        }
+    };
+    //연가 승인 버튼
+    const handleConfirm = () => {
+      axios.post('/api/holidayuserconfirm',CheckTarget).then( response =>{
+        console.log(response.data.success);
+        if(response.data.success){
+          alert('승인되었습니다.');
+          window.location.reload();
+        }
+      });
+    }
     return(
         <div>
         <Layout style={{ minHeight: '100vh' }}>
@@ -108,7 +126,7 @@ function PrezHoli(props){
                   events={ListData}
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 800,fontSize:'20px'}}
+                  style={{ height: 700,fontSize:'20px'}}
                   views={{month: true}}
                   components={{
                     toolbar: CustomToolbar,
@@ -116,10 +134,14 @@ function PrezHoli(props){
                 />
               <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
               <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-              <Button style = {{float: 'right'}} onClick = {showConfirm}>연가승인</Button>
-              <PrezHoliConfirm Visible={ConfirmVisible} handleCancel={handleCancel} handleOk={handleOk} />
+              <Button style = {{float: 'right'}} onClick = {handleConfirm}>연가승인</Button>
+              {/* <PrezHoliConfirm Visible={ConfirmVisible} handleCancel={handleCancel} handleOk={handleOk} /> */}
               <div>
-                <Table columns={HolidayColums} dataSource={LeaveData} pagination={false} />
+                <Table 
+                columns={prezHoliColumns} 
+                dataSource={HolidayUserData} 
+                //pagination={false} 
+                rowSelection={rowSelection}/>
               </div>
             </Content>
           </Layout>

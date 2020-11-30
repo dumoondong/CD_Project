@@ -7,8 +7,9 @@ import {
     LARGECODE_INFO,
     ONWORK_USER,
     OFFWORK_USER,
-    LEAVE_USER,
-    MYPAGE_USER
+    HOLIDAY_USER,
+    MYPAGE_USER,
+    // SMALLCODEUPDATE_INFO
 } from '../_actions/types';
 //이전state 값과 action값을 묶어서 store(index.js)로 보냄
 export default function(state= {}, action) {
@@ -37,11 +38,14 @@ export default function(state= {}, action) {
         case OFFWORK_USER:
             return { ...state, success: action.payload }
         //break; 
-        case LEAVE_USER:
+        case HOLIDAY_USER:
             return { ...state, success: action.payload }
         //break; 
         case MYPAGE_USER:
             return { ...state, success: action.payload }
+        //break; 
+        // case SMALLCODEUPDATE_INFO:
+        //     return { ...state, success: action.payload }
         //break; 
         default:
             return state;
