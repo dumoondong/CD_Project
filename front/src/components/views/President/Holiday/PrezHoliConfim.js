@@ -11,14 +11,12 @@ import { prezHoliColumns }from './PrezHoliColumns';
         start: '시작일',
         end: '종료일',
         nday: 'n',
-        type: '연차',
         content: 'Null',
         confirm: 'Null',
     },
     ];
 
 function PrezHoliConfirm(props) {
-
     const [CheckTarget, setCheckTarget] = useState([]);
 
     const rowSelection = {
@@ -27,19 +25,6 @@ function PrezHoliConfirm(props) {
           setCheckTarget(selectedRows);
         }
     };
-
-    const [Visible, setVisible] = useState(false);
-
-    const showModal = () => {
-      setVisible(true);
-    };
-    const handleCancel = () => {
-      setVisible(false);
-     };
-    const handleOk = () => {
-      setVisible(false);
-    }
-
     return (
       <Modal
           title="연가승인"

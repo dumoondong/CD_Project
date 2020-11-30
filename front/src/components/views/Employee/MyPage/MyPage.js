@@ -26,6 +26,9 @@ function MyPage() {
     const handleOk = () => {
       setVisible(false);
     }
+    const handleUpdateCancel = () => {
+      window.location.reload();
+    }
 
     return(
       <div>
@@ -71,7 +74,7 @@ function MyPage() {
                   </div>
               </div>
               <div>
-                  <Button style = {{float: 'right'}} href = '/mypage'>취소</Button>
+                  <Button style = {{float: 'right'}} onClick= {handleUpdateCancel}>취소</Button>
                   <Button style = {{float: 'right'}} onClick = {showModal}>확인</Button>
                   <MyPageUpdate Visible={Visible} handleOk={handleOk} handleCancel={handleCancel}/>
               </div>
