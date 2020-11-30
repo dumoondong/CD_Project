@@ -6,6 +6,7 @@ import ManageAdd from '../SystemAdd/ManageAdd';
 import { Link } from "react-router-dom";
 import {ManageColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 import SideBarSystem from '../../utils/SideBarSystem';
+import ManageUpdate from '../SystemUpdate/ManageUpdate';
 
 const { Header, Content } = Layout;
 
@@ -18,7 +19,7 @@ function Manage(props) {
   //dispatch로 가져오도록 바꿀 예정====================================
   //직원 데이터 조회
   useEffect(() => {
-    axios.get('/api//users/read').then(response => {
+    axios.get('/api/users/read').then(response => {
       setData(response.data);
     });
     axios.get('/api/deptlist').then(response => {
@@ -70,8 +71,21 @@ function Manage(props) {
      setData(response.data);
       });
   }
-  
-    //main
+  // 수정 버튼
+  const [UpdateVisible, setUpdateVisible] = useState(false);
+  const [UserData, setUserData] = useState(['']);
+
+  const handleUpdateClick = (updateUser) => {
+    setUserData(updateUser);
+    setUpdateVisible(true);
+  }
+  const handleUpdateOk = () => {
+    setUpdateVisible(false);
+  }
+  const handleUpdateCancel = () => {
+    setUpdateVisible(false);
+  }
+  //main
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
@@ -103,12 +117,14 @@ function Manage(props) {
               ))}
                 </Select>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-                <Button type="primary" onClick={showModal}>추가</Button>
+                <Button onClick={showModal}>추가</Button>
                 <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <Button>수정</Button>
+                {/* <Button>수정</Button> */}
               </div>
-            <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
+              <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} 
+                   onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})} />
+              {UpdateVisible ?  <ManageUpdate UpdateVisible={UpdateVisible} handleUpdateOk={handleUpdateOk} handleUpdateCancel={handleUpdateCancel} UserData={UserData} />:null}
             </div>
             </Content>
       </Layout>

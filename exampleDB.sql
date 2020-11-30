@@ -140,6 +140,8 @@ set sql_safe_updates=0;
 # 데이터 수정========================================================================
 # 유저
 	update employee SET name = "test" where email="test@test.com";
+    update employee SET name =?, password=?, email=?, phone=?, zim=?, address=?, des=?, dept=?, rank=? where id='1115';
+    
 # 근무조회
 	update employeeWork SET OffWork ='23:01',WorkContent='근무',OverWorkContent='초과근무' where id='1113' AND Date='2020/11/25';
 #==================================================================================

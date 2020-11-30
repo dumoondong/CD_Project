@@ -3,9 +3,9 @@ import { Select,Layout, PageHeader,Table, Button, Tabs, Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import CodeAdd from '../SystemAdd/CodeAdd';
+import CodeAdd from '../SystemAdd/SmallCodeAdd';
 import MasterCode from './MasterCode';
-import CodeUpdate from '../SystemUpdate/CodeUpdate';
+import CodeUpdate from '../SystemUpdate/SmallCodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 import SideBarSystem from '../../utils/SideBarSystem';
 
