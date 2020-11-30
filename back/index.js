@@ -75,7 +75,7 @@ app.post('/api/SmallCodedelete',(req,res)=>{
 });
 //holiday 테이블 삭제
 app.post('/api/holidaydelete',(req,res)=>{
-  console.log(req.body.start);
+  //console.log(req.body.start);
     db.query(`DELETE FROM Holiday WHERE StartDate = ?`,[req.body.start],function(error,result){
       if(error){
         throw error;
@@ -332,8 +332,35 @@ app.get('/api/ranklist', (req,res) => {
     });
   });
 });
+//스몰 코드 수정할 데이터
+// app.post('/api/updatecode',(req,res)=>{
+//   //console.log(req.body);
+//   //console.log(req.body.SmallCode.split('-'));
+//   const updateCode = req.body;
+//   const splitCode = req.body.SmallCode.split('-');
+//   let data = {
+//     masterCode: splitCode[0],
+//     smallCode : splitCode[1],
+//     smallCodeInfo : updateCode.SmallInfo,
+//     smallCodeContent : updateCode.SmallContent
+//   }
+//   res.send(data);
+// });
+// 스몰 코드 수정
+// app.post('/api/smallcodeupdate',(req,res)=>{
+//   console.log(req.body);
+//   const code = req.body.LargeCode+'-'+req.body.SmallCode;
+//   console.log(code);
+//   // db.query('UPDATE SmallCode SET SmallCode = ?, SmallInfo = ?, SmallContent = ? where SmallCode = ?',
+//   // [con],
+//   // (error,updateCode)=>{
+//   //   if(error) throw error;
 
-
+//   // });
+//   res.json({
+//     smallcodeSuccess : true
+//   });
+// });
 //==============================================================================================================================
 
 //UserServer로 옮길 예정=========================================================================================================
@@ -459,10 +486,10 @@ app.post('/api/mypagecheck', (req, res) => {
 });
 
 //연가 데이터 넣기 *테이블 이름과 주소 바꿀 예정
-app.post('/api/leaveinsert',(req,res) => {
+app.post('/api/holidayuserinsert',(req,res) => {
   //console.log(req.body);
-  db.query('INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES(?,?,?,?,?)',
-  [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des], (error, user) => {
+  db.query('INSERT INTO HolidayUser (id,StartDate,EndDate,SelectedLeave,Des,confirmYN) VALUES(?,?,?,?,?,?)',
+  [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des,'승인대기'], (error, user) => {
     if (error) throw error;
     return res.json({
       success : true
@@ -470,18 +497,20 @@ app.post('/api/leaveinsert',(req,res) => {
   });
 });
 //연가 데이터 조회
-app.get('/api/leavelist', (req, res) => {
-  db.query('SELECT * from LeaveUser where id=?',[req.session.userId], (error, lists) => {
+app.get('/api/holidayuserlist', (req, res) => {
+  db.query('SELECT * from HolidayUser where id=?',[req.session.userId], (error, lists) => {
     if (error) throw error;
     let temp = [];
     let data = {};
     lists.forEach(list => {
-      console.log(list);
+      //console.log(list);
       data = {
+        id : list.id,
         startDate: list.StartDate,
         endDate: list.EndDate,
         type: list.SelectedLeave,
-        content: list.Des
+        content: list.Des,
+        confirmYN : list.confirmYN
       }
       temp.push(data);
     });
@@ -632,7 +661,49 @@ app.post('/api/employeemanageusermonthlylist',(req,res)=>{
     });
   });
 });
-
+//대표 유저 연가 조회
+app.get('/api/holidayprezuserlist', (req, res) => {
+  db.query('SELECT * from HolidayUser ORDER BY confirmYN DESC', (error, lists) => {
+    if (error) throw error;
+    let temp = [];
+    let data = {};
+    let key = 0;
+    lists.forEach(list => {
+      //console.log(list);
+      data = {
+        key : String(key+1),
+        id : list.id,
+        startDate: list.StartDate,
+        endDate: list.EndDate,
+        type: list.SelectedLeave,
+        content: list.Des,
+        confirmYN : list.confirmYN
+      }
+      temp.push(data);
+      key++;
+    });
+    res.send(temp);
+  });
+});
+//대표 유저 연가 승인
+app.post('/api/holidayuserconfirm',(req,res)=>{
+  //console.log(req.body[0].id);
+  const userData = req.body;
+  userData.forEach(user => {
+    db.query('UPDATE HolidayUser SET confirmYN = ? where id = ? AND startDate = ? AND EndDate = ?',
+    [
+      '승인',
+      user.id,
+      user.startDate,
+      user.endDate
+    ],(error,result)=>{
+    if(error)throw error;
+    return res.json({
+      success : true
+    });
+  });
+  });
+});
 
 //비밀번호 예시============================================================================================
 // const crypto = require('crypto');

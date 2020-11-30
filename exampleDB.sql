@@ -45,12 +45,13 @@ create table employeeWork(
         OverWorkContent VARCHAR(50)
     );
 #연가 테이블(임시)
-create table LeaveUser(
+create table HolidayUser(
 		id varchar(5),
         StartDate VARCHAR(15) NOT NULL,
         EndDate varchar(15) NOT NULL,
         SelectedLeave varchar(15),
-        Des varchar(30)
+        Des varchar(30),
+        confirmYN varchar(10)
     );
 # 업무조회 테이블(임시)
 create table WorkManage(
@@ -70,7 +71,7 @@ set sql_safe_updates=0;
 	DROP TABLE Holiday; #휴일
 	DROP TABLE SmallCode; #스몰코드
 	DROP TABLE employeeWork; #근무조회
-	DROP TABLE LeaveUser; #연가
+	DROP TABLE HolidayUser; #연가
     DROP TABLE MasterCode; #마스터코드
     DROP TABLE WorkManage; #업무조회
 #==============================================================================
@@ -113,9 +114,9 @@ set sql_safe_updates=0;
     INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/30','10:00','18:00','1111');
     INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/30','10:00','18:00','1112');
 # 연가
-	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-22','2020-11-25','연가','-');
-	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-02','2020-11-05','병가','-');
-	INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES('1113','2020-11-12','2020-11-15','공가','-');
+	INSERT INTO HolidayUser (id,StartDate,EndDate,SelectedLeave,Des,confirmYN) VALUES('1111','2020/12/01','2020/12/03','연가','-','승인대기');
+	INSERT INTO HolidayUser (id,StartDate,EndDate,SelectedLeave,Des,confirmYN) VALUES('1112','2020/12/02','2020/12/04','병가','-','승인대기');
+	INSERT INTO HolidayUser (id,StartDate,EndDate,SelectedLeave,Des,confirmYN) VALUES('1113','2020/12/12','2020/12/15','공가','-','승인대기');
 # 업무조회
 	INSERT INTO WorkManage(sendId,getId,startDate,endDate,title,workDes) VALUES('1112','1113','2020/11/18','2020/11/20','Test','TestDes');
 #=======================================================================================================================
@@ -128,7 +129,7 @@ set sql_safe_updates=0;
 	delete from employeeWork;
     delete from employeeWork where id='1110' AND Date='2020/11/30';
 # 연가
-	delete from LeaveUser;
+	delete from HolidayUser;
 # 스몰코드
 	delete from smallcode;
 # 휴일
@@ -144,6 +145,13 @@ set sql_safe_updates=0;
     
 # 근무조회
 	update employeeWork SET OffWork ='23:01',WorkContent='근무',OverWorkContent='초과근무' where id='1113' AND Date='2020/11/25';
+# 스몰코드
+	UPDATE SmallCode SET SmallCode = ?, SmallInfo = ?, SmallContent = ? where SmallCode = ?;
+    UPDATE SmallCode SET SmallCode = 'DC-001', SmallInfo = '영업부', SmallContent = '' where SmallCode = 'DC-005';
+# 연가
+	UPDATE HolidayUser SET confirmYN = '승인' where id = '1111' AND startDate = '2020/12/01' AND EndDate = '2020/12/03';
+    UPDATE HolidayUser SET confirmYN = ? where id = ? AND startDate = ? AND EndDate = ?;
+    SELECT * from HolidayUser ORDER BY confirmYN DESC;
 #==================================================================================
 
 # 데이터 조회=========================================================================
@@ -167,6 +175,8 @@ set sql_safe_updates=0;
     SELECT SC.SmallCode,SC.SmallInfo from SmallCode AS SC 
     join employee AS EMP
     ON EMP.dept = SC.SmallCode OR EMP.rank = SC.SmallCode where EMP.id = '1111';
+    
+    SELECT REPLACE(SmallCode, 'RC', '') FROM SmallCode where SmallCode like '%RC%';
 # 휴일설정
 	SELECT * from Holiday;
 # 근무조회
@@ -176,7 +186,7 @@ set sql_safe_updates=0;
     SELECT * from employeeWork where Date = '2020/11/29';
     SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = '2020/11/29';
 # 연가
-	SELECT * from LeaveUser;
+	SELECT * from HolidayUser;
 # 업무조회
 	SELECT * from WorkManage;
     SELECT * from WorkManage Join employee ON employee.id = WorkManage.sendId where WorkManage.getId = '1113';

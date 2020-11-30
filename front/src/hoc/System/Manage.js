@@ -62,7 +62,7 @@ function Manage(props) {
   
   //근무부서 선택
   function onChange(value) {
-    if(value == 'All'){
+    if(value === 'All'){
       axios.get('/api//users/read').then(response => {  
         setData(response.data);
       });
@@ -130,8 +130,13 @@ function Manage(props) {
                 <Button onClick={handleDelete}>삭제</Button>
                 {/* <Button>수정</Button> */}
               </div>
-              <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} 
-                   onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})} />
+              <Table 
+                style = {{background: '#fff'}} 
+                columns={ManageColumns} 
+                dataSource={data} 
+                rowSelection={rowSelection} 
+                onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})} 
+              />
               {UpdateVisible ?  <ManageUpdate UpdateVisible={UpdateVisible} handleUpdateOk={handleUpdateOk} handleUpdateCancel={handleUpdateCancel} UserData={UserData} />:null}
             </div>
             </Content>
