@@ -9,7 +9,7 @@ import CodeAdd from '../SystemAdd/CodeAdd';
 import MasterCode from './MasterCode';
 import CodeUpdate from '../SystemUpdate/CodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider } = Layout;
 
 function Code() {
   const [data, setData] = useState(['']);//칼럼 안 데이터
@@ -24,10 +24,6 @@ function Code() {
      setCheckTarget(selectedRows);
    }
  };
- //수정
- const handleSave = () =>{
-
- }
   //delete
  const handleDelete = () => {
    axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
@@ -52,7 +48,7 @@ function Code() {
   }
   //대코드 종류선택
   function onChange(value) {
-    if(value == 'All'){
+    if(value === 'All'){
       axios.get('/api/smallcoderead').then(response => {  
         setData(response.data);
       });

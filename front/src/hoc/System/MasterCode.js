@@ -1,14 +1,10 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb} from 'antd';
+import { Table, Button } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import MasterCodeAdd from '../SystemAdd/MasterCodeAdd';
 import MasterCodeUpdate from '../SystemUpdate/MasterCodeUpdate';
 import {DeCodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
-const { Header, Content, Sider, Footer } = Layout;
 
 function MasterCode(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터

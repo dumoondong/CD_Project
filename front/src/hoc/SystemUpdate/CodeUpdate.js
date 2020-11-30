@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Modal, Select,Input,Button } from 'antd';
+import { Modal, Select,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { SmallCodeInfo } from '../../_actions/holiday_action';
 import axios from 'axios';

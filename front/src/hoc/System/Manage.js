@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb} from 'antd';
+import { Select, Layout, Menu,PageHeader,Table, Button, Row, Col, Breadcrumb } from 'antd';
   import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';
@@ -8,7 +7,7 @@ import ManageAdd from '../SystemAdd/ManageAdd';
 import { Link } from "react-router-dom";
 import {ManageColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider } = Layout;
 
 function Manage(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
@@ -72,8 +71,6 @@ function Manage(props) {
       });
   }
   
-
-
     //main
   return (
     <div>
@@ -82,7 +79,6 @@ function Manage(props) {
         <div>
         <LiveClock></LiveClock>
         </div>
-        {/* grid */}
         <Row>
             <Col span={12}><Button block>출근</Button></Col>
             <Col span={12}><Button block>퇴근</Button></Col>

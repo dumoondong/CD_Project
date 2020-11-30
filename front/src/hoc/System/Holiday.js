@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb} from 'antd';
+import { Layout, Menu,PageHeader, Button, Row, Col, Breadcrumb } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LiveClock from '../../utils/LiveClock';

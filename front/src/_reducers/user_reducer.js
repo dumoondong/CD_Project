@@ -14,31 +14,31 @@ export default function(state= {}, action) {
     switch (action.type){ //액션을 보낼 곳
         case LOGIN_USER:
                 return { ...state, loginSuccess: action.payload }
-            break;
+            //break;
         case CREATE_USER:
                 return { ...state, CreateSuccess: action.payload }
-            break;
+            //break;
             case HOLIDAY_INFO:
                 return { ...state, holidaySaveSuccess: action.payload }
-            break; 
+            //break; 
             case SMALLCODE_INFO:
                 return { ...state, smallcodeSaveSuccess: action.payload }
-            break;
+            //break;
             case LARGECODE_INFO:
                 return { ...state, largecodeSaveSuccess: action.payload }
-            break;
+            //break;
             case ONWORK_USER:
                 return { ...state, success: action.payload }
-            break; 
+            //break; 
             case OFFWORK_USER:
                 return { ...state, success: action.payload }
-            break; 
+            //break; 
             case LEAVE_USER:
                 return { ...state, success: action.payload }
-            break; 
+            //break; 
             case MYPAGE_USER:
                 return { ...state, success: action.payload }
-            break; 
+            //break; 
         default:
             return state;
     }
