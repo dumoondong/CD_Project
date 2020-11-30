@@ -1,12 +1,12 @@
 import React, {useState,useEffect} from 'react'
-import { Modal, Select,Input,Button } from 'antd';
+import { Modal, Select,Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { SmallCodeInfo } from '../../_actions/holiday_action';
 import axios from 'axios';
 
 const { Option } = Select;
 
-function CodeAdd(props){
+function CodeUpdate(props){
   const dispatch = useDispatch(); //redux
   const [SmallCode, setSmallCode] = useState('');
   const [SmallInfo, setSmallInfo] = useState('');
@@ -125,4 +125,4 @@ function CodeAdd(props){
   );
 }
 
-export default CodeAdd
+export default CodeUpdate

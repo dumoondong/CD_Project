@@ -1,15 +1,15 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Layout, Menu,PageHeader,Table, Button, Row, Col,Tabs,
-  Breadcrumb} from 'antd';
+import { Select,Layout, PageHeader,Table, Button, Tabs, Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
-import CodeAdd from '../SystemAdd/CodeAdd';
+import CodeAdd from '../SystemAdd/SmallCodeAdd';
 import MasterCode from './MasterCode';
-import CodeUpdate from '../SystemUpdate/CodeUpdate';
+import CodeUpdate from '../SystemUpdate/SmallCodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
-const { Header, Content, Sider, Footer } = Layout;
+import SideBarSystem from '../../utils/SideBarSystem';
+
+const { Header, Content } = Layout;
 
 function Code() {
   const [data, setData] = useState(['']);//칼럼 안 데이터
@@ -24,10 +24,6 @@ function Code() {
      setCheckTarget(selectedRows);
    }
  };
- //수정
- const handleSave = () =>{
-
- }
   //delete
  const handleDelete = () => {
    axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
@@ -52,7 +48,7 @@ function Code() {
   }
   //대코드 종류선택
   function onChange(value) {
-    if(value == 'All'){
+    if(value === 'All'){
       axios.get('/api/smallcoderead').then(response => {  
         setData(response.data);
       });
@@ -85,30 +81,7 @@ const { TabPane } = Tabs;
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        {/* grid */}
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'3'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
           <Link  to="/">

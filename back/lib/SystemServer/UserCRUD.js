@@ -67,5 +67,29 @@ router.get('/read', (req, res) => {
       res.send(temp);
     });
   });
+  //수정
+  router.post('/update', (req, res) => {
+      //console.log(req.body.name);
+      const userData = req.body;
+      db.query('update employee SET name =?, password=?, email=?, phone=?, zim=?, address=?, des=?, dept=?, rank=? where id=?',
+        [
+          userData.name, 
+          userData.password, 
+          userData.email, 
+          userData.phone,
+          userData.zim,
+          userData.address,
+          userData.des,
+          userData.dept,
+          userData.rank,
+          userData.id
+        ],(error,updateUserData) => {
+        if(error) throw error;
+        //console.log(updateUserData);
+        res.json({
+          CreateSuccess : true
+        });
+      });
+    });
 
   module.exports = router;

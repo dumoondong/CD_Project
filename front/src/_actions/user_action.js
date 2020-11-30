@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
     LOGIN_USER,
     CREATE_USER,
+    UPDATE_USER,
     ONWORK_USER,
     OFFWORK_USER,
     LEAVE_USER,
@@ -17,13 +18,23 @@ export function loginUser(dataToSubmit){
         payload: request //true,false를 받는 부분
     }
 }
-//회원가입 액션
-export function registerUser(dataToSubmit){
+//직원 추가 액션
+export function createUser(dataToSubmit){
     const request = axios.post('/api/users/create', dataToSubmit)
         .then(response => response.data)
     
     return {
         type: CREATE_USER,
+        payload: request //true,false를 받는 부분
+    }
+}
+// 직원 수정 액션
+export function updateUser(dataToSubmit){
+    const request = axios.post('/api/users/update', dataToSubmit)
+        .then(response => response.data)
+    
+    return {
+        type: UPDATE_USER,
         payload: request //true,false를 받는 부분
     }
 }

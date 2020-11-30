@@ -18,12 +18,11 @@ function HolidayAdd(props) {
     setSaveCode(value);
   }
     //휴일 종류 설정
-  //const [data, setData] = useState(['']);//스몰코드,스몰코드 정보 리스트
   const [HolyList, setHolyList] = useState(['']);
 
   useEffect(() => {   
     axios.get('/api/holylist').then(response => {
-      console.log(response.data);
+      //console.log(response.data);
       setHolyList(response.data);
     });
   }, []);

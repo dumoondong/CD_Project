@@ -18,7 +18,7 @@ import LoginPage from './components/views/LoginPage/LoginPage';
 import HolidayUser from './components/views/Employee/HolidayUser/HolidayUser';
 import WorkManage from './components/views/Employee/WorkManage/WorkManage';
 import Manage from './hoc/System/Manage';
-import Code from './hoc/System/Code';
+import SmallCode from './hoc/System/SmallCode';
 import MasterCode from './hoc/System/MasterCode';
 import Holiday from './hoc/System/Holiday';
 
@@ -38,7 +38,7 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/holidayuser" component={HolidayUser} />
           <Route exact path="/manage" component={Manage} />
-          <Route exact path="/code" component={Code} />
+          <Route exact path="/smallcode" component={SmallCode} />
           <Route exact path="/mastercode" component={MasterCode} />
           <Route exact path="/holiday" component={Holiday} />
           <Route exact path="/workmanage" component={WorkManage} />

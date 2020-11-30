@@ -1,8 +1,7 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb} from 'antd';
+import { Layout, PageHeader, Button, Breadcrumb } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
 import moment from 'moment'
@@ -10,9 +9,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar' ////캘린더====
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import './Calendar.scss' //scss 재정의=======================================
+import SideBarSystem from '../../utils/SideBarSystem';
 
 const localizer = momentLocalizer(moment)
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 function Holiday(props) {
   const [ListData, setListData] = useState([]);
@@ -87,29 +87,7 @@ function Holiday(props) {
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'1'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
           <Link  to="/">
