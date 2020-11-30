@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout, Menu } from 'antd';
 import LiveClock from '../utils/LiveClock';
 import { Link } from "react-router-dom";
+import './SideBar.css';
 
 const { Sider } = Layout;
 
