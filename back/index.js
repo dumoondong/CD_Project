@@ -98,13 +98,58 @@ app.post('/api/mastercodelist', (req,res) => {
 
 //근무부서 리스트 검색
 app.post('/api/deptcodelist', (req,res) => {
+  console.log(req.body);
     db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error2,depts)=>{
       if(error2) res.send(['']);
       //console.log(depts);
       res.send(depts);
     });
 });
+//직원근무조회 근무부서 리스트 검색
+app.post('/api/employeeworkdeptcodelist', (req,res) => {
+  console.log(req.body);
+  let sendData = []; 
+  let data = {}; 
+  let key = 0; 
+  let workTime = 0;
+  let workTimeSum = 0;
+  db.query(' SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where employee.dept = ?  AND employeework.Date = ?'
+  ,[req.body.SmallInfo,req.body.SaveDate],(error,depts)=>{
+    if(error) throw error;
+    depts.forEach(user => {
+      if(user.OffWork != null){
+        workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+        workTimeSum += workTime;
+      }else{
+        workTime = 0;
+      }
+      data = {
+        key : String(key+1),
+        dept : user.dept,
+        rank : user.rank,
+        id : user.id,
+        name : user.name,
+        start : user.OnWork,
+        end : user.OffWork,
+        workTime : workTime
+      }
+      sendData.push(data);
+      key++;
+    });
+    res.send(sendData);
+  });
+});
 
+//마이페이지 비밀번호 수정 
+app.post('/api/mypagepasswordedit',(req,res)=>{
+  console.log(req.body);
+  db.query(`UPDATE employee SET PASSWORD = ? , PASSWORD = ? WHERE id = ? `,
+  [req.body.UserPassword, req.body.Password, req.body.id],(error,result) => {
+    if(error) res.send(['']);
+    //console.log(depts);
+    res.send(result);
+  });
+});
 //대코드 수정
 app.post('/api/mastercodeupdate',(req,res)=>{
   db.query(`UPDATE mastercode SET LargeCode = ? , LargeInfo = ?) VALUES(?,?)`,

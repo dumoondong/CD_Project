@@ -30,7 +30,6 @@ function MyPageCheck(props) {
             .then(response => { 
                 if(response.payload.success){
                     console.log(response.payload.success);
-                    alert('Success!',);
                     setMypageShow(true);
                 }
                 else {

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, PageHeader, Button, Breadcrumb, Popconfirm } from 'antd';
+import { Layout, PageHeader, Button, Breadcrumb, Modal } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import { Link } from "react-router-dom";
@@ -36,31 +36,25 @@ function Holiday(props) {
   //     }
   //   })
   // }
-  const [Popvisible, setPopVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false)
-  
-  const showPopconfirm = (value) => {
+  //삭제 모달창 구현================================================================================
+  const [Delvisible, setDelVisible] = useState(false);
+  const showModal = (value) => {
     console.log(value);
-    setPopVisible(value);
+    setDelVisible(value);
   };
-  //ok눌렀을떄
-  const PophandleOk = () => {
-    setConfirmLoading(true);
-      axios.post('/api/holidaydelete',Popvisible).then(res =>{
-        if(res.data.success){
-        window.location.reload();
-         }
-       })
-    setTimeout(() => {
-      setPopVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
+  //취소 눌렀을때
+  const DelhandleCancel = () => {
+    setDelVisible(false);
   };
-  //취소눌렀을떄
-  const PophandleCancel = () => {
-    setPopVisible(false);
+  //ok눌렀을때
+  const DelhandleOk = () => {
+    setDelVisible(false);
+    axios.post('/api/holidaydelete',Delvisible).then(res =>{
+      if(res.data.success){
+      window.location.reload();
+       }
+    })
   };
-
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
@@ -143,18 +137,19 @@ function Holiday(props) {
               </Breadcrumb.Item>
             </Breadcrumb> 
             {/* 캘린더 */}
-            <Popconfirm
-                    title="삭제하시겠습니까?"
-                    placement="topLeft"
-                    visible={Popvisible}
-                    onConfirm={PophandleOk}
-                    okButtonProps={{ loading: confirmLoading }}
-                    onCancel={PophandleCancel}
-                  ></Popconfirm>
+            <Modal
+                  visible={Delvisible}
+                  centered
+                  onOk={DelhandleOk}
+                  onCancel={DelhandleCancel}
+                  width={250}
+                  >
+                    <p>삭제 하시겠습니까?</p>
+            </Modal>
             <Calendar
                   localizer={localizer}
                   events={ListData}                
-                  onSelectEvent={showPopconfirm}
+                  onSelectEvent={showModal}
                   startAccessor="start"
                   endAccessor="end"
                   style={{ height: 800,fontSize:'20px'}}
