@@ -93,12 +93,10 @@ function WorkManageSend() {
         <div>
             <div className = "wrap">
                 <div id = "leftside">
-                    <div>
-                        <Button disabled id = "deptbtn">부서선택</Button>
-                        <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
-                            {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
-                        </Select>
-                    </div>
+                    <Button disabled id = "deptbtn">부서선택</Button>
+                    <Select name = 'dept' defaultValue="부서" onChange={handleChange} className = "selectdept">
+                        {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
+                    </Select>
                     <div id = "emplist">
                         <div id = "emplist_title">
                             직원리스트
@@ -111,16 +109,16 @@ function WorkManageSend() {
                         <div className = "rightlabel">
                             보낸날짜
                         </div>
-                        <div style = {{display: "inline-block", width: "35%", height: "35px", textAlign:'center', backgroundColor: 'white', verticalAlign: 'top', paddingTop: "6px"}}>
+                        <div id = "rightstart">
                             {CurrentTime}
                         </div>
                         <div className = "rightlabel">
                             종료날짜
                         </div>
-                        <div style = {{display: "inline-block", width: "35%", textAlignLast:'center',height:'10px'}}>
+                        <div id = "rightend">
                             <DatePicker
-                            size={'large'}
-                            style = {{width:'100%'}}
+                            className = "enddate"
+                            size = "large"
                             onChange={handleDateChange}
                             />
                         </div>
@@ -128,17 +126,17 @@ function WorkManageSend() {
                             <div className = "rightlabel">
                                 제목
                             </div>
-                            <div style = {{display: "inline-block", width: "85%" }}>
-                                <Input style = {{fontSize: "140%"}} onChange={handleChangeTitle} />
+                            <div id = "righttitle">
+                                <Input className = "titleinput" onChange={handleChangeTitle} />
                             </div>
                         </div>
                         <div>
-                            <div style = {{display: "inline-block", width: "15%", fontSize: "160%", textAlign: "center", backgroundColor: "orange"}}>
+                            <div className = "rightlabel">
                                 내용
                             </div>
                             <div>
-                                <TextArea rows={10}  onChange={handleChangeDes}/>
-                                <Button style = {{float: "right"}} onClick = {showModal}>보내기</Button>
+                                <TextArea rows={10} onChange={handleChangeDes}/>
+                                <Button className = "btn" onClick = {showModal}>보내기</Button>
                                 <Modal
                                     visible={Visible}
                                     onOk={handleOk}

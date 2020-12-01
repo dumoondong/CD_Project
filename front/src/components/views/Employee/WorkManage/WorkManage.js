@@ -49,7 +49,7 @@ const { TabPane } = Tabs;
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content className = "content">
+              <Content className = "managecontent">
                 <Tabs defaultActiveKey="1" type={'card'} tabBarStyle={{backgroundColor:'white'}}>
                   <TabPane tab="업무조회" key="1">  
                     <Table columns={workManageColumn} dataSource={Data} pagination={false} 

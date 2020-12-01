@@ -45,27 +45,27 @@ function MyPageCheck(props) {
         <Layout>
             <SideBar DefaultKey={'4'}/>
             <Layout>
-                <Header className = "mainheader">
+                <Header className = "myheader">
                     <LoginedUser />
                     <LogoutUser pageChange={props}/>
                 </Header>
                 {MypageShow ? <MyPage /> :
-                    <Content className = "content">
-                        <Breadcrumb id = "breadcrumb">
+                    <Content className = "mycontent">
+                        <Breadcrumb className = "mybreadcrumb">
                             <Breadcrumb.Item>
                                 <PageHeader
                                     title="개인정보변경">   
                                 </PageHeader>
                             </Breadcrumb.Item>
                         </Breadcrumb>
-                        <div id = "mymain">
-                            <div id = "mymaintitle">
+                        <div className = "mymain">
+                            <div className = "mymaintitle">
                                 <h2>본인확인</h2>
                             </div>
-                            <div id = "inputlabel">
+                            <div className = "inputpwlabel">
                                 현재 비밀번호 :
                             </div>
-                            <div id = "inputpw">
+                            <div className = "inputpw">
                                 <Input.Password
                                     placeholder=""
                                     value={Password}

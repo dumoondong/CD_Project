@@ -68,7 +68,7 @@ function HolidayUserAdd(props) {
                             <RangePicker onChange={handleDate}/>
                         </Descriptions.Item>
                         <Descriptions.Item label="연가종류" span={3} className = "desc_item">
-                            <Select defaultValue="연가선택" onChange={handleChange} className = "input">
+                            <Select defaultValue="연가선택" onChange={handleChange} className = "holyinput">
                             <Option value="연가">연가</Option>
                             <Option value="병가">병가</Option>
                             <Option value="공가">공가</Option>
@@ -76,7 +76,7 @@ function HolidayUserAdd(props) {
                             </Select>
                         </Descriptions.Item>
                         <Descriptions.Item label="연가내용" span={3} className = "desc_item">
-                            <Input value={Des} onChange={handleChangeDes} className = "input"/>
+                            <Input value={Des} onChange={handleChangeDes} className = "holyinput"/>
                         </Descriptions.Item>
                     </Descriptions>
                 </div>

@@ -53,15 +53,15 @@ function MainWork(){
   return(
   <>
     <Content>
-      <div className = "wrap">
-        <div className = "header">{/* 년 월 인쇄 통합 div */}
+      <div className = "mainwrap">
+        <div className = "mainheader">{/* 년 월 인쇄 통합 div */}
           <div className = "dateheader">
-            <Select name = 'year' defaultValue="년도" onChange={ChangeYear} className = "selecty">
+            <Select name = 'year' defaultValue="년도" onChange={ChangeYear} className = "selectyear">
               {years.map(year => (
                 <Option key={year}>{year}</Option>
               ))}
             </Select>
-            <Select name = 'month' defaultValue="월" onChange={ChangeMonth} className = "selectm">
+            <Select name = 'month' defaultValue="월" onChange={ChangeMonth} className = "selectmonth">
               {months.map(month => (
                 <Option key={month}>{month}</Option>
               ))}
@@ -71,7 +71,7 @@ function MainWork(){
             <Button onClick = {printDiv}>인쇄</Button>
           </div>
         </div>
-        <div id = "printArea" className = "print">
+        <div id = "printArea">
           <div className = "printtitle">
             <h2>{selectedYear}년 {selectedMonth}월 근무현황</h2>
           </div>

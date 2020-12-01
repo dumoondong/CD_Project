@@ -31,8 +31,8 @@ function MyPage() {
 
     return(
       <div>
-        <Content className = "content">
-          <div id = "wrap">
+        <Content className = "mycontent">
+          <div id = "mywrap">
               <h2>개인정보</h2>
               <Descriptions bordered>
                   <Descriptions.Item label="부서" span={3}>
@@ -66,7 +66,7 @@ function MyPage() {
                     {User[0].address}
                   </Descriptions.Item>
               </Descriptions>
-              <div id = "btn">
+              <div className = "btn">
                   <Button href = '/mypage'>취소</Button>
                   <Button onClick = {showModal}>확인</Button>
                   <MyPageUpdate Visible={Visible} handleOk={handleOk} handleCancel={handleCancel}/>
