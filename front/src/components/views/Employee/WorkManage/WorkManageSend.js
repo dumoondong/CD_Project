@@ -123,7 +123,7 @@ function WorkManageSend() {
                     <div id = "emplist_title">
                         직원리스트
                     </div>
-                    <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
+                    <Table columns={deptColums} dataSource={data} rowSelection={rowSelection} pagination={false} />
                 </div>
             </div>
             <div id = "rightside">

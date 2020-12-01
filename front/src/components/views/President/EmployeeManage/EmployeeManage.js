@@ -125,7 +125,7 @@ function onChange(value) {
                       </div>
                   </div>
                   <div>
-                      <Table columns={EmployeeManageColum} dataSource={UserList,data} pagination={false}
+                      <Table columns={EmployeeManageColum} dataSource={UserList} pagination={false}
                         onRow={(record) => ({onClick: () => { handleWorkInformation(record) }})}/>
                       {Visible ? 
                       <EmployeeManageInfo 

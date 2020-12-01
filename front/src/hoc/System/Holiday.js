@@ -130,6 +130,7 @@ function Holiday(props) {
               <Breadcrumb.Item>
                 <PageHeader
                   className="site-page-header"
+                  onBack={() => null}
                   title="휴일설정"
                   subTitle="휴일설정 페이지">   
                 </PageHeader>
