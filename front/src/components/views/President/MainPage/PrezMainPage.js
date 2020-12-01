@@ -11,14 +11,14 @@ const { Header, Content } = Layout;
 function PrezMainPage(props) {
   return (
     <div>
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout>
         <SideBar DefaultKey={'1'}/>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+          <Header>
             <LoginedUser />
             <LogoutUser pageChange={props}/>
           </Header>
-          <Content style={{ margin: '0 16px' }}>
+          <Content>
             <MainWork />
           </Content>
         </Layout>

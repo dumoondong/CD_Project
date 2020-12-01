@@ -5,21 +5,21 @@ import LoginedUser from '../../../../utils/LoginedUser'; ///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import MainWork from './MainWork'; //근무조회
-import './MainPage.css';
+import '../../user.css';
 
 const { Header, Content } = Layout;
 
 function MainPage(props) {
   return (
     <div>
-      <Layout className = "layout">
+      <Layout>
         <SideBar DefaultKey={'1'}/>
         <Layout>
-          <Header className = "mainheader">
+          <Header>
             <LoginedUser />
             <LogoutUser pageChange={props}/>
           </Header>
-          <Content className = "content">
+          <Content>
             <MainWork />
           </Content>
         </Layout>

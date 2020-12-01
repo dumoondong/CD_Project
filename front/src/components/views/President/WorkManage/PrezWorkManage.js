@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Table, Layout} from 'antd';
+import { Layout, Table, Tabs } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
 import LoginedUser from '../../../../utils/LoginedUser';
@@ -9,7 +9,8 @@ import { workManageColumn } from '../../Employee/WorkManage/WorkManageColumns'; 
 import WorkManageSend from '../../Employee/WorkManage/WorkManageSend'; //업무지시 페이지
 import WorkManageInfo from '../../Employee/WorkManage/WorkManageInfo';
 
-const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
+const { Header } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
+const { TabPane } = Tabs;
 
 function PrezWorkManage(props){
   const [SendShow, setSendShow] = useState(false); //스위치버튼
@@ -52,24 +53,32 @@ function PrezWorkManage(props){
     }, []);
 
     return(
-      <div>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout>
           <SideBar DefaultKey={'4'}/>
           <Layout>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Header>
               <LoginedUser />
               <LogoutUser pageChange={props}/>
             </Header>
-            <Content style={{ margin: '0 auto', width: '100%'}}>
-                <Button onClick={handleListShow}>업무조회</Button>  
-                <Button onClick={handleSendShow}>업무지시</Button> 
-                {SendShow ? <WorkManageSend /> : <Table columns={workManageColumn} dataSource={Data} pagination={false} 
-                onRow={(record) => ({onClick: () => { handleInformation(record); }})} />}
-                <WorkManageInfo Visible={Visible} UserData={UserData} handleOk={handleOk} handleCancel={handleCancel} />
-            </Content>
+            <div className = "managecontent">
+                <Tabs defaultActiveKey="1" type={'card'} tabBarStyle={{backgroundColor:'white'}}>
+                  <TabPane tab="업무조회" key="1">  
+                    <Table columns={workManageColumn} dataSource={Data} pagination={false} 
+                    onRow={(record) => ({onClick: () => { handleInformation(record); }})} />
+                  </TabPane>
+                  <TabPane tab="업무지시" key="2">
+                    <WorkManageSend />
+                  </TabPane>
+                </Tabs>
+                <WorkManageInfo 
+                  Visible={Visible} 
+                  UserData={UserData} 
+                  handleOk={handleOk} 
+                  handleCancel={handleCancel} 
+                />
+              </div>
           </Layout>
         </Layout>
-      </div>
     );
 }
 
