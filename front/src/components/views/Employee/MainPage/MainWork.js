@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import {MainColumn} from './MainColumns'; //칼럼
 import './MainPage.css';
+import moment from 'moment';
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -30,26 +31,50 @@ function MainWork(){
   const months = ['1','2','3','4','5','6','7','8','9','10','11','12']
   //근무 조회
   useEffect(() => {
-    axios.get('/api/worklist').then(response => {
+    let body = {
+      CurrentYear,
+      CurrentMonth
+    }
+    axios.post('/api/worklist',body).then(response => {
       //console.log(response.data);
       setData(response.data.workList);
       setWorkTimeSum(response.data.workTimeSum);
     });
   }, []);
   //선택한 년도,월로 데이터 바꾸기
-  //변수
-  const [selectedYear, setselectedYear] = useState('2020'); //년도
-  const [selectedMonth, setselectedMonth] = useState('1'); //월
-  //기능
+  const [CurrentYear, setCurrentYear] = useState(moment().format("YYYY")); //년도
+  const [CurrentMonth, setCurrentMonth] = useState(moment().format("MM")); //월
+  //년도 바꿈
   const ChangeYear = (value) => {
     //console.log(value);
-    setselectedYear(value);
+    setCurrentYear(value);
+    const Year = value;
+    let body = {
+      CurrentYear : Year,
+      CurrentMonth
+    }
+    axios.post('/api/worklist',body).then(response => {
+      //console.log(response.data);
+      setData(response.data.workList);
+      setWorkTimeSum(response.data.workTimeSum);
+    });
   }
+  //월 바꿈
   const ChangeMonth = (value) => {
     //console.log(value);
-    setselectedMonth(value);
+    setCurrentMonth(value);
+    const Month = value;
+    let body = {
+      CurrentYear,
+      CurrentMonth : Month
+    }
+    axios.post('/api/worklist',body).then(response => {
+      //console.log(response.data);
+      setData(response.data.workList);
+      setWorkTimeSum(response.data.workTimeSum);
+    });
   }
-  
+
   return(
   <>
     <Content className = "content">
@@ -73,7 +98,7 @@ function MainWork(){
         </div>
         <div id = "printArea" className = "print">
           <div className = "printtitle">
-            <h2>{selectedYear}년 {selectedMonth}월 근무현황</h2>
+            <h2>{CurrentYear}년 {CurrentMonth}월 근무현황</h2>
           </div>
 
           <Table columns={MainColumn} dataSource={data} pagination={false} />

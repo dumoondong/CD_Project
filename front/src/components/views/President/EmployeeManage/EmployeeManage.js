@@ -22,6 +22,8 @@ function EmployeeManage(props){
     const CurrentDate = useState(moment().format('YYYY/MM/DD')); //현재 날짜
     const [UserList, setUserList] = useState(['']);//직원근무조회 유저 데이터 변수
     const [SaveDate, setSaveDate] = useState(CurrentDate); //보낼 데이터
+    const [SelectYear, setSelectYear] = useState('');
+    const [SelectMonth, setSelectMonth] = useState('');
     //직원근무조회 유저 데이터 GET
     useEffect(() => {
       axios.post('/api/employeemanageuserlist',CurrentDate).then(response => {
@@ -33,6 +35,8 @@ function EmployeeManage(props){
       if(e != null){
         const SelectedDate = [e.format('YYYY/MM/DD')]; //선택한 날짜
         setSaveDate(SelectedDate); //직원 리스트에서 직원 선택 시 보여줄 월
+        setSelectYear(e.format('YYYY')); //년도
+        setSelectMonth(e.format('MM')); //월
         axios.post('/api/employeemanageuserlist',SelectedDate).then(response => {
           setUserList(response.data);
         });
@@ -95,7 +99,17 @@ function EmployeeManage(props){
                   <div>
                       <Table columns={EmployeeManageColum} dataSource={UserList} pagination={false}
                         onRow={(record) => ({onClick: () => { handleWorkInformation(record) }})}/>
-                      <EmployeeManageInfo Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} UserData={UserData} WorkTimeSum={WorkTimeSum}/>
+                      {Visible ? 
+                      <EmployeeManageInfo 
+                        Visible={Visible} 
+                        handleOk={handleOk} 
+                        handleCancel={handleCancel} 
+                        UserData={UserData} 
+                        WorkTimeSum={WorkTimeSum} 
+                        SelectYear={SelectYear}
+                        SelectMonth={SelectMonth}
+                        />:null}
+                      
                   </div>
               </div>
             </Content>

@@ -6,7 +6,7 @@ import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarPresident';
 import HolidayUserAdd from '../../Employee/HolidayUser/HolidayUserAdd';
-import PrezHoliConfirm from './PrezHoliConfim';
+//import PrezHoliConfirm from './PrezHoliConfim';
 import { Calendar, momentLocalizer } from 'react-big-calendar' //캘린더============
 import moment from 'moment'
 import 'react-big-calendar/lib/sass/styles.scss';
@@ -18,7 +18,6 @@ const { Header, Content } = Layout;
 const localizer = momentLocalizer(moment)
 
 function PrezHoli(props){
-
   const [HolidayUserData, setHolidayUserData] = useState(''); //날짜 정보
   const [ListData, setListData] = useState([]); //휴일 정보
 
@@ -34,23 +33,23 @@ function PrezHoli(props){
 }, []);
   
     const [Visible, setVisible] = useState(false);
-    const [ConfirmVisible, ConfirmsetVisible] = useState(false);//confirm modal창 state
+    //const [ConfirmVisible, ConfirmsetVisible] = useState(false);//confirm modal창 state
     //팝업 ON
     const showModal = () => {
         setVisible(true);
     };
-    const showConfirm = () => {
-      ConfirmsetVisible(true);
-    };
+    // const showConfirm = () => {
+    //   ConfirmsetVisible(true);
+    // };
     //팝업 OFF
     const handleCancel = () => {
         setVisible(false);
-        ConfirmsetVisible(false);
+        //ConfirmsetVisible(false);
     };
     //팝업 OFF 및 데이터 보내기
     const handleOk = () => {
         setVisible(false);
-        ConfirmsetVisible(false);
+        //ConfirmsetVisible(false);
     }
     //커스텀 툴바==========================================================================
     const CustomToolbar = (toolbar) => {
@@ -92,6 +91,7 @@ function PrezHoli(props){
       );
     };
   //=========================================================================================================
+  //선택 창
   const [CheckTarget, setCheckTarget] = useState(['']);
 
     const rowSelection = {

@@ -373,8 +373,11 @@ app.get('/api/userInfo',(req, res) => {
   });
 });
 //근무조회
-app.get('/api/worklist', (req, res) => {
-  db.query('SELECT * from employeeWork where id=?',[req.session.userId], (error, works) => {
+app.post('/api/worklist', (req, res) => {
+  //console.log(req.body);
+  const selectDate = req.body.CurrentYear + '/' + req.body.CurrentMonth;
+  //console.log(selectDate);
+  db.query('SELECT * from employeeWork where id=? and Date like ?',[req.session.userId,`${selectDate}%`], (error, works) => {
     if (error) throw error;
     let temp = [];
     let data = {};
