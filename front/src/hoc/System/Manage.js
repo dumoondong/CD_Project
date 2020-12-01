@@ -1,25 +1,25 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,
-  Breadcrumb} from 'antd';
+import { Select, Layout, PageHeader,Table, Button, Breadcrumb } from 'antd';
   import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
 import ManageAdd from '../SystemAdd/ManageAdd';
 import { Link } from "react-router-dom";
 import {ManageColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
+import SideBarSystem from '../../utils/SideBarSystem';
+import ManageUpdate from '../SystemUpdate/ManageUpdate';
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content } = Layout;
 
 function Manage(props) {
   const [data, setData] = useState([]);//칼럼 안 데이터
-  const [DeptList, setDeptList] = useState(['']);
+  const [DeptList, setDeptList] = useState(['']); //부서검색
   const { Option } = Select;
   const [Visible, setVisible] = useState(false); //modal 관리
 
   //dispatch로 가져오도록 바꿀 예정====================================
   //직원 데이터 조회
   useEffect(() => {
-    axios.get('/api//users/read').then(response => {
+    axios.get('/api/users/read').then(response => {
       setData(response.data);
     });
     axios.get('/api/deptlist').then(response => {
@@ -62,46 +62,41 @@ function Manage(props) {
   
   //근무부서 선택
   function onChange(value) {
-    console.log(value);
-    let body = {
-     SmallInfo : value
-       }
-    axios.post('/api/deptCodelist',body).then(response => {  
-      console.log(response.data);
-     setData(response.data);
+    if(value === 'All'){
+      axios.get('/api//users/read').then(response => {  
+        setData(response.data);
       });
+      console.log(value);
+    }else{
+      console.log(value);
+      let body = {
+        SmallInfo : value
+      }
+      axios.post('/api/deptCodelist',body).then(response => {  
+        console.log(response.data);
+        setData(response.data);
+      });
+    }
   }
-  
+  // 수정 버튼
+  const [UpdateVisible, setUpdateVisible] = useState(false);
+  const [UserData, setUserData] = useState(['']);
 
-
-    //main
+  const handleUpdateClick = (updateUser) => {
+    setUserData(updateUser);
+    setUpdateVisible(true);
+  }
+  const handleUpdateOk = () => {
+    setUpdateVisible(false);
+  }
+  const handleUpdateCancel = () => {
+    setUpdateVisible(false);
+  }
+  //main
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        {/* grid */}
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['2']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'2'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
             <Link  to="/">
@@ -124,17 +119,25 @@ function Manage(props) {
               <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
                   onChange={onChange}
               >
+               <Option key={'All'}>All</Option>
                 {DeptList.map(code => (
                <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
               ))}
                 </Select>
               <div style = {{background: '#fff', minHeight: 20,textAlign:'end'}} >
-                <Button type="primary" onClick={showModal}>추가</Button>
+                <Button onClick={showModal}>추가</Button>
                 <ManageAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <Button onClick={handleDelete}>삭제</Button>
-                <Button>수정</Button>
+                {/* <Button>수정</Button> */}
               </div>
-            <Table style = {{background: '#fff'}} columns={ManageColumns} dataSource={data} rowSelection={rowSelection} />
+              <Table 
+                style = {{background: '#fff'}} 
+                columns={ManageColumns} 
+                dataSource={data} 
+                rowSelection={rowSelection} 
+                onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})} 
+              />
+              {UpdateVisible ?  <ManageUpdate UpdateVisible={UpdateVisible} handleUpdateOk={handleUpdateOk} handleUpdateCancel={handleUpdateCancel} UserData={UserData} />:null}
             </div>
             </Content>
       </Layout>

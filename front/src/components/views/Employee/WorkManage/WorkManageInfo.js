@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd';
-import './WorkManage.css';
+import '../../user.css';
 
 function WorkManageInfo(props) {
     //console.log(props.UserData);
@@ -19,25 +19,25 @@ function WorkManageInfo(props) {
                         보낸 날짜
                     </div>
                     <div className = "manageright">
-                        보낸시간가져오기
+                        {props.UserData.Date}
                     </div>
                     <div className = "manageleft">
                         종료 날짜
                     </div>
                     <div className = "manageright">
-                        dsaf{props.UserData.EndDate}
+                        {props.UserData.EndDate}
                     </div>
                     <div className = "manageleft">
                         부서
                     </div>
                     <div className = "manageright">
-                        fasddasf{props.UserData.Dept}
+                        {props.UserData.Dept}
                     </div>
                     <div className = "manageleft">
                         직급
                     </div>
                     <div className = "manageright">
-                        dasfasdf{props.UserData.Rank}
+                        {props.UserData.Rank}
                     </div>
                     <div className = "manageleft">
                         이름

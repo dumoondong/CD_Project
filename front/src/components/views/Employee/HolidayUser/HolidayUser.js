@@ -12,12 +12,13 @@ import moment from 'moment'
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import './Calendar.scss' //scss 재정의=============================================
+import '../../user.css';
 
 const { Header, Content } = Layout;
 const localizer = momentLocalizer(moment)
 
 function HolidayUser(props) {
-  const [LeaveData, setLeaveData] = useState(''); //날짜 정보
+  const [HolidayUserData, setHolidayUserData] = useState(''); //연가 정보
   const [ListData, setListData] = useState([]); //휴일 정보
 
   useEffect(() => {         
@@ -26,8 +27,9 @@ function HolidayUser(props) {
       //console.log(response.data);
       setListData(response.data);
     });
-    axios.get('/api/leavelist').then(response => {
-      setLeaveData(response.data);
+    //HolidayUser
+    axios.get('/api/holidayuserlist').then(response => {
+      setHolidayUserData(response.data);
     });
 }, []);
   //캘린더====================================================================================
@@ -106,10 +108,10 @@ function HolidayUser(props) {
                     toolbar: CustomToolbar,
                   }}
                 />
-                <Button onClick = {showModal} className = "btn">연가신청</Button>
+                <Button className = "btn" onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <div>
-                  <Table columns={HolidayColums} dataSource={LeaveData} pagination={false} />
+                  <Table columns={HolidayColums} dataSource={HolidayUserData} pagination={false} />
                 </div>
               </Content>
             </Layout>

@@ -2,9 +2,10 @@ import axios from 'axios';
 import {
     LOGIN_USER,
     CREATE_USER,
+    UPDATE_USER,
     ONWORK_USER,
     OFFWORK_USER,
-    LEAVE_USER,
+    HOLIDAY_USER,
     MYPAGE_USER
 } from './types';
 //dataToSubmit에는 넘어온 body 데이터가 들어가 있다.;로그인 액션
@@ -17,13 +18,23 @@ export function loginUser(dataToSubmit){
         payload: request //true,false를 받는 부분
     }
 }
-//회원가입 액션
-export function registerUser(dataToSubmit){
+//직원 추가 액션
+export function createUser(dataToSubmit){
     const request = axios.post('/api/users/create', dataToSubmit)
         .then(response => response.data)
     
     return {
         type: CREATE_USER,
+        payload: request //true,false를 받는 부분
+    }
+}
+// 직원 수정 액션
+export function updateUser(dataToSubmit){
+    const request = axios.post('/api/users/update', dataToSubmit)
+        .then(response => response.data)
+    
+    return {
+        type: UPDATE_USER,
         payload: request //true,false를 받는 부분
     }
 }
@@ -48,12 +59,12 @@ export function offWorkUser(dataToSubmit){
     }
 }
 //연가 액션
-export function leaveUser(dataToSubmit){
-    const request = axios.post('/api/leaveinsert', dataToSubmit)
+export function HolidayUser(dataToSubmit){
+    const request = axios.post('/api/holidayuserinsert', dataToSubmit)
         .then(response => response.data)
     
     return {
-        type: LEAVE_USER,
+        type: HOLIDAY_USER,
         payload: request //true,false를 받는 부분
     }
 }

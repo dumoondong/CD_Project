@@ -1,9 +1,7 @@
-import React, {useState,useEffect} from 'react'
-import { Modal, Select,Input,Button } from 'antd';
+import React, {useState} from 'react'
+import { Modal, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { LargeCodeInfo } from '../../_actions/holiday_action';
-import axios from 'axios';
-
 
 function MasterCodeAdd(props){
   const dispatch = useDispatch(); //redux
@@ -18,24 +16,6 @@ function MasterCodeAdd(props){
   const handleChangeLargeInfo = (e) => {
     setLargeInfo(e.currentTarget.value);
   }
-
-
-
-   function onChange(value) {
-    console.log(value);
-  }
-
-   function onBlur() {
-     console.log('blur');
-   }
-   
-   function onFocus() {
-     console.log('focus');
-   }
-   
-   function onSearch(val) {
-     console.log('search:', val);
-   }
  
 //팝업 저장(유저 생성)
   const handleOk = () => {

@@ -1,22 +1,24 @@
 import React, {useState,useEffect} from 'react'
-import { Select,Tag,Layout, Menu,PageHeader,Table, Button, Row, Col,Checkbox,Form,Input,Tabs,
-  Breadcrumb} from 'antd';
+import { Select,Layout, PageHeader,Table, Button, Tabs, Breadcrumb} from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CodeAdd from '../SystemAdd/CodeAdd';
+import { Link } from "react-router-dom";
+import CodeAdd from '../SystemAdd/SmallCodeAdd';
 import MasterCode from './MasterCode';
-import CodeUpdate from '../SystemUpdate/CodeUpdate';
+//import CodeUpdate from '../SystemUpdate/SmallCodeUpdate';
 import {CodeColumns} from './ColumnTable'; //ColumnTable 내에 함수 사용
-const { Header, Content, Sider, Footer } = Layout;
+import SideBarSystem from '../../utils/SideBarSystem';
+// import SmallCodeUpdate from '../SystemUpdate/SmallCodeUpdate';
 
-function Code(props) {
-  const [data, setData] = useState([]);//칼럼 안 데이터
-  const [Masterdata, setMasterData] = useState([]);//칼럼 안 데이터
+const { Header, Content } = Layout;
+const { TabPane } = Tabs;
+
+function Code() {
+  const [SmallCode, setSmallCode] = useState(['']);//칼럼 안 데이터
+  const [Masterdata, setMasterData] = useState(['']);//칼럼 안 데이터
   const { Option } = Select;
   const [Visible, setVisible] = useState(false); //modal 관리
-  const [CheckTarget, setCheckTarget] = useState([]); //체크 박스 한 대상
+  const [CheckTarget, setCheckTarget] = useState(['']); //체크 박스 한 대상
   //체크박스
  const rowSelection = {
    onChange: (selectedRowKeys, selectedRows) => {
@@ -24,10 +26,6 @@ function Code(props) {
      setCheckTarget(selectedRows);
    }
  };
- //수정
- const handleSave = () =>{
-
- }
   //delete
  const handleDelete = () => {
    axios.post('/api/SmallCodedelete', CheckTarget).then(res =>{
@@ -52,9 +50,9 @@ function Code(props) {
   }
   //대코드 종류선택
   function onChange(value) {
-    if(value == 'All'){
-      axios.get('/api/smallcode').then(response => {  
-        setData(response.data);
+    if(value === 'All'){
+      axios.get('/api/smallcoderead').then(response => {  
+        setSmallCode(response.data);
       });
     }
      else{
@@ -63,52 +61,46 @@ function Code(props) {
        }
      axios.post('/api/mastercodelist',body).then(response => {
      console.log(response.data);
-     setData(response.data);
+     setSmallCode(response.data);
       });
      }
   }
   //공통 코드 데이터 조회
   useEffect(() => {
-    axios.get('/api/smallcode').then(response => {  
-      setData(response.data);
+    axios.get('/api/smallcoderead').then(response => {  
+      //console.log('smallcode : ',response.data);
+      setSmallCode(response.data);
     });
     axios.get('/api/mastercode').then(response => {
+      //console.log('mastercode : ',response.data);
       setMasterData(response.data);
     });
 }, []);
-const { TabPane } = Tabs;
-  function callback(key) {
-   console.log(key);
-  }
-
-    //main
+  // //소코드 수정 버튼
+  // const [UpdateSmallCode, setUpdateSmallCode] = useState(['']);
+  // const [UpdateVisible, setUpdateVisible] = useState(false);
+  // //수정 팝업 OFF
+  // const handleUpdateOk = () => {
+  //   setUpdateVisible(false);
+  // }
+  // //수정 팝업 OFF
+  // const handleUpdateCancel = () => {
+  //   setUpdateVisible(false);
+  // }
+  // //데이터 클릭 시 수정 팝업 ON
+  // const handleUpdateClick = (updateCode) => {
+  //   //console.log(updateCode);
+  //   axios.post('/api/updatecode',updateCode).then(response => {
+  //     setUpdateSmallCode(response.data);
+  //     setUpdateVisible(true);
+  //     //console.log(response.data.masterCode);
+  //   });
+  // }
+  //main
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        {/* grid */}
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['3']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'3'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
           <Link  to="/">
@@ -128,7 +120,7 @@ const { TabPane } = Tabs;
             </Breadcrumb>
             {/* 선택창 */}
             <div style = {{fontSize: 20,background: '#fff', minHeight: 2}}>
-            <Tabs tabBarStyle={{backgroundColor:'white'}}defaultActiveKey="2" onChange={callback} >
+            <Tabs tabBarStyle={{backgroundColor:'white'}}defaultActiveKey="2">
               <TabPane tab="대코드" key="1">
                <MasterCode></MasterCode>
               </TabPane>
@@ -147,10 +139,22 @@ const { TabPane } = Tabs;
                     <Button onClick={showModal}>추가</Button>         
                     <CodeAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                     <Button onClick={handleDelete}>삭제</Button>
-                    <Button onClick={showModal}>수정</Button>         
-                    <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
+                    {/* <Button onClick={showModal}>수정</Button>         
+                    <CodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} /> */}
                   </div>
-                  <Table style = {{background: '#fff'}} columns={CodeColumns} dataSource={data} rowSelection={rowSelection} />
+                  <Table 
+                    style = {{background: '#fff'}} 
+                    columns={CodeColumns} 
+                    dataSource={SmallCode}
+                    rowSelection={rowSelection}
+                    //onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})}
+                  />
+                  {/* {UpdateVisible ? <SmallCodeUpdate 
+                  UpdateSmallCode={UpdateSmallCode} 
+                  UpdateVisible={UpdateVisible} 
+                  handleUpdateOk={handleUpdateOk} 
+                  handleUpdateCancel={handleUpdateCancel} /> : null} */}
+                  
               </TabPane>
             </Tabs>
             </div>

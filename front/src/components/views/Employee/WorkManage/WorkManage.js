@@ -8,9 +8,10 @@ import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import { workManageColumn } from './WorkManageColumns'; //업무 칼럼
 import WorkManageSend from './WorkManageSend'; //업무지시 페이지
 import WorkManageInfo from './WorkManageInfo';
+import '../../user.css';
 
 //칼럼
-const { Header, Content } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
+const { Header } = Layout; //Layout부분을  Header , Content ,Sider, Footer로 나눠서 사용한다.
 const { TabPane } = Tabs;
 
   function WorkManage(props) {
@@ -41,7 +42,6 @@ const { TabPane } = Tabs;
       }); 
     }, []);
       return (
-        <div>
           <Layout>
             <SideBar DefaultKey={'3'}/>
             <Layout>
@@ -49,7 +49,7 @@ const { TabPane } = Tabs;
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content className = "managecontent">
+              <div className = "managecontent">
                 <Tabs defaultActiveKey="1" type={'card'} tabBarStyle={{backgroundColor:'white'}}>
                   <TabPane tab="업무조회" key="1">  
                     <Table columns={workManageColumn} dataSource={Data} pagination={false} 
@@ -65,10 +65,9 @@ const { TabPane } = Tabs;
                   handleOk={handleOk} 
                   handleCancel={handleCancel} 
                 />
-              </Content>
+              </div>
             </Layout>
           </Layout>
-        </div>
 );
 }
 

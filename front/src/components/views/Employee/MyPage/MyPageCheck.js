@@ -7,7 +7,7 @@ import LogoutUser from '../../../../utils/LogoutUser';
 import { useDispatch } from 'react-redux';
 import { myPageUser } from '../../../../_actions/user_action';
 import MyPage from './MyPage';
-import './MyPage.css';
+import '../../user.css';
 
 const { Header, Content } = Layout;
 
@@ -31,7 +31,6 @@ function MyPageCheck(props) {
             .then(response => { 
                 if(response.payload.success){
                     console.log(response.payload.success);
-                    alert('Success!',);
                     setMypageShow(true);
                 }
                 else {

@@ -5,6 +5,7 @@ import LoginedUser from '../../../../utils/LoginedUser'; ///utils 폴더
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarEmployee';///여기까지
 import MainWork from './MainWork'; //근무조회
+import '../../user.css';
 
 const { Header, Content } = Layout;
 

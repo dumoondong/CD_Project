@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Button, Table, Select, Input, Modal, DatePicker } from 'antd';
+import { Button, Table, Select, Input, Modal, DatePicker } from 'antd';
 import { deptColums } from './WorkManageColumns';
 import axios from 'axios';
 import moment from 'moment';
+import '../../user.css';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 function WorkManageSend() {
     const [CheckTarget, setCheckTarget] = useState(['']); //선택한 유저 값
+    const [data, setData] = useState([]);//직원들 부서검색
+    const [DeptList, setDeptList] = useState(['']); //부서검색
     //선택 박스
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -16,12 +19,21 @@ function WorkManageSend() {
           setCheckTarget(selectedRows);
         }
     };
-    //검색에 들어가는 값
-    const depts = ['영업부','경리부']
-    //선택한 값
-    function handleChange(value) {
-        console.log(`selected ${value}`);
-    }
+    //업무지시 부서선택
+    function onChange(value) {
+        if(value == 'All'){
+          axios.get('/api//users/read').then(response => {  
+            setData(response.data);
+          });
+        }else{
+          let body = {
+            SmallInfo : value
+          }
+          axios.post('/api/deptCodelist',body).then(response => {  
+            setData(response.data);
+          });
+        }
+      }
     //모달창 변수
     const [Visible, setVisible] = useState(false);
     //팝업 ON
@@ -87,66 +99,69 @@ function WorkManageSend() {
             //console.log(response.data);
             setUserList(response.data);
         });
+        axios.get('/api/deptlist').then(response => {
+            setDeptList(response.data);
+          });
     }, [])
 
     return (
         <div>
-            <div className = "wrap">
-                <div id = "leftside">
+            <div id = "leftside">
+                <div className = "deptbox">
                     <Button disabled id = "deptbtn">부서선택</Button>
-                    <Select name = 'dept' defaultValue="부서" onChange={handleChange} className = "selectdept">
-                        {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
-                    </Select>
-                    <div id = "emplist">
-                        <div id = "emplist_title">
-                            직원리스트
-                        </div>
-                        <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
-                    </div>
                 </div>
-                <div id = "rightside">
-                    <div id = "rightwrap">
-                        <div className = "rightlabel">
-                            보낸날짜
-                        </div>
-                        <div id = "rightstart">
-                            {CurrentTime}
-                        </div>
-                        <div className = "rightlabel">
-                            종료날짜
-                        </div>
-                        <div id = "rightend">
-                            <DatePicker
-                            className = "enddate"
-                            size = "large"
-                            onChange={handleDateChange}
-                            />
-                        </div>
-                        <div>
-                            <div className = "rightlabel">
-                                제목
-                            </div>
-                            <div id = "righttitle">
-                                <Input className = "titleinput" onChange={handleChangeTitle} />
-                            </div>
-                        </div>
-                        <div>
-                            <div className = "rightlabel">
-                                내용
-                            </div>
-                            <div>
-                                <TextArea rows={10} onChange={handleChangeDes}/>
-                                <Button className = "btn" onClick = {showModal}>보내기</Button>
-                                <Modal
-                                    visible={Visible}
-                                    onOk={handleOk}
-                                    onCancel={handleCancel}
-                                >
-                                    보내시겠습니까?
-                                </Modal>
-                            </div>
-                        </div>
+                <div className = "deptbox">
+                    <Select className = "selectdept" showSearch placeholder="근무부서 검색"
+                            onChange={onChange}>
+                        <Option key={'All'}>All</Option>
+                        {DeptList.map(code => (
+                        <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
+                        ))}
+                    </Select>
+                </div>
+                <div id = "emplist">
+                    <div id = "emplist_title">
+                        직원리스트
                     </div>
+                    <Table columns={deptColums} dataSource={UserList} rowSelection={rowSelection} pagination={false} />
+                </div>
+            </div>
+            <div id = "rightside">
+                <div id = "rightwrap">
+                    <div className = "rightlabel">
+                        보낸날짜
+                    </div>
+                    <div id = "rightstart">
+                        {CurrentTime}
+                    </div>
+                    <div className = "rightlabel">
+                        종료날짜
+                    </div>
+                    <div id = "rightend">
+                        <DatePicker
+                        className = "enddate"
+                        size = "large"
+                        onChange={handleDateChange}
+                        />
+                    </div>
+                    <div className = "rightlabel">
+                        제목
+                    </div>
+                    <div id = "righttitle">
+                        <Input className = "inputtitle" onChange={handleChangeTitle} />
+                    </div>
+                    <div className = "rightlabel">
+                        내용
+                    </div>
+                    <TextArea rows={10} onChange={handleChangeDes}/>
+                    <Button className = "btn" onClick = {showModal}>보내기</Button>
+                    <Modal
+                        visible={Visible}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                    >
+                        보내시겠습니까?
+                    </Modal>
                 </div>
             </div>
         </div>

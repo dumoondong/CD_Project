@@ -3,7 +3,7 @@ import { Button, Table, Select, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {MainColumn} from './MainColumns'; //칼럼
-import './MainPage.css';
+import '../../user.css';
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -53,9 +53,9 @@ function MainWork(){
   return(
   <>
     <Content>
-      <div className = "mainwrap">
-        <div className = "mainheader">{/* 년 월 인쇄 통합 div */}
-          <div className = "dateheader">
+      <div id = "mainwrap">
+        <div id = "mainheader">{/* 년 월 인쇄 통합 div */}
+          <div id = "dateheader">
             <Select name = 'year' defaultValue="년도" onChange={ChangeYear} className = "selectyear">
               {years.map(year => (
                 <Option key={year}>{year}</Option>
@@ -67,12 +67,12 @@ function MainWork(){
               ))}
             </Select>
           </div>
-          <div className = "printheader">
+          <div id = "printheader">
             <Button onClick = {printDiv}>인쇄</Button>
           </div>
         </div>
         <div id = "printArea">
-          <div className = "printtitle">
+          <div id = "printtitle">
             <h2>{selectedYear}년 {selectedMonth}월 근무현황</h2>
           </div>
 

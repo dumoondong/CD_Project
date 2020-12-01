@@ -8,34 +8,74 @@ import EmployeeManageInfo from "./EmployeeManageInfo";
 import {EmployeeManageColum} from './EmployeeManageColums';
 import moment from 'moment';
 import axios from 'axios';
-//테이블에 들어갈 데이터 형식
-// const data = [
-//   {
-//       key: '1',
-//       dept: '영업부',
-//       rank: '직원',
-//       id : '1113',
-//       name: '홍길삼',
-//       start: '10:00',
-//       end: '18:00',
-//       workTime: '8'
-//   },
-// ];
 
 const { Header, Content } = Layout;
 const { Option } = Select;
 
 function EmployeeManage(props){
-    const depts = ['영업부','경리부'] //검색창 부서선택 임시 값
     //검색창 선택한 부서 값
     function handleChange(value) {
         console.log(`selected ${value}`);
     }
+     //근무부서 선택
+const [data, setData] = useState([]);//칼럼 안 데이터
+const [DeptList, setDeptList] = useState(['']); //부서검색
+function onChange(value) {
+  if(value == 'All'){
+    axios.post('/api/employeemanageuserlist',SaveDate).then(response => {   
+      setData(response.data);
+    });
+    console.log(value);
+  }else{
+    console.log(value);
+    let body = {
+      SmallInfo : value,
+      SaveDate : SaveDate[0]
+    }
+    axios.post('/api/employeeworkdeptcodelist',body).then(response => {  
+      console.log(response.data);
+      setData(response.data);
+    });
+  }
+}
+    //직원근무조회
+    const CurrentDate = useState(moment().format('YYYY/MM/DD')); //현재 날짜
+    const [UserList, setUserList] = useState(['']);//직원근무조회 유저 데이터 변수
+    const [SaveDate, setSaveDate] = useState(CurrentDate); //보낼 데이터
+    //직원근무조회 유저 데이터 GET
+    useEffect(() => {
+      axios.post('/api/employeemanageuserlist',CurrentDate).then(response => {
+        setUserList(response.data);
+      });
+      axios.get('/api/deptlist').then(response => {
+        setDeptList(response.data);
+      });
+    }, []);
+    //데이터 피커 창에서 날짜 선택 시
+    const handleChangeDate = (e) => {
+      if(e != null){
+        const SelectedDate = [e.format('YYYY/MM/DD')]; //선택한 날짜
+        setSaveDate(SelectedDate); //직원 리스트에서 직원 선택 시 보여줄 월
+        axios.post('/api/employeemanageuserlist',SelectedDate).then(response => {
+          setUserList(response.data);
+        });
+      }
+    }
+    //해당 직원 월별 근무 조회
     const [Visible, setVisible] = useState(false); //팝업 창 변수
-    //클릭 시 월별 근무 조회
-    const [UserData, setUserData] = useState('');
+    const [UserData, setUserData] = useState(''); //받아온 유저 데이터 변수
+    const [WorkTimeSum, setWorkTimeSum] = useState(0); //총 근무시간 데이터 변수
+    //직원 월별 근무 조회 GET
     const handleWorkInformation = (value) => {
-      setUserData(value);
+      //보낼 데이터
+      const sendData = {
+        UserID : value.id,
+        SaveDate : SaveDate[0]
+      };
+      axios.post('/api/employeemanageusermonthlylist',sendData).then(response => {
+        setUserData(response.data.userList); //받아온 유저 데이터
+        setWorkTimeSum(response.data.userWorkTimeSum); //총 근무시간 데이터
+    });
       setVisible(true);
     }
     //팝업 OFF
@@ -45,24 +85,6 @@ function EmployeeManage(props){
     //팝업 OFF
     const handleCancel = () => {
       setVisible(false);
-    }
-    //직원근무조회
-    const CurrentDate = useState(moment().format('YYYY/MM/DD')); //현재 날짜
-    const [UserList, setUserList] = useState(['']);//직원근무조회 유저 데이터 변수
-    //직원근무조회 유저 데이터 GET
-    useEffect(() => {
-      axios.post('/api/employeemanageuserlist',CurrentDate).then(response => {
-        setUserList(response.data);
-      });
-    }, []);
-    //데이터 피커 창에서 날짜 선택 시
-    const handleChangeDate = (e) => {
-      if(e != null){
-        const SelectedDate = [e.format('YYYY/MM/DD')]; //선택한 날짜
-        axios.post('/api/employeemanageuserlist',SelectedDate).then(response => {
-          setUserList(response.data);
-        });
-      }
     }
 
     return(
@@ -81,8 +103,13 @@ function EmployeeManage(props){
                           <Button disabled style = {{backgroundColor: "orange", color: "black"}}>부서선택</Button> 
                       </div>
                       <div style = {{display: "inline-block"}}>
-                          <Select name = 'dept' defaultValue="부서" onChange={handleChange} style = {{width: "88px"}}>
-                              {depts.map(dept => (<Option key={dept}>{dept}</Option>))}
+                        <Select showSearch style={{ width: 200 }} placeholder="근무부서 검색"
+                        onChange={onChange}
+                        >
+                          <Option key={'All'}>All</Option>
+                          {DeptList.map(code => (
+                          <Option key={code.SmallInfo}>{code.SmallInfo}</Option>
+                          ))}
                           </Select>
                       </div>
                       <div style = {{display: "inline-block", marginLeft: "20%"}}>
@@ -94,9 +121,9 @@ function EmployeeManage(props){
                       </div>
                   </div>
                   <div>
-                      <Table columns={EmployeeManageColum} dataSource={UserList} pagination={false}
+                      <Table columns={EmployeeManageColum} dataSource={UserList,data} pagination={false}
                         onRow={(record) => ({onClick: () => { handleWorkInformation(record) }})}/>
-                      <EmployeeManageInfo Visible={Visible} UserData={UserData} handleOk={handleOk} handleCancel={handleCancel} />
+                      <EmployeeManageInfo Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} UserData={UserData} WorkTimeSum={WorkTimeSum}/>
                   </div>
               </div>
             </Content>

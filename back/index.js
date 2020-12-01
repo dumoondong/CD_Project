@@ -25,22 +25,22 @@ app.use(session({
 //nodejs 연습 및 axios 연습 (삭제예정)======================================================
 //get 가져오는 것. '/'는 주소를 뜻한다. 현재 '/'에 아무것도 안붙으므로 root directory를 뜻한다.
 //req => request(요청), res=> response(응답)
-app.get('/', (req, res) => { //삭제 예정
-  res.send('Root => Hello World!/안녕하세요!!!')
-})
-//위와 마찬가지. 다만, /users에 연결되어 있다 --삭제 예정
-app.get('/users', (req, res) => {
-  db.query('SELECT * from Users', (error, rows) => {
-    if (error) throw error;
-    console.log('mysql Connected...');
-    console.log('User info is: ', rows);
-    res.send(rows);
-  });
-});
-//axios 연습(해당 주소로 가면 볼 수 있음) --삭제 예정
-app.get('/api/hello',(req,res)=>{
-  res.send('안녕하세요~');
-});
+// app.get('/', (req, res) => { //삭제 예정
+//   res.send('Root => Hello World!/안녕하세요!!!')
+// })
+// //위와 마찬가지. 다만, /users에 연결되어 있다 --삭제 예정
+// app.get('/users', (req, res) => {
+//   db.query('SELECT * from Users', (error, rows) => {
+//     if (error) throw error;
+//     console.log('mysql Connected...');
+//     console.log('User info is: ', rows);
+//     res.send(rows);
+//   });
+// });
+// //axios 연습(해당 주소로 가면 볼 수 있음) --삭제 예정
+// app.get('/api/hello',(req,res)=>{
+//   res.send('안녕하세요~');
+// });
 //=========================================================================================
 //페이지의 복잡성을 해소하기 위한 라우터
 app.use('/api/users', LoginRouter);
@@ -75,21 +75,18 @@ app.post('/api/SmallCodedelete',(req,res)=>{
 });
 //holiday 테이블 삭제
 app.post('/api/holidaydelete',(req,res)=>{
-  console.log(req.body);
-  // req.body.forEach(user => {
-  //   db.query(`DELETE FROM holiday WHERE date = ?`,[user.date],function(error,result){
-  //     if(error){
-  //       throw error;
-  //     }
-  //   });
-  // });
-  // return res.json({
-  //   success : true
-  // });
+  //console.log(req.body.start);
+    db.query(`DELETE FROM Holiday WHERE StartDate = ?`,[req.body.start],function(error,result){
+      if(error){
+        throw error;
+      }
+      return res.json({
+        success : true
+      });
+    });
 });
 //대코드 리스트 검색
 app.post('/api/mastercodelist', (req,res) => {
-  console.log(req.body.LargeCode);
   db.query('SELECT * from MasterCode where LargeCode like ?',[`%${req.body.LargeCode}%`],(error,data)=>{
     if(error) res.send(['']);
     db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,codes)=>{
@@ -101,18 +98,60 @@ app.post('/api/mastercodelist', (req,res) => {
 
 //근무부서 리스트 검색
 app.post('/api/deptcodelist', (req,res) => {
-  console.log(req.body.SmallInfo);
+  console.log(req.body);
     db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error2,depts)=>{
       if(error2) res.send(['']);
       //console.log(depts);
       res.send(depts);
     });
 });
+//직원근무조회 근무부서 리스트 검색
+app.post('/api/employeeworkdeptcodelist', (req,res) => {
+  console.log(req.body);
+  let sendData = []; 
+  let data = {}; 
+  let key = 0; 
+  let workTime = 0;
+  let workTimeSum = 0;
+  db.query(' SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where employee.dept = ?  AND employeework.Date = ?'
+  ,[req.body.SmallInfo,req.body.SaveDate],(error,depts)=>{
+    if(error) throw error;
+    depts.forEach(user => {
+      if(user.OffWork != null){
+        workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+        workTimeSum += workTime;
+      }else{
+        workTime = 0;
+      }
+      data = {
+        key : String(key+1),
+        dept : user.dept,
+        rank : user.rank,
+        id : user.id,
+        name : user.name,
+        start : user.OnWork,
+        end : user.OffWork,
+        workTime : workTime
+      }
+      sendData.push(data);
+      key++;
+    });
+    res.send(sendData);
+  });
+});
 
-
+//마이페이지 비밀번호 수정 
+app.post('/api/mypagepasswordedit',(req,res)=>{
+  console.log(req.body);
+  db.query(`UPDATE employee SET PASSWORD = ? , PASSWORD = ? WHERE id = ? `,
+  [req.body.UserPassword, req.body.Password, req.body.id],(error,result) => {
+    if(error) res.send(['']);
+    //console.log(depts);
+    res.send(result);
+  });
+});
 //대코드 수정
 app.post('/api/mastercodeupdate',(req,res)=>{
-  console.log(req.body);
   db.query(`UPDATE mastercode SET LargeCode = ? , LargeInfo = ?) VALUES(?,?)`,
   [req.body.LargeCode, req.body.LargeInfo],(error,result) => {
         if(error) {
@@ -128,26 +167,25 @@ app.post('/api/mastercodeupdate',(req,res)=>{
     });
 });
 //공통코드 관련
-app.get('/api/SmallCode', (req, res) => {
+app.get('/api/smallcoderead', (req, res) => {
   db.query('SELECT * from SmallCode', (error, rows) => {
     if (error) throw error;
-    let temp = [];
+    let sendData = [];
     let data = {};
-    let i = 0;
+    let key = 0;
    rows.forEach(row => {
    data = {
-          key: String(i+1),
+          key: String(key+1),
           SmallCode: row.SmallCode,
           SmallInfo: row.SmallInfo,
-          SmallContent: row.SmallContent,
-  }
-      i++;
-      temp.push(data);
+          SmallContent: row.SmallContent
+        }
+      key++;
+      sendData.push(data);
     });
-    res.send(temp);
-
-});
+    res.send(sendData);
   });
+});
 //대코드 테이블
 app.get('/api/MasterCode', (req, res) => {
   db.query('SELECT * from MasterCode', (error, rows) => {
@@ -168,8 +206,6 @@ app.get('/api/MasterCode', (req, res) => {
 
 });
   });
-
-
 //휴일설정 db에 저장
 app.post('/api/holidaysave', (req, res) => {
   //console.log(req.body);
@@ -259,13 +295,17 @@ app.get('/api/holidaydataread', (req, res) => {
 //휴일종류코드리스트
 app.get('/api/holylist', (req,res) => {
   db.query('SELECT * from MasterCode where LargeInfo like ?',['%휴일%'],(error,data)=>{
-    if(error) res.send(['']);
-    //console.log(data[0].LargeCode);
-    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
-      if(error2) res.send(['']);
-      //console.log(depts);
-      res.send(depts);
-    });
+    if(error) throw error;
+    //console.log(data[0]);
+    if(data[0] != undefined){
+      db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,depts)=>{
+        if(error2) throw error2;
+        //console.log(depts);
+        res.send(depts);
+      });
+    } else {
+      res.send(['']);
+    }
   });
 });
 //부서코드리스트
@@ -292,8 +332,35 @@ app.get('/api/ranklist', (req,res) => {
     });
   });
 });
+//스몰 코드 수정할 데이터
+// app.post('/api/updatecode',(req,res)=>{
+//   //console.log(req.body);
+//   //console.log(req.body.SmallCode.split('-'));
+//   const updateCode = req.body;
+//   const splitCode = req.body.SmallCode.split('-');
+//   let data = {
+//     masterCode: splitCode[0],
+//     smallCode : splitCode[1],
+//     smallCodeInfo : updateCode.SmallInfo,
+//     smallCodeContent : updateCode.SmallContent
+//   }
+//   res.send(data);
+// });
+// 스몰 코드 수정
+// app.post('/api/smallcodeupdate',(req,res)=>{
+//   console.log(req.body);
+//   const code = req.body.LargeCode+'-'+req.body.SmallCode;
+//   console.log(code);
+//   // db.query('UPDATE SmallCode SET SmallCode = ?, SmallInfo = ?, SmallContent = ? where SmallCode = ?',
+//   // [con],
+//   // (error,updateCode)=>{
+//   //   if(error) throw error;
 
-
+//   // });
+//   res.json({
+//     smallcodeSuccess : true
+//   });
+// });
 //==============================================================================================================================
 
 //UserServer로 옮길 예정=========================================================================================================
@@ -357,7 +424,7 @@ app.get('/api/worklist', (req, res) => {
     let temp = [];
     let data = {};
     let i = 0;
-    let workTime = null;
+    let workTime = 0;
     let workTimeSum = 0;
     works.forEach(work => {
       //console.log('OnWork: ',work.OnWork);
@@ -368,6 +435,8 @@ app.get('/api/worklist', (req, res) => {
       if(work.OffWork != null){
         workTime = Number(work.OffWork.split(':')[0]) - Number(work.OnWork.split(':')[0]);
         workTimeSum += workTime;
+      }else{
+        workTime=0;
       }
       data = {
         key : String(i+1),
@@ -417,10 +486,10 @@ app.post('/api/mypagecheck', (req, res) => {
 });
 
 //연가 데이터 넣기 *테이블 이름과 주소 바꿀 예정
-app.post('/api/leaveinsert',(req,res) => {
-  console.log(req.body);
-  db.query('INSERT INTO LeaveUser (id,StartDate,EndDate,SelectedLeave,Des) VALUES(?,?,?,?,?)',
-  [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des], (error, user) => {
+app.post('/api/holidayuserinsert',(req,res) => {
+  //console.log(req.body);
+  db.query('INSERT INTO HolidayUser (id,StartDate,EndDate,SelectedLeave,Des,confirmYN) VALUES(?,?,?,?,?,?)',
+  [req.session.userId,req.body.StartDate,req.body.EndDate,req.body.SelectedLeave,req.body.Des,'승인대기'], (error, user) => {
     if (error) throw error;
     return res.json({
       success : true
@@ -428,18 +497,20 @@ app.post('/api/leaveinsert',(req,res) => {
   });
 });
 //연가 데이터 조회
-app.get('/api/leavelist', (req, res) => {
-  db.query('SELECT * from LeaveUser where id=?',[req.session.userId], (error, lists) => {
+app.get('/api/holidayuserlist', (req, res) => {
+  db.query('SELECT * from HolidayUser where id=?',[req.session.userId], (error, lists) => {
     if (error) throw error;
     let temp = [];
     let data = {};
     lists.forEach(list => {
-      console.log(list);
+      //console.log(list);
       data = {
+        id : list.id,
         startDate: list.StartDate,
         endDate: list.EndDate,
         type: list.SelectedLeave,
-        content: list.Des
+        content: list.Des,
+        confirmYN : list.confirmYN
       }
       temp.push(data);
     });
@@ -519,11 +590,19 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
     let sendData = []; //보낼 값
     let data = {}; //보낼 곳에 넣을 값
     let key = 0; //테이블을 사용하기 위한 키값
+    let workTime = 0;
+    let workTimeSum = 0;
     db.query('SELECT * from employeeWork Join employee ON employee.id = employeeWork.id where Date = ?',
       [DateData],(error,userList)=>{
         if(error) throw error;
         userList.forEach(user => {
           //console.log(user.id);
+          if(user.OffWork != null){
+            workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+            workTimeSum += workTime;
+          }else{
+            workTime = 0;
+          }
           data = {
             key : String(key+1),
             dept : user.dept,
@@ -532,7 +611,7 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
             name : user.name,
             start : user.OnWork,
             end : user.OffWork,
-            workTime : Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0])
+            workTime : workTime
           }
           sendData.push(data);
           key++;
@@ -540,7 +619,91 @@ app.post('/api/employeemanageuserlist',(req,res)=>{
         res.send(sendData);
     });
 });
+//직원 월별 근무 조회 GET
+app.post('/api/employeemanageusermonthlylist',(req,res)=>{
+  //console.log(req.body);
+  //console.log(req.body.CurrentDate.split('/')[0]);
+  //console.log(req.body.CurrentDate.split('/')[1]);
+  //console.log(splitDate);
+  let sendData = []; //보낼 데이터
+  let data = {};  //보낼 데이터에 넣을 데이터
+  let key = 0; //키값
+  let workTime = 0;
+  let workTimeSum = 0; //근무시간 총합
+  const splitDate = req.body.SaveDate.split('/')[0] + '/' + req.body.SaveDate.split('/')[1];
 
+  db.query('SELECT * from employeeWork where id=? and Date like ?',[req.body.UserID,`${splitDate}%`], (error, userlist) => {
+    if (error) throw error;
+    //console.log(userlist);
+    userlist.forEach(user => {
+      if(user.OffWork != null){
+        workTime = Number(user.OffWork.split(':')[0]) - Number(user.OnWork.split(':')[0]);
+        workTimeSum += workTime;
+      }else{
+        workTime = 0;
+      }
+      data = {
+        key : String(key+1),
+        date : user.Date,
+        onWork : user.OnWork,
+        offWork : user.OffWork,
+        workContent : user.WorkContent,
+        overWorkContent : user.OverWorkContent,
+        workTime : workTime
+      }
+      sendData.push(data);
+      key++;
+    });
+    //res.send(sendData);
+    return res.json({
+      userList : sendData,
+      userWorkTimeSum : workTimeSum
+    });
+  });
+});
+//대표 유저 연가 조회
+app.get('/api/holidayprezuserlist', (req, res) => {
+  db.query('SELECT * from HolidayUser ORDER BY confirmYN DESC', (error, lists) => {
+    if (error) throw error;
+    let temp = [];
+    let data = {};
+    let key = 0;
+    lists.forEach(list => {
+      //console.log(list);
+      data = {
+        key : String(key+1),
+        id : list.id,
+        startDate: list.StartDate,
+        endDate: list.EndDate,
+        type: list.SelectedLeave,
+        content: list.Des,
+        confirmYN : list.confirmYN
+      }
+      temp.push(data);
+      key++;
+    });
+    res.send(temp);
+  });
+});
+//대표 유저 연가 승인
+app.post('/api/holidayuserconfirm',(req,res)=>{
+  //console.log(req.body[0].id);
+  const userData = req.body;
+  userData.forEach(user => {
+    db.query('UPDATE HolidayUser SET confirmYN = ? where id = ? AND startDate = ? AND EndDate = ?',
+    [
+      '승인',
+      user.id,
+      user.startDate,
+      user.endDate
+    ],(error,result)=>{
+    if(error)throw error;
+    return res.json({
+      success : true
+    });
+  });
+  });
+});
 
 //비밀번호 예시============================================================================================
 // const crypto = require('crypto');

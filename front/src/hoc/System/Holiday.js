@@ -1,8 +1,7 @@
 import React, {useState,useEffect} from 'react'
-import { Layout, Menu,PageHeader, Button, Row, Col,Badge, Breadcrumb} from 'antd';
+import { Layout, PageHeader, Button, Breadcrumb, Modal } from 'antd';
 import 'antd/dist/antd.css'; //antd디자인 CSS
 import axios from 'axios';
-import LiveClock from '../../utils/LiveClock';
 import { Link } from "react-router-dom";
 import HolidayAdd from '../SystemAdd/HolidayAdd';
 import moment from 'moment'
@@ -10,9 +9,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar' ////캘린더====
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import './Calendar.scss' //scss 재정의=======================================
+import SideBarSystem from '../../utils/SideBarSystem';
 
 const localizer = momentLocalizer(moment)
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 function Holiday(props) {
   const [ListData, setListData] = useState([]);
@@ -20,11 +20,41 @@ function Holiday(props) {
   useEffect(() => {         
     axios.get('/api/holidaydataread').then(response => {
       // response.data.map(listData => (
-      console.log(response.data);
+      // console.log(response.data);
       // ));
       setListData(response.data);
     });
 }, []);
+  // //delete
+  // const handleDelete = (value) => {
+  //   console.log(value);
+  //   axios.post('/api/holidaydelete', value).then(res =>{
+
+  //    if(res.data.success){
+  //    alert('삭제되었습니다.');
+  //    window.location.reload();
+  //     }
+  //   })
+  // }
+  //삭제 모달창 구현================================================================================
+  const [Delvisible, setDelVisible] = useState(false);
+  const showModal = (value) => {
+    console.log(value);
+    setDelVisible(value);
+  };
+  //취소 눌렀을때
+  const DelhandleCancel = () => {
+    setDelVisible(false);
+  };
+  //ok눌렀을때
+  const DelhandleOk = () => {
+    setDelVisible(false);
+    axios.post('/api/holidaydelete',Delvisible).then(res =>{
+      if(res.data.success){
+      window.location.reload();
+       }
+    })
+  };
   //캘린더================================================================================
   //const [Date, setDate] = useState('');
   const [Visible, setVisible] = useState(false);
@@ -45,6 +75,7 @@ function Holiday(props) {
     setStartDate(e.start);
     setVisible(true);
   }
+
   //툴바 커스텀
   const CustomToolbar = (toolbar) => {
     //이전 달 버튼 이벤트
@@ -87,29 +118,7 @@ function Holiday(props) {
   return (
     <div>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-        <div>
-        <LiveClock></LiveClock>
-        </div>
-        <Row>
-            <Col span={12}><Button block>출근</Button></Col>
-            <Col span={12}><Button block>퇴근</Button></Col>
-        </Row>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <span>휴일설정</span>
-              <Link to="/holiday" />
-            </Menu.Item>
-            <Menu.Item key="2">
-              <span>직원 관리</span>
-              <Link to="/manage" />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <span>공통 코드</span>
-              <Link to="/code" />
-            </Menu.Item>           
-          </Menu>
-        </Sider>
+        <SideBarSystem DefaultKey={'1'}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
           <Link  to="/">
@@ -128,9 +137,19 @@ function Holiday(props) {
               </Breadcrumb.Item>
             </Breadcrumb> 
             {/* 캘린더 */}
+            <Modal
+                  visible={Delvisible}
+                  centered
+                  onOk={DelhandleOk}
+                  onCancel={DelhandleCancel}
+                  width={250}
+                  >
+                    <p>삭제 하시겠습니까?</p>
+            </Modal>
             <Calendar
                   localizer={localizer}
-                  events={ListData}
+                  events={ListData}                
+                  onSelectEvent={showModal}
                   startAccessor="start"
                   endAccessor="end"
                   style={{ height: 800,fontSize:'20px'}}
@@ -140,7 +159,8 @@ function Holiday(props) {
                   components={{
                     toolbar: CustomToolbar,
                   }}
-                />
+                 />
+                
             <HolidayAdd StartDate={StartDate} Visible={Visible} handleOk={handleOk} handleCancel={handleCancel} />
             </Content>
       </Layout>

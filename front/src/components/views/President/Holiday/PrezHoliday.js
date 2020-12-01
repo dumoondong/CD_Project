@@ -5,40 +5,31 @@ import axios from 'axios';
 import LoginedUser from '../../../../utils/LoginedUser';
 import LogoutUser from '../../../../utils/LogoutUser';
 import SideBar from '../../../../utils/SideBarPresident';
-// import FullCalendar from '@fullcalendar/react';
-// import dayGridPlugin from '@fullcalendar/daygrid';
-// import interactionPlugin from '@fullcalendar/interaction';
 import HolidayUserAdd from '../../Employee/HolidayUser/HolidayUserAdd';
-import { HolidayColums } from '../../Employee/HolidayUser/HolidayUserColums';
 import PrezHoliConfirm from './PrezHoliConfim';
-
-const data = [
-    {
-      key: '1',
-      name: '이름',
-      type: '연차',
-      date: 'YYYY/MM/DD',
-      day: 'n',
-      type: '연차',
-      content: 'Null',
-      confirm: 'Null',
-    },
-  ];
+import { Calendar, momentLocalizer } from 'react-big-calendar' //캘린더============
+import moment from 'moment'
+import 'react-big-calendar/lib/sass/styles.scss';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import './Calendar.scss' //scss 재정의=============================================
+import { prezHoliColumns } from './PrezHoliColumns';
 
 const { Header, Content } = Layout;
+const localizer = momentLocalizer(moment)
 
 function PrezHoli(props){
 
-  const [LeaveData, setLeaveData] = useState(''); //날짜 정보
+  const [HolidayUserData, setHolidayUserData] = useState(''); //날짜 정보
   const [ListData, setListData] = useState([]); //휴일 정보
 
   useEffect(() => {         
     //휴일 데이터를 가져옴
-    axios.get('/api/holidaydata').then(response => {
+    axios.get('/api/holidaydataread').then(response => {
+      //console.log(response.data);
       setListData(response.data);
     });
-    axios.get('/api/leavelist').then(response => {
-      setLeaveData(response.data);
+    axios.get('/api/holidayprezuserlist').then(response => {
+      setHolidayUserData(response.data);
     });
 }, []);
   
@@ -61,31 +52,95 @@ function PrezHoli(props){
         setVisible(false);
         ConfirmsetVisible(false);
     }
+    //커스텀 툴바==========================================================================
+    const CustomToolbar = (toolbar) => {
+      //이전 달 버튼 이벤트
+      const goToBack = () => {
+        toolbar.date.setMonth(toolbar.date.getMonth() - 1);
+        toolbar.onNavigate('prev');
+      };
+      //다음 달 버튼 이벤트
+      const goToNext = () => {
+        toolbar.date.setMonth(toolbar.date.getMonth() + 1);
+        toolbar.onNavigate('next');
+      };
+      // Today버튼 이벤트
+      const goToCurrent = () => {
+        const now = new Date();
+        toolbar.date.setMonth(now.getMonth());
+        toolbar.date.setYear(now.getFullYear());
+        toolbar.onNavigate('current');
+      };
+      //label ex)11 2020
+      const label = () => {
+        const date = moment(toolbar.date);
+        return (
+          <span><b>{date.format('MM')}</b><span style={{fontSize:'20px'}}> {date.format('YYYY')}</span></span>
+        );
+      };
+    
+      return (
+        <div className={Calendar['toolbar-container']}>
+          <label className={Calendar['label-date']} style={{fontSize:'30px'}}>{label()}</label>
+    
+          <div className={Calendar['back-next-buttons']}>
+            <Button className={Calendar['btn-back']} onClick={goToBack}>&#8249;</Button>
+            <Button className={Calendar['btn-current']} onClick={goToCurrent}>Today</Button>
+            <Button className={Calendar['btn-next']} onClick={goToNext}>&#8250;</Button>
+          </div>
+        </div >
+      );
+    };
+  //=========================================================================================================
+  const [CheckTarget, setCheckTarget] = useState(['']);
 
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+          setCheckTarget(selectedRows);
+        }
+    };
+    //연가 승인 버튼
+    const handleConfirm = () => {
+      axios.post('/api/holidayuserconfirm',CheckTarget).then( response =>{
+        console.log(response.data.success);
+        if(response.data.success){
+          alert('승인되었습니다.');
+          window.location.reload();
+        }
+      });
+    }
     return(
         <div>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout>
           <SideBar DefaultKey={'2'}/>
           <Layout>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Header>
               <LoginedUser />
               <LogoutUser pageChange={props}/>
             </Header>
-            <Content style={{ margin: '0 16px' }}>
+            <Content>
               {/* 캘린더 */}
-              {/* <FullCalendar 
-                initialView="dayGridMonth"
-                plugins={[ dayGridPlugin, interactionPlugin]}
-                height = '90%'
-                events={ListData}
-              /> */}
-              <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
+              <Calendar
+                  className = "cal"
+                  localizer={localizer}
+                  events={ListData}
+                  startAccessor="start"
+                  endAccessor="end"
+                  views={{month: true}}
+                  components={{
+                    toolbar: CustomToolbar,
+                  }}
+                />
+              <Button className = "btn" onClick = {showModal}>연가신청</Button>
               <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-              <Button style = {{float: 'right'}} onClick = {showConfirm}>연가승인</Button>
-              <PrezHoliConfirm Visible={ConfirmVisible} handleCancel={handleCancel} handleOk={handleOk} />
-              <div>
-                <Table columns={HolidayColums} dataSource={LeaveData} pagination={false} />
-              </div>
+              <Button className = "btn" onClick = {handleConfirm}>연가승인</Button>
+              {/* <PrezHoliConfirm Visible={ConfirmVisible} handleCancel={handleCancel} handleOk={handleOk} /> */}
+              <Table 
+              columns={prezHoliColumns} 
+              dataSource={HolidayUserData} 
+              //pagination={false} 
+              rowSelection={rowSelection}/>
             </Content>
           </Layout>
         </Layout>

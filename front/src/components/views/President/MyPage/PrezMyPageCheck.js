@@ -30,7 +30,6 @@ function PrezCheckMyPage(props) {
             .then(response => { 
                 if(response.payload.success){
                     console.log(response.payload.success);
-                    alert('Success!',);
                     setMypageShow(true);
                 }
                 else {
@@ -40,43 +39,41 @@ function PrezCheckMyPage(props) {
     } 
    
     return (
-        <div>
+        <Layout>
+            <SideBar DefaultKey={'5'}/>
             <Layout>
-                <SideBar DefaultKey={'5'}/>
-                <Layout>
-                    <Header>
-                        <LoginedUser />
-                        <LogoutUser pageChange={props}/>
-                    </Header>
-                    {MypageShow ? <MyPage /> : <Content className = "mycontent">
-                    <Breadcrumb className = "mybreadcrumb">
-                        <Breadcrumb.Item>
-                            <PageHeader
-                                title="개인정보변경">   
-                            </PageHeader>
-                        </Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className = "mymain">
-                        <div className = "mymaintitle">
-                            <h2>본인확인</h2>
-                        </div>
-                        <div className = "inputpwlabel">
-                            현재 비밀번호 : 
-                        </div>
-                        <div className = "inputpw">
-                            <Input.Password
-                                placeholder=""
-                                value={Password}
-                                onChange={handleChangePassword}
-                            />
-                        </div>
-                        <Button onClick={handleCheck}>확인</Button>
+                <Header>
+                    <LoginedUser />
+                    <LogoutUser pageChange={props}/>
+                </Header>
+                {MypageShow ? <MyPage /> : <Content className = "mycontent">
+                <Breadcrumb className = "mybreadcrumb">
+                    <Breadcrumb.Item>
+                        <PageHeader
+                            title="개인정보변경">   
+                        </PageHeader>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+                <div className = "mymain">
+                    <div className = "mymaintitle">
+                        <h2>본인확인</h2>
                     </div>
-                    </Content>
-                    }
-                </Layout>
+                    <div className = "inputpwlabel">
+                        현재 비밀번호 : 
+                    </div>
+                    <div className = "inputpw">
+                        <Input.Password
+                            placeholder=""
+                            value={Password}
+                            onChange={handleChangePassword}
+                        />
+                    </div>
+                    <Button onClick={handleCheck}>확인</Button>
+                </div>
+                </Content>
+                }
             </Layout>
-        </div>
+        </Layout>
     );
 }
 
