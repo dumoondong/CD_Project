@@ -112,7 +112,6 @@ function Code() {
               <Breadcrumb.Item>
                 <PageHeader
                   className="site-page-header"
-                  onBack={() => null}
                   title="공통코드"
                   subTitle="공통코드 페이지">   
                 </PageHeader>
@@ -147,6 +146,7 @@ function Code() {
                     columns={CodeColumns} 
                     dataSource={SmallCode}
                     rowSelection={rowSelection}
+                    size="middle"
                     //onRow={(record) => ({onClick: () => { handleUpdateClick(record); }})}
                   />
                   {/* {UpdateVisible ? <SmallCodeUpdate 
