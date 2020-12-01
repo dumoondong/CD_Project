@@ -74,6 +74,7 @@ set sql_safe_updates=0;
 	DROP TABLE HolidayUser; #연가
     DROP TABLE MasterCode; #마스터코드
     DROP TABLE WorkManage; #업무조회
+    DROP TABLE leaveuser; #예전 연가(삭제바람)
 #==============================================================================
 
 # 테이블 수정=====================================================================
@@ -193,3 +194,25 @@ set sql_safe_updates=0;
 # 안먹는 코드
 	SELECT holi.DATE,small.SmallInfo FROM holiday AS holi JOIN SmallCode AS small ON small.SmallCode = holi.holimanage;
 #======================================================================================
+
+# 근무조회 데이터
+	# 2020
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/10/25','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/10/26','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/10/27','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/25','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/26','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/11/27','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/12/25','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/12/26','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2020/12/27','10:00','18:00','1111');
+    # 2019
+	INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/12/25','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/12/26','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/12/27','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/11/25','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/11/26','10:00','18:00','1111');
+    INSERT INTO employeeWork (DATE,OnWork,OffWork,id) VALUES('2019/11/27','10:00','18:00','1111');
+# 근무조회 데이터 조회
+	SELECT * from employeeWork where id='1111' and Date like '2020/10%';
+    SELECT * from employeeWork where id=? and Date like ?;
