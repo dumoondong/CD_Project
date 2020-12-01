@@ -89,21 +89,52 @@ app.post('/api/holidaydelete',(req,res)=>{
 app.post('/api/mastercodelist', (req,res) => {
   db.query('SELECT * from MasterCode where LargeCode like ?',[`%${req.body.LargeCode}%`],(error,data)=>{
     if(error) res.send(['']);
-    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,codes)=>{
-      if(error2) res.send(['']);
-      res.send(codes);
+    db.query('SELECT * from SmallCode where SmallCode like ?',[`%${data[0].LargeCode}%`],(error2,rows)=>{
+      if (error2) throw error2;
+      let sendData = [];
+      let data = {};
+      let key = 0;
+     rows.forEach(row => {
+     data = {
+            key: String(key+1),
+            SmallCode: row.SmallCode,
+            SmallInfo: row.SmallInfo,
+            SmallContent: row.SmallContent
+          }
+        key++;
+        sendData.push(data);
+      });
+      res.send(sendData);
     });
   });
 });
 
 //근무부서 리스트 검색
 app.post('/api/deptcodelist', (req,res) => {
-  console.log(req.body);
-    db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error2,depts)=>{
-      if(error2) res.send(['']);
-      //console.log(depts);
-      res.send(depts);
+    db.query('SELECT * from employee where dept like ?',[`%${req.body.SmallInfo}%`],(error,users)=>{
+      if (error) throw error;
+      let temp = [];
+      let data = {};
+      let i = 0;
+      users.forEach(user => {
+        data = {
+          key: String(i+1),
+          id: user.id,
+          dept: user.dept,
+          rank: user.rank,
+          name: user.name,
+          // password: user.password,
+          email: user.email,
+          phone: user.phone,
+          zim: user.zim,
+          address: user.address,
+          des: user.des
+        }
+        i++;
+        temp.push(data);
     });
+    res.send(temp);
+  });
 });
 //직원근무조회 근무부서 리스트 검색
 app.post('/api/employeeworkdeptcodelist', (req,res) => {
