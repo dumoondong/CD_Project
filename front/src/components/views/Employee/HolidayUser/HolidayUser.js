@@ -12,6 +12,7 @@ import moment from 'moment'
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import './Calendar.scss' //scss 재정의=============================================
+import '../../user.css';
 
 const { Header, Content } = Layout;
 const localizer = momentLocalizer(moment)
@@ -87,27 +88,27 @@ function HolidayUser(props) {
   //===========================================================================================================
     return(
         <div>
-          <Layout style={{ minHeight: '100vh'}}>
+          <Layout>
             <SideBar DefaultKey={'2'}/>
             <Layout>
-              <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+              <Header>
                 <LoginedUser />
                 <LogoutUser pageChange={props}/>
               </Header>
-              <Content style={{ margin: '0 16px'}}>
+              <Content>
                 {/* 캘린더 */}    
                 <Calendar
+                  className = "cal"
                   localizer={localizer}
                   events={ListData}
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 800,fontSize:'20px'}}
                   views={{month: true}}
                   components={{
                     toolbar: CustomToolbar,
                   }}
                 />
-                <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
+                <Button className = "btn" onClick = {showModal}>연가신청</Button>
                 <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
                 <div>
                   <Table columns={HolidayColums} dataSource={HolidayUserData} pagination={false} />

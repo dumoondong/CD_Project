@@ -7,6 +7,7 @@ import LogoutUser from '../../../../utils/LogoutUser';
 import { useDispatch } from 'react-redux';
 import { myPageUser } from '../../../../_actions/user_action';
 import MyPage from './MyPage';
+import '../../user.css';
 
 const { Header, Content } = Layout;
 
@@ -40,40 +41,38 @@ function MyPageCheck(props) {
 
     return (
         <div>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout>
             <SideBar DefaultKey={'4'}/>
             <Layout>
-                <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+                <Header className = "myheader">
                     <LoginedUser />
                     <LogoutUser pageChange={props}/>
                 </Header>
                 {MypageShow ? <MyPage /> :
-                    <Content style={{ margin: '0', backgroundColor: 'white'}}>
-                    <Breadcrumb style = {{background: '#fff', minHeight: 100}}>
-                        <Breadcrumb.Item>
-                            <PageHeader
-                                title="개인정보변경">   
-                            </PageHeader>
-                        </Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div style={{width: '50%', height: '400px', margin: '0 auto'}}>
-                        <div style = {{marginBottom: '20px',marginTop: '10%'}}>
-                            <h2 style = {{textAlign: "center"}}>본인확인</h2>
-                        </div>
-                        <div style = {{display: 'inline-block', width:'20%'}}>
-                            현재 비밀번호 : 
-                        </div>
-                        <div style = {{display: 'inline-block', margin: '0 10px', width:'60%'}}>
-                            <Input.Password
-                                placeholder=""
-                                value={Password}
-                                onChange={handleChangePassword}
-                            />
-                        </div>
-                        <div style = {{display: 'inline-block'}}>
+                    <Content className = "mycontent">
+                        <Breadcrumb className = "mybreadcrumb">
+                            <Breadcrumb.Item>
+                                <PageHeader
+                                    title="개인정보변경">   
+                                </PageHeader>
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                        <div className = "mymain">
+                            <div className = "mymaintitle">
+                                <h2>본인확인</h2>
+                            </div>
+                            <div className = "inputpwlabel">
+                                현재 비밀번호 :
+                            </div>
+                            <div className = "inputpw">
+                                <Input.Password
+                                    placeholder=""
+                                    value={Password}
+                                    onChange={handleChangePassword}
+                                />
+                            </div>
                             <Button onClick={handleCheck}>확인</Button>
                         </div>
-                    </div>
                     </Content>
                 }
             </Layout>

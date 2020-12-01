@@ -112,37 +112,35 @@ function PrezHoli(props){
     }
     return(
         <div>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout>
           <SideBar DefaultKey={'2'}/>
           <Layout>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'end' }} >
+            <Header>
               <LoginedUser />
               <LogoutUser pageChange={props}/>
             </Header>
-            <Content style={{ margin: '0 16px' }}>
+            <Content>
               {/* 캘린더 */}
               <Calendar
+                  className = "cal"
                   localizer={localizer}
                   events={ListData}
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 700,fontSize:'20px'}}
                   views={{month: true}}
                   components={{
                     toolbar: CustomToolbar,
                   }}
                 />
-              <Button style = {{float: 'right'}} onClick = {showModal}>연가신청</Button>
+              <Button className = "btn" onClick = {showModal}>연가신청</Button>
               <HolidayUserAdd Visible={Visible} handleCancel={handleCancel} handleOk={handleOk} />
-              <Button style = {{float: 'right'}} onClick = {handleConfirm}>연가승인</Button>
+              <Button className = "btn" onClick = {handleConfirm}>연가승인</Button>
               {/* <PrezHoliConfirm Visible={ConfirmVisible} handleCancel={handleCancel} handleOk={handleOk} /> */}
-              <div>
-                <Table 
-                columns={prezHoliColumns} 
-                dataSource={HolidayUserData} 
-                //pagination={false} 
-                rowSelection={rowSelection}/>
-              </div>
+              <Table 
+              columns={prezHoliColumns} 
+              dataSource={HolidayUserData} 
+              //pagination={false} 
+              rowSelection={rowSelection}/>
             </Content>
           </Layout>
         </Layout>
