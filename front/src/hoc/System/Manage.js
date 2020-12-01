@@ -73,9 +73,8 @@ function Manage(props) {
         SmallInfo : value
       }
       axios.post('/api/deptCodelist',body).then(response => {  
-        console.log(response.data);
         setData(response.data);
-      });
+      }); 
     }
   }
   // 수정 버튼
@@ -108,7 +107,6 @@ function Manage(props) {
               <Breadcrumb.Item>
                 <PageHeader
                   className="site-page-header"
-                  onBack={() => null}
                   title="직원관리"
                   subTitle="직원관리 페이지">   
                 </PageHeader>

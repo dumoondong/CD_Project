@@ -63,7 +63,7 @@ function MasterCode(props) {
         {/* <Button onClick={handleSave}>수정</Button>   
         <MasterCodeUpdate Visible={Visible} handleCancel={handleCancel} handleOk={handleOk}  /> */}
       </div>
-        <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} />
+        <Table style = {{background: '#fff'}} columns={DeCodeColumns} dataSource={data} rowSelection={rowSelection} size="middle" />
     </div>
   );
 };
